@@ -1,11 +1,18 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
+import SignIn from "./components/signin";
+import SignUp from "./components/signup";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="m-5">Hello World</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" exact element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
