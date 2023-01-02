@@ -234,7 +234,7 @@ function SignUp() {
               <MDBCheckbox
                 name="flexCheck"
                 id="flexCheckDefault"
-                label="I have read and agree to the terms"
+                label="I have read and agree to the terms!"
                 required
               />
             </div>
