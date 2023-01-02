@@ -12,7 +12,7 @@ router.post("/", (req, res) => {
       if (err) res.send({ err: err });
       if (result.length > 0) res.send(result);
       else {
-        res.send({ msg: "Invalid Admin Login" });
+        res.send({ msg: "Invalid Admin Login !" });
       }
     }
   );
