@@ -50,75 +50,86 @@ function SignIn() {
   };
 
   return (
-    <MDBContainer className="p-3 my-5 d-flex flex-column col-md-8 col-lg-6">
-      <MDBTypography
-        tag="div"
-        className="display-6 text-center mb-4 text-primary"
-      >
-        Airline Reservation Sysytem
-      </MDBTypography>
-      <MDBTabs
-        pills
-        justify
-        className="mb-3 d-flex flex-row justify-content-between"
-      >
-        <MDBTabsItem>
-          <MDBTabsLink
-            onClick={() => handleJustifyClick("tab1")}
-            active={justifyActive === "tab1"}
+    <React.Fragment>
+      <form onSubmit={handleSubmit}>
+        <MDBContainer className="p-3 mt-5 d-flex flex-column col-md-8 col-lg-6">
+          <MDBTypography
+            tag="div"
+            className="display-6 text-center mb-4 text-primary"
           >
-            Login
-          </MDBTabsLink>
-        </MDBTabsItem>
-        <MDBTabsItem>
-          <MDBTabsLink
-            onClick={() => navigate("/signup")}
-            active={justifyActive === "tab2"}
+            Airline Reservation Sysytem
+          </MDBTypography>
+          <MDBTabs
+            pills
+            justify
+            className="mb-3 d-flex flex-row justify-content-between"
           >
-            Register
-          </MDBTabsLink>
-        </MDBTabsItem>
-      </MDBTabs>
+            <MDBTabsItem>
+              <MDBTabsLink
+                onClick={() => handleJustifyClick("tab1")}
+                active={justifyActive === "tab1"}
+              >
+                Login
+              </MDBTabsLink>
+            </MDBTabsItem>
+            <MDBTabsItem>
+              <MDBTabsLink
+                onClick={() => navigate("/signup")}
+                active={justifyActive === "tab2"}
+              >
+                Register
+              </MDBTabsLink>
+            </MDBTabsItem>
+          </MDBTabs>
 
-      <MDBTabsContent>
-        <MDBTabsPane show={justifyActive === "tab1"}>
-          <MDBInput
-            wrapperClass="mb-4"
-            label="Email address"
-            id="email"
-            onChange={handleChange}
-            type="email"
-          />
-          <MDBInput
-            wrapperClass="mb-4"
-            label="Password"
-            id="password"
-            onChange={handleChange}
-            type="password"
-          />
+          <MDBTabsContent>
+            <MDBTabsPane show={justifyActive === "tab1"}>
+              <MDBInput
+                wrapperClass="mb-4"
+                label="Email address"
+                id="email"
+                onChange={handleChange}
+                type="email"
+                required
+              />
+              <MDBInput
+                wrapperClass="mb-4"
+                label="Password"
+                id="password"
+                onChange={handleChange}
+                type="password"
+                required
+              />
 
-          <div className="d-flex justify-content-between mx-4 mb-4">
-            <MDBCheckbox
-              name="flexCheck"
-              value=""
-              id="flexCheckDefault"
-              label="Remember me"
-            />
-            <a href="!#">Forgot password?</a>
-          </div>
+              <div className="d-flex justify-content-between mx-4 mb-4">
+                <MDBCheckbox
+                  name="flexCheck"
+                  value=""
+                  id="flexCheckDefault"
+                  label="Remember me"
+                />
+                <a href="!#">Forgot password?</a>
+              </div>
 
-          <MDBBtn onClick={handleSubmit} type="submit" className="mb-4 w-100">
-            Sign in
-          </MDBBtn>
-          <p className="text-center">
-            Not a member?{" "}
-            <a href="#!" onClick={() => navigate("/signup")}>
-              Register
-            </a>
-          </p>
-        </MDBTabsPane>
-      </MDBTabsContent>
-    </MDBContainer>
+              <MDBBtn type="submit" className="mb-4 w-100">
+                Sign in
+              </MDBBtn>
+              <p className="text-center">
+                Not a member?{" "}
+                <a href="#!" onClick={() => navigate("/signup")}>
+                  Register
+                </a>
+              </p>
+            </MDBTabsPane>
+          </MDBTabsContent>
+        </MDBContainer>
+      </form>
+      <MDBContainer className="d-flex flex-column col-md-8 col-lg-6">
+        <h4 className="text-center">OR</h4>
+        <p className="text-center">Sign in as</p>
+        <MDBBtn className="me-1">GUEST</MDBBtn>
+      </MDBContainer>
+    </React.Fragment>
   );
 }
 

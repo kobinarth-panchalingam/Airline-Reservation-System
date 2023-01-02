@@ -17,6 +17,8 @@ import {
   MDBInput,
   MDBRadio,
   MDBCheckbox,
+  MDBValidation,
+  MDBValidationItem,
 } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
@@ -62,11 +64,8 @@ function SignUp() {
       nic: signUpInfo.nic,
       discount: signUpInfo.class,
     }).then((response) => {
-      if (response.data.msg) {
-        alert(response.data.msg);
-      } else {
-        alert(response.data.msg);
-      }
+      console.log(response);
+      alert(response.data);
     });
   };
 
@@ -108,20 +107,22 @@ function SignUp() {
               <MDBCol col="6">
                 <MDBInput
                   wrapperClass="mb-4"
-                  label="First name"
+                  label="First Name"
                   name="firstName"
                   type="text"
                   onChange={handleChange}
+                  required
                 />
               </MDBCol>
 
               <MDBCol col="6">
                 <MDBInput
                   wrapperClass="mb-4"
-                  label="Last name"
+                  label="Last Name"
                   name="lastName"
                   type="text"
                   onChange={handleChange}
+                  required
                 />
               </MDBCol>
             </MDBRow>
@@ -131,6 +132,7 @@ function SignUp() {
               name="email"
               type="email"
               onChange={handleChange}
+              required
             />
             <MDBInput
               wrapperClass="mb-4"
@@ -138,6 +140,7 @@ function SignUp() {
               name="password"
               type="password"
               onChange={handleChange}
+              required
             />
             <MDBRow>
               <MDBCol md="6">
@@ -147,6 +150,7 @@ function SignUp() {
                   name="phoneNumber"
                   type="tel"
                   onChange={handleChange}
+                  required
                 />
               </MDBCol>
               <MDBCol md="6">
@@ -156,6 +160,7 @@ function SignUp() {
                   name="nic"
                   type="tel"
                   onChange={handleChange}
+                  required
                 />
               </MDBCol>
             </MDBRow>
@@ -166,6 +171,7 @@ function SignUp() {
               name="dob"
               type="date"
               onChange={handleChange}
+              required
             />
             <MDBRow>
               <MDBCol md="6" className="mb-4">
@@ -176,6 +182,7 @@ function SignUp() {
                   label="Gold"
                   onChange={handleChange}
                   inline
+                  required
                 />
                 <MDBRadio
                   name="class"
@@ -183,6 +190,7 @@ function SignUp() {
                   label="Platinum"
                   onChange={handleChange}
                   inline
+                  required
                 />
                 <MDBRadio
                   name="class"
@@ -190,6 +198,7 @@ function SignUp() {
                   label="None"
                   onChange={handleChange}
                   inline
+                  required
                 />
               </MDBCol>
               <MDBCol md="6" className="mb-4">
@@ -200,6 +209,7 @@ function SignUp() {
                   label="Female"
                   onChange={handleChange}
                   inline
+                  required
                 />
                 <MDBRadio
                   name="gender"
@@ -207,6 +217,7 @@ function SignUp() {
                   label="Male"
                   onChange={handleChange}
                   inline
+                  required
                 />
                 <MDBRadio
                   name="gender"
@@ -214,6 +225,7 @@ function SignUp() {
                   label="Other"
                   onChange={handleChange}
                   inline
+                  required
                 />
               </MDBCol>
             </MDBRow>
@@ -223,6 +235,7 @@ function SignUp() {
                 name="flexCheck"
                 id="flexCheckDefault"
                 label="I have read and agree to the terms"
+                required
               />
             </div>
 
