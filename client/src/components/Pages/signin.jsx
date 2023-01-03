@@ -54,30 +54,17 @@ function SignIn() {
     <React.Fragment>
       <form onSubmit={handleSubmit}>
         <MDBContainer className="p-3 mt-5 d-flex flex-column col-md-8 col-lg-6">
-          <MDBTypography
-            tag="div"
-            className="display-6 text-center mb-4 text-primary"
-          >
+          <MDBTypography tag="div" className="display-6 text-center mb-4 text-primary">
             Airline Reservation Sysytem
           </MDBTypography>
-          <MDBTabs
-            pills
-            justify
-            className="mb-3 d-flex flex-row justify-content-between"
-          >
+          <MDBTabs pills justify className="mb-3 d-flex flex-row justify-content-between">
             <MDBTabsItem>
-              <MDBTabsLink
-                onClick={() => handleJustifyClick("tab1")}
-                active={justifyActive === "tab1"}
-              >
+              <MDBTabsLink onClick={() => handleJustifyClick("tab1")} active={justifyActive === "tab1"}>
                 Login
               </MDBTabsLink>
             </MDBTabsItem>
             <MDBTabsItem>
-              <MDBTabsLink
-                onClick={() => navigate("/signup")}
-                active={justifyActive === "tab2"}
-              >
+              <MDBTabsLink onClick={() => navigate("/signup")} active={justifyActive === "tab2"}>
                 Register
               </MDBTabsLink>
             </MDBTabsItem>
@@ -85,30 +72,11 @@ function SignIn() {
 
           <MDBTabsContent>
             <MDBTabsPane show={justifyActive === "tab1"}>
-              <MDBInput
-                wrapperClass="mb-4"
-                label="Email address"
-                id="email"
-                onChange={handleChange}
-                type="email"
-                required
-              />
-              <MDBInput
-                wrapperClass="mb-4"
-                label="Password"
-                id="password"
-                onChange={handleChange}
-                type="password"
-                required
-              />
+              <MDBInput wrapperClass="mb-4" label="Email address" id="email" onChange={handleChange} type="email" required />
+              <MDBInput wrapperClass="mb-4" label="Password" id="password" onChange={handleChange} type="password" required />
 
               <div className="d-flex justify-content-between mx-4 mb-4">
-                <MDBCheckbox
-                  name="flexCheck"
-                  value=""
-                  id="flexCheckDefault"
-                  label="Remember me"
-                />
+                <MDBCheckbox name="flexCheck" value="" id="flexCheckDefault" label="Remember me" />
                 <a href="!#">Forgot password?</a>
               </div>
 
@@ -128,10 +96,7 @@ function SignIn() {
       <MDBContainer className="d-flex flex-column col-md-8 col-lg-6">
         <h4 className="text-center">OR</h4>
         <p className="text-center">Sign in as</p>
-        <MDBBtn
-          onClick={(auth.login(), () => navigate("/home"))}
-          className="me-1"
-        >
+        <MDBBtn onClick={(auth.login(), () => navigate("/home"))} className="me-1">
           GUEST
         </MDBBtn>
       </MDBContainer>
