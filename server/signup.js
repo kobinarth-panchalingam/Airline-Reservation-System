@@ -31,9 +31,11 @@ router.post("/", (req, res) => {
       discount,
     ],
     (err, result) => {
-      if (err) res.send("registration unsuccessful!");
-      else {
-        res.send("registered successfully!");
+      if (err) {
+        res.send("0");
+        console.log(err);
+      } else {
+        res.send("1");
       }
     }
   );

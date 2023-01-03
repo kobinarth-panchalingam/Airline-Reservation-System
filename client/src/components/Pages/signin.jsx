@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import auth from "../utils/auth";
 import {
   MDBContainer,
   MDBTabs,
@@ -14,8 +15,7 @@ import {
   MDBInput,
   MDBCheckbox,
 } from "mdb-react-ui-kit";
-import { useNavigate } from "react-router-dom";
-
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 function SignIn() {
   const navigate = useNavigate();
   const [justifyActive, setJustifyActive] = useState("tab1");
@@ -34,7 +34,6 @@ function SignIn() {
     }
     setJustifyActive(value);
   };
-
   const handleSubmit = (evt) => {
     evt.preventDefault();
     Axios.post("http://localhost:4000/login", {
@@ -45,6 +44,8 @@ function SignIn() {
         alert("Incorrect username and password");
       } else {
         alert("success  ");
+        auth.login();
+        navigate("/Home");
       }
     });
   };
@@ -127,7 +128,12 @@ function SignIn() {
       <MDBContainer className="d-flex flex-column col-md-8 col-lg-6">
         <h4 className="text-center">OR</h4>
         <p className="text-center">Sign in as</p>
-        <MDBBtn className="me-1">GUEST</MDBBtn>
+        <MDBBtn
+          onClick={(auth.login(), () => navigate("/home"))}
+          className="me-1"
+        >
+          GUEST
+        </MDBBtn>
       </MDBContainer>
     </React.Fragment>
   );

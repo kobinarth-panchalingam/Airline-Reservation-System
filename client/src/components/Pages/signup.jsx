@@ -17,11 +17,8 @@ import {
   MDBInput,
   MDBRadio,
   MDBCheckbox,
-  MDBValidation,
-  MDBValidationItem,
 } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
-import Form from "react-bootstrap/Form";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -64,8 +61,12 @@ function SignUp() {
       nic: signUpInfo.nic,
       discount: signUpInfo.class,
     }).then((response) => {
-      console.log(response);
-      alert(response.data);
+      if (response === "0") {
+        alert("Unscusseful Registration");
+      } else {
+        alert("Success");
+        navigate("/");
+      }
     });
   };
 
@@ -85,7 +86,7 @@ function SignUp() {
         >
           <MDBTabsItem>
             <MDBTabsLink
-              onClick={() => navigate("/signin")}
+              onClick={() => navigate("/")}
               active={justifyActive === "tab1"}
             >
               Login

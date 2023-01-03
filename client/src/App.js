@@ -1,16 +1,20 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
-import SignIn from "./components/signin";
-import SignUp from "./components/signup";
+import SignIn from "./components/Pages/signin";
+import SignUp from "./components/Pages/signup";
+import Home from "./components/Pages/home";
+import ProtectedRoutes from "./components/utils/protectedRoutes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" exact element={<SignIn />} />
+        <Route exact path="/" element={<SignIn />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
       </Routes>
     </BrowserRouter>
   );
