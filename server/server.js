@@ -19,6 +19,29 @@ app.get("/origins", (req, res) => {
   });
 });
 
+app.get("/flights", (req, res) => {
+  const sqlGet =
+    "select f.flight_id, f.origin, f.destination, DATE_FORMAT(f.departure_time , '%Y-%m-%d | %h:%i %p') as departure_time, DATE_FORMAT(f.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time  from flight f order by f.flight_id";
+  db.query(sqlGet, (err, result) => {
+    if (err) res.send({ err: err });
+    else res.send(result);
+  });
+});
+
+app.post("/viewFlights", (req, res) => {
+  const { origin, destination, departDate, returnDate } = req.body;
+  const sqlGet = "select * from flight where origin=? and destination=? and departure_time >= ? and arrival_time <= ?";
+  db.query(sqlGet, [origin, destination, departDate, returnDate], (err, result) => {
+    if (err) res.send({ err: err });
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send(result);
+      // console.log(result);
+    }
+  });
+});
+
 app.listen(4000, () => {
   console.log("Server is running on port 4000!");
 });

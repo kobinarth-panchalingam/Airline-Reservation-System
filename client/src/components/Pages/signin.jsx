@@ -43,6 +43,7 @@ function SignIn() {
       if (response.data.msg) {
         alert("Incorrect username and password");
       } else {
+        console.log(response);
         alert("success  ");
         auth.login();
         navigate("/Home");
@@ -96,7 +97,7 @@ function SignIn() {
       <MDBContainer className="d-flex flex-column col-md-8 col-lg-6">
         <h4 className="text-center">OR</h4>
         <p className="text-center">Sign in as</p>
-        <MDBBtn onClick={(auth.login(), () => navigate("/home"))} className="me-1">
+        <MDBBtn onClick={(auth.login(), () => navigate("/"))} className="me-1">
           GUEST
         </MDBBtn>
       </MDBContainer>
