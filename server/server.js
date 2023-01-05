@@ -28,9 +28,47 @@ app.get("/flights", (req, res) => {
   });
 });
 
+app.get("/flightDetails/:id", (req, res) => {
+  const { id } = req.params;
+  const sqlGet =
+    "select f.flight_id, f.origin, f.destination, DATE_FORMAT(f.departure_time , '%Y-%m-%d | %h:%i %p') as departure_time, DATE_FORMAT(f.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time, f.economy_fare, f.business_fare, f.platinum_fare  from flight f where flight_id=?";
+  db.query(sqlGet, id, (err, result) => {
+    if (err) res.send({ err: err });
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send(result);
+      // console.log(result);
+    }
+  });
+});
+
+app.post("/seats", (req, res) => {
+  const { type, id } = req.body;
+  const sqlGet = "select seat_no from ticket where class=? and flight_id=?";
+  db.query(sqlGet, [type, id], (err, result) => {
+    if (err) res.send({ err: err });
+    else res.send(result);
+  });
+});
+
+app.post("/ticket", (req, res) => {
+  const { flight_id, type, passenger_name, booked_date, seat_no, booked_by, passport_number } = req.body;
+  const sqlInsert = "insert into ticket(flight_id, class, passenger_name, booked_date, seat_no, booked_by, passport_number) values (?,?,?,?,?,?,?)";
+  db.query(sqlInsert, [flight_id, type, passenger_name, booked_date, seat_no, booked_by, passport_number], (err, result) => {
+    if (err) {
+      res.send("0");
+      console.log(err);
+    } else {
+      res.send("1");
+    }
+  });
+});
+
 app.post("/viewFlights", (req, res) => {
   const { origin, destination, departDate, returnDate } = req.body;
-  const sqlGet = "select * from flight where origin=? and destination=? and departure_time >= ? and arrival_time <= ?";
+  const sqlGet =
+    "select f.flight_id, f.origin, f.destination,  DATE_FORMAT(f.departure_time , '%Y-%m-%d | %h:%i %p') as departure_time, DATE_FORMAT(f.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time    from flight f where origin=? and destination=? and departure_time >= ? and arrival_time <= ?";
   db.query(sqlGet, [origin, destination, departDate, returnDate], (err, result) => {
     if (err) res.send({ err: err });
     if (result.length > 0) {
@@ -39,6 +77,14 @@ app.post("/viewFlights", (req, res) => {
       res.send(result);
       // console.log(result);
     }
+  });
+});
+
+app.get("/origins", (req, res) => {
+  const sqlGet = "select concat( airport.airport_code,' | ', airport.city) as origin from airport";
+  db.query(sqlGet, (err, result) => {
+    if (err) res.send({ err: err });
+    else res.send(result);
   });
 });
 

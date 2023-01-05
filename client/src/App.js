@@ -6,7 +6,10 @@ import Home from "./components/Pages/home";
 import ProtectedRoutes from "./components/utils/protectedRoutes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ViewFlights from "./components/Pages/viewFlights";
-
+import Booking from "./components/Pages/booking";
+import Reports from "./components/Pages/reports";
+import Seats from "./components/Pages/seats";
+import Test from "./components/Pages/seat";
 function App() {
   return (
     <BrowserRouter>
@@ -18,6 +21,10 @@ function App() {
         </Route> */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="/viewFlights" element={<ViewFlights />} />
+        <Route path="/booking/:id" element={<Booking />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/seats" element={<Seats />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </BrowserRouter>
   );
