@@ -78,7 +78,7 @@ function SignUp() {
         </MDBTypography>
         <MDBTabs pills justify className="mb-3 d-flex flex-row justify-content-between">
           <MDBTabsItem>
-            <MDBTabsLink onClick={() => navigate("/")} active={justifyActive === "tab1"}>
+            <MDBTabsLink onClick={() => navigate("/login")} active={justifyActive === "tab1"}>
               Login
             </MDBTabsLink>
           </MDBTabsItem>

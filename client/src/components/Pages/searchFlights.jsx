@@ -9,15 +9,15 @@ import Row from "react-bootstrap/Row";
 import ShowTable from "./showTable";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
+const date = new Date();
+const futureDate = date.getDate();
+date.setDate(futureDate);
+const currentDate = date.toLocaleDateString("en-CA");
 
 function SearchFlights() {
-  const date = new Date();
-  const futureDate = date.getDate();
-  date.setDate(futureDate);
-  const defaultValue = date.toLocaleDateString("en-CA");
-  const [departDate, setDepartDate] = useState(defaultValue);
+  const [departDate, setDepartDate] = useState(currentDate);
   const [flights, setflights] = useState([]);
-  const [returnDate, setReturnDate] = useState(defaultValue);
+  const [returnDate, setReturnDate] = useState(currentDate);
   const [origins, setOrigins] = useState([]);
   const [newOrigin, setNewOrigin] = useState("");
   const [newDestination, setNewDestination] = useState("");
@@ -26,7 +26,6 @@ function SearchFlights() {
     Axios.get("http://localhost:4000/origins").then((response) => {
       const { data } = response;
       setOrigins(data);
-      console.log(data.result);
     });
   }, []);
 
@@ -99,4 +98,4 @@ function SearchFlights() {
   );
 }
 
-export default SearchFlights;
+export { SearchFlights, currentDate };
