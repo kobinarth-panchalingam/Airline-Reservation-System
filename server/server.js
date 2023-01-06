@@ -96,6 +96,16 @@ app.post("/upComingFlights", (req, res) => {
   });
 });
 
+app.put("/flight/update/:id", (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const sqlUpdate = "update flight set flightstatus_id=? where flight_id=?";
+  db.query(sqlUpdate, [status, id], (err, result) => {
+    if (err) res.send({ err: err });
+    else res.send(result);
+  });
+});
+
 app.listen(4000, () => {
   console.log("Server is running on port 4000!");
 });
