@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.css";
-// import "../styles/Booking.css";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -103,19 +101,16 @@ function Booking() {
       response.data.forEach((element) => {
         economyBooked.push(element.seat_no + "");
       });
-      console.log(economyBooked);
     });
     Axios.post(`http://localhost:4000/seats`, { type: "Business", id: id }).then((response) => {
       response.data.forEach((element) => {
         businessBooked.push(element.seat_no + "");
       });
-      console.log(economyBooked);
     });
     Axios.post(`http://localhost:4000/seats`, { type: "Platinum", id: id }).then((response) => {
       response.data.forEach((element) => {
         platinumBooked.push(element.seat_no + "");
       });
-      console.log(economyBooked);
     });
   }, []);
 

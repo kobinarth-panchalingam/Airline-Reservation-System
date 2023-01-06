@@ -3,12 +3,25 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "../styles/viewFlights.css";
 import { Navigate, useNavigate } from "react-router-dom";
-function ShowTable({ flights }) {
+import axios from "axios";
+function ShowTable({ flights, setflights }) {
   const navigate = useNavigate();
   const handleBookMe = (id) => {
     navigate("/booking/" + id);
     console.log("/booking/" + id);
   };
+
+  const handleCancel = (id) => {
+    const data = flights.find((item) => item.id === id);
+    axios.put(`http://localhost:4000/${id}`, data).then((response) => {
+      // AppToaster.show({
+      //   message: "Data updated successfully",
+      //   intent: "success",
+      //   timeout: 3000,
+      // });
+    });
+  };
+
   return (
     <div className="container table-responsive">
       <table className="table  table-bordered table-striped table-hover">
@@ -35,12 +48,22 @@ function ShowTable({ flights }) {
                 <td className="text-center">
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn btn-primary"
                     onClick={() => {
                       handleBookMe(flight_id);
                     }}
                   >
                     BOOK ME
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => {
+                      handleCancel(flight_id);
+                    }}
+                  >
+                    CANCEL
                   </button>
                 </td>
               </tr>

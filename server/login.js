@@ -8,7 +8,7 @@ router.post("/", (req, res) => {
   db.query("select * from user where email=? and password=?", [email, password], (err, result) => {
     if (err) res.send({ err: err });
     if (result.length > 0) {
-      console.log(result);
+      console.log(email, password);
       res.send(result);
     } else {
       res.send({ msg: "Invalid Admin Login" });

@@ -9,7 +9,8 @@ import ViewFlights from "./components/Pages/viewFlights";
 import Booking from "./components/Pages/booking";
 import Reports from "./components/Pages/reports";
 import Seats from "./components/Pages/seats";
-import Test from "./components/Pages/seat";
+import Aboutus from "./components/Pages/aboutUs";
+import UpComingFlights from "./components/Pages/upComingFlights";
 function App() {
   return (
     <BrowserRouter>
@@ -24,7 +25,8 @@ function App() {
         <Route path="/booking/:id" element={<Booking />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/seats" element={<Seats />} />
-        <Route path="/test" element={<Test />} />
+        <Route path="/aboutUs" element={<Aboutus />} />
+        <Route path="/upComingFlights" element={<UpComingFlights />} />
       </Routes>
     </BrowserRouter>
   );

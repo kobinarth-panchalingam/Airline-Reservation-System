@@ -32,7 +32,6 @@ function SignUp() {
     nic: "",
     dob: "",
     gender: "",
-    class: "",
   });
 
   const handleChange = (event) => {
@@ -59,7 +58,6 @@ function SignUp() {
       phoneNumber: signUpInfo.phoneNumber,
       dob: signUpInfo.dob,
       nic: signUpInfo.nic,
-      discount: signUpInfo.class,
     }).then((response) => {
       if (response === "0") {
         alert("Unscusseful Registration");
@@ -110,14 +108,18 @@ function SignUp() {
                 <MDBInput wrapperClass="mb-4" label="NIC Number" name="nic" type="tel" onChange={handleChange} required />
               </MDBCol>
             </MDBRow>
-            <MDBInput wrapperClass="mb-4 p-2" label="Birthday" size="lg" name="dob" type="date" onChange={handleChange} required />
+
             <MDBRow>
-              <MDBCol md="6" className="mb-4">
+              {/* <MDBCol md="6" className="mb-4">
                 <h6 className="fw-bold">Class: </h6>
                 <MDBRadio name="class" value="5" label="Gold" onChange={handleChange} inline required />
                 <MDBRadio name="class" value="9" label="Platinum" onChange={handleChange} inline required />
                 <MDBRadio name="class" value="0" label="None" onChange={handleChange} inline required />
+              </MDBCol> */}
+              <MDBCol md="6" className="mb-4">
+                <MDBInput wrapperClass="mb-4 p-1" label="Birthday" size="lg" name="dob" type="date" onChange={handleChange} required />
               </MDBCol>
+
               <MDBCol md="6" className="mb-4">
                 <h6 className="fw-bold">Gender: </h6>
                 <MDBRadio name="gender" value="female" label="Female" onChange={handleChange} inline required />

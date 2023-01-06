@@ -3,7 +3,7 @@ class Auth {
     this.authenticated = false;
   }
 
-  login() {
+  login(email) {
     this.authenticated = true;
   }
 
