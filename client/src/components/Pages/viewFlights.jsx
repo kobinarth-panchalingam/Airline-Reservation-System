@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../styles/viewFlights.css";
 import NavBar from "./navbar";
 import ShowTable from "./showTable";
+import auth from "../utils/auth";
 function ViewFlights() {
   const [flights, setflights] = useState([]);
 
@@ -12,16 +13,17 @@ function ViewFlights() {
     Axios.get("http://localhost:4000/flights").then((response) => {
       const { data } = response;
       setflights(data);
-      console.log(data);
     });
   }, []);
 
   return (
-    <>
-      <NavBar />
-      <div className="mb-5" />
-      <ShowTable flights={flights} />
-    </>
+    auth.isAuthenticated() && (
+      <>
+        <NavBar />
+        <div className="mb-5" />
+        <ShowTable flights={flights} />
+      </>
+    )
   );
 }
 

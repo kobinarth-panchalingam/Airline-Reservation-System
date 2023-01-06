@@ -21,7 +21,7 @@ app.get("/origins", (req, res) => {
 
 app.get("/flights", (req, res) => {
   const sqlGet =
-    "select f.flight_id, f.origin, f.destination, DATE_FORMAT(f.departure_time , '%Y-%m-%d | %h:%i %p') as departure_time, DATE_FORMAT(f.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time  from flight f order by f.flight_id";
+    "select f.flight_id, f.airplane_id, f.origin, f.destination, DATE_FORMAT(f.departure_time , '%Y-%m-%d | %h:%i %p') as departure_time, DATE_FORMAT(f.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time, f.flight_time, f.economy_fare, f.business_fare, f.platinum_fare from flight f order by f.flight_id";
   db.query(sqlGet, (err, result) => {
     if (err) res.send({ err: err });
     else res.send(result);
@@ -80,11 +80,19 @@ app.post("/viewFlights", (req, res) => {
   });
 });
 
-app.get("/origins", (req, res) => {
-  const sqlGet = "select concat( airport.airport_code,' | ', airport.city) as origin from airport";
-  db.query(sqlGet, (err, result) => {
+app.post("/upComingFlights", (req, res) => {
+  var { origin, destination, departDate } = req.body;
+  departDate = departDate + "%";
+  const sqlGet =
+    "select f.flight_id, f.origin, f.destination,  DATE_FORMAT(f.departure_time , '%Y-%m-%d | %h:%i %p') as departure_time, DATE_FORMAT(f.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time    from flight f where origin=? and destination=? and departure_time like ?";
+  db.query(sqlGet, [origin, destination, departDate], (err, result) => {
     if (err) res.send({ err: err });
-    else res.send(result);
+    console.log(result);
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send(result);
+    }
   });
 });
 

@@ -42,6 +42,15 @@ function ShowTable({ flights }) {
                   >
                     BOOK ME
                   </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => {
+                      handleBookMe(flight_id);
+                    }}
+                  >
+                    BOOK ME
+                  </button>
                 </td>
               </tr>
             );
