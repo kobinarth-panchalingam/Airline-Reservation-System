@@ -20,27 +20,28 @@ function NavBar() {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
-            {auth.isAuthenticated() && (
+            {auth.isAdmin() && (
               <Nav.Link as={Link} to="/viewFlights">
-                Flights
+                Edit Flights
               </Nav.Link>
             )}
-            {!auth.isAuthenticated() && (
-              <Nav.Link as={Link} to="/upComingFlights">
-                Flights
-              </Nav.Link>
-            )}
-            {auth.isAuthenticated() && (
+
+            <Nav.Link as={Link} to="/upComingFlights">
+              Flights
+            </Nav.Link>
+
+            {auth.isAdmin() && (
               <Nav.Link as={Link} to="/reports">
                 Reports
               </Nav.Link>
             )}
-
             <NavDropdown title="More" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/aboutUs">
                 AboutUs
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/aircraftDetails">
+                Aircrafts
+              </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
             </NavDropdown>
@@ -51,6 +52,7 @@ function NavBar() {
             Logout
           </Nav.Link>
         )}
+
         {!auth.isAuthenticated() && (
           <>
             <Nav.Link className="card d-flex p-2 " href="/login">

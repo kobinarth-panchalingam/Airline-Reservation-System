@@ -37,16 +37,36 @@ function SignIn() {
   const handleSubmit = (evt) => {
     console.log(loginInfo);
     evt.preventDefault();
-    Axios.post("http://localhost:4000/login", {
-      email: loginInfo.email,
-      password: loginInfo.password,
-    }).then((response) => {
-      if (response.data.msg) {
-        alert("Incorrect username and password");
+
+    Axios.get("http://localhost:4000/login/admin/" + loginInfo.email).then((response) => {
+      const { data } = response;
+      if (data.length > 0) {
+        Axios.post("http://localhost:4000/login/admin", {
+          email: loginInfo.email,
+          password: loginInfo.password,
+        }).then((response) => {
+          if (response.data.msg) {
+            alert("Incorrect username and password");
+          } else {
+            alert("Welcome admin  ");
+            auth.adminLogin();
+            navigate("/");
+          }
+        });
       } else {
-        alert("success  ");
-        auth.login();
-        navigate("/");
+        Axios.post("http://localhost:4000/login/user", {
+          email: loginInfo.email,
+          password: loginInfo.password,
+        }).then((response) => {
+          console.log(response);
+          if (response.data.msg) {
+            alert("Incorrect username and password");
+          } else {
+            alert("Welcome user  ");
+            auth.userLogin(response.data[0]);
+            navigate("/");
+          }
+        });
       }
     });
   };
