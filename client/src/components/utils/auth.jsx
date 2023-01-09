@@ -1,18 +1,51 @@
 class Auth {
   constructor() {
-    this.authenticated = false;
-  }
-
-  login(email) {
     this.authenticated = true;
+    this.role = "guest";
+    this.userId = [];
   }
 
+  userLogin(user_id) {
+    this.authenticated = true;
+    this.role = "user";
+    this.userId = user_id;
+    console.log(user_id.first_name);
+  }
+
+  adminLogin(user_id) {
+    this.authenticated = true;
+    this.role = "admin";
+  }
   logout() {
     this.authenticated = false;
   }
 
   isAuthenticated() {
     return this.authenticated;
+  }
+
+  isAdmin() {
+    if (this.role == "admin") {
+      return true;
+    }
+    return false;
+  }
+  isUser() {
+    if (this.role == "user") {
+      return true;
+    }
+    return false;
+  }
+  isGuest() {
+    console.log(this.role);
+    if (this.role == "guest") {
+      return true;
+    }
+    return false;
+  }
+
+  userName() {
+    return this.userId.first_name + " " + this.userId.last_name;
   }
 }
 

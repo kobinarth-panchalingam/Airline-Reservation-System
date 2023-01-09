@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../styles/seats.css";
 
 const DrawGrid = (props) => {
-  const { seats, seatAvialable, seatReserved, setSeats, setSeatAvailable, setSeatReserved, seatBooked, max } = props;
+  const { seats, seatAvialable, seatReserved, setSeatAvailable, setSeatReserved, seatBooked, max } = props;
 
   const onClickData = (seat) => {
     if (seatBooked.indexOf(seat) > -1) {

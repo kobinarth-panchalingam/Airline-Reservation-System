@@ -14,7 +14,8 @@ const futureDate = date.getDate();
 date.setDate(futureDate);
 const currentDate = date.toLocaleDateString("en-CA");
 
-function SearchFlights() {
+function SearchFlights({ userid }) {
+  console.log(userid);
   const [departDate, setDepartDate] = useState(currentDate);
   const [flights, setflights] = useState([]);
   const [returnDate, setReturnDate] = useState(currentDate);
@@ -23,7 +24,7 @@ function SearchFlights() {
   const [newDestination, setNewDestination] = useState("");
 
   useEffect(() => {
-    Axios.get("http://localhost:4000/origins").then((response) => {
+    Axios.get("http://localhost:4000/flight/origins").then((response) => {
       const { data } = response;
       setOrigins(data);
     });
@@ -34,7 +35,7 @@ function SearchFlights() {
     const destination = newDestination.slice(0, 3);
     const flightInfo = { origin: origin, destination: destination, departDate: departDate, returnDate: returnDate };
     console.log([origin, destination, departDate, returnDate]);
-    Axios.post("http://localhost:4000/viewFlights", flightInfo).then((response) => {
+    Axios.post("http://localhost:4000/flight/viewFlights", flightInfo).then((response) => {
       console.log(response.data.length);
       setflights(response.data);
     });
@@ -92,7 +93,7 @@ function SearchFlights() {
           <Alert variant="warning"> No Flights Available</Alert>
         </Container>
       ) : (
-        <ShowTable flights={flights} />
+        <ShowTable flights={flights} userid={userid} />
       )}
     </>
   );

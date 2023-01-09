@@ -63,7 +63,7 @@ function SignUp() {
         alert("Unscusseful Registration");
       } else {
         alert("Success");
-        navigate("/");
+        navigate("/login");
       }
     });
   };

@@ -4,22 +4,18 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../styles/viewFlights.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
-function ShowTable({ flights, setflights }) {
+import auth from "../utils/auth";
+
+function ShowTable({ flights, userid }) {
+  console.log(userid == null);
   const navigate = useNavigate();
   const handleBookMe = (id) => {
-    navigate("/booking/" + id);
-    console.log("/booking/" + id);
-  };
-
-  const handleCancel = (id) => {
-    const data = flights.find((item) => item.id === id);
-    axios.put(`http://localhost:4000/${id}`, data).then((response) => {
-      // AppToaster.show({
-      //   message: "Data updated successfully",
-      //   intent: "success",
-      //   timeout: 3000,
-      // });
-    });
+    if (userid == null) {
+      alert("first register yourself");
+      navigate("/signup");
+    } else {
+      navigate(`/booking/${userid}/${id}`);
+    }
   };
 
   return (
@@ -48,22 +44,12 @@ function ShowTable({ flights, setflights }) {
                 <td className="text-center">
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-danger"
                     onClick={() => {
                       handleBookMe(flight_id);
                     }}
                   >
                     BOOK ME
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => {
-                      handleCancel(flight_id);
-                    }}
-                  >
-                    CANCEL
                   </button>
                 </td>
               </tr>

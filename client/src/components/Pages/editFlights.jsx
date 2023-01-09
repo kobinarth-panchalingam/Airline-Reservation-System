@@ -9,15 +9,12 @@ import ShowTable from "./showTable";
 import axios from "axios";
 import auth from "../utils/auth";
 import { Navigate, useNavigate } from "react-router-dom";
-import { Toaster, Position } from "@blueprintjs/core";
 
 function ViewFlights() {
   const [flights, setflights] = useState([]);
   const [status, setStatus] = useState(1);
   const navigate = useNavigate();
-  const AppToaster = Toaster.create({
-    position: Position.TOP,
-  });
+
   const handleBookMe = (id) => {
     navigate("/booking/" + id);
     console.log("/booking/" + id);
@@ -25,16 +22,16 @@ function ViewFlights() {
 
   const handleAction = (flight_id) => {
     console.log(status);
-    axios.put(`http://localhost:4000/flight/update/${flight_id}`, { status: status }).then((response) => {
-      AppToaster.show({
-        message: "Data updated successfully",
-        intent: "success",
-        timeout: 3000,
-      });
+    axios.put(`http://localhost:4000/flight/flightStatus/update/${flight_id}`, { status: status }).then((response) => {
+      // AppToaster.show({
+      //   message: "Data updated successfully",
+      //   intent: "success",
+      //   timeout: 3000,
+      // });
     });
   };
   useEffect(() => {
-    Axios.get("http://localhost:4000/flights").then((response) => {
+    Axios.get("http://localhost:4000/flight/flights").then((response) => {
       const { data } = response;
       setflights(data);
     });
