@@ -6,15 +6,15 @@ import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import auth from "../utils/auth";
 
-function ShowTable({ flights, setflights }) {
+function ShowTable({ flights, userid }) {
+  console.log(userid == null);
   const navigate = useNavigate();
   const handleBookMe = (id) => {
-    if (auth.isGuest()) {
+    if (userid == null) {
       alert("first register yourself");
       navigate("/signup");
     } else {
-      navigate("/booking/" + id);
-      console.log("/booking/" + id);
+      navigate(`/booking/${userid}/${id}`);
     }
   };
 

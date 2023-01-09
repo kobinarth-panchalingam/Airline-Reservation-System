@@ -10,6 +10,7 @@ import ShowTable from "./showTable";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import NavBar from "./navbar";
+import { useParams } from "react-router-dom";
 const date = new Date();
 const futureDate = date.getDate();
 date.setDate(futureDate);
@@ -21,14 +22,22 @@ function UpComingFlights() {
   const [origins, setOrigins] = useState([]);
   const [newOrigin, setNewOrigin] = useState("");
   const [newDestination, setNewDestination] = useState("");
-
+  const [user, setUser] = useState({ user_id: null });
   useEffect(() => {
     Axios.get("http://localhost:4000/flight/origins").then((response) => {
       const { data } = response;
       setOrigins(data);
     });
-  }, []);
 
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser[0]);
+      // console.log(user.user_id);
+      // navigate("/" + foundUser[0].user_id);
+    }
+  }, []);
+  console.log(user.user_id);
   const showFlights = () => {
     const origin = newOrigin.slice(0, 3);
     const destination = newDestination.slice(0, 3);
@@ -89,7 +98,7 @@ function UpComingFlights() {
           <Alert variant="warning"> No Flights Available</Alert>
         </Container>
       ) : (
-        <ShowTable flights={flights} />
+        <ShowTable flights={flights} userid={user.user_id} />
       )}
     </>
   );

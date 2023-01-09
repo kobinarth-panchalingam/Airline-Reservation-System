@@ -12,7 +12,7 @@ router.get("/origins", (req, res) => {
 
 router.get("/flights", (req, res) => {
   const sqlGet =
-    "select s.flight_id, s.airplane_id, s.origin, s.destination, DATE_FORMAT(s.departure_time , '%Y-%m-%d | %h:%i %p') as departure_time, DATE_FORMAT(s.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time, s.economy_fare, s.business_fare, s.platinum_fare from shedule s order by s.flight_id";
+    "select s.flight_id, s.airplane_id, s.origin, s.destination, DATE_FORMAT(s.departure_time , '%Y-%m-%d | %h:%i:%p') as departure_time, DATE_FORMAT(s.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time, s.economy_fare, s.business_fare, s.platinum_fare from shedule s order by s.flight_id";
   db.query(sqlGet, (err, result) => {
     if (err) res.send({ err: err });
     else res.send(result);

@@ -27,8 +27,11 @@ function App() {
         <Route path="/reports" element={<Reports />} />
         <Route path="/aboutUs" element={<Aboutus />} />
         <Route path="/upComingFlights" element={<UpComingFlights />} />
+        {/* <Route path="/upComingFlights/:userid" element={<UpComingFlights />} /> */}
         <Route path="/aircraftDetails" element={<AircraftDetails />} />
-        <Route path="/checkOut" element={<CheckOut />} />
+        <Route path="/checkOut/:booking_id" element={<CheckOut />} />
+        <Route path="/:userid/" element={<Home />} />
+        <Route path="/booking/:userid/:id" element={<Booking />} />
       </Routes>
     </BrowserRouter>
   );

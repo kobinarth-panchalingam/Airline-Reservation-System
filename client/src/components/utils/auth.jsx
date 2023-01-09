@@ -1,6 +1,6 @@
 class Auth {
   constructor() {
-    this.authenticated = false;
+    this.authenticated = true;
     this.role = "guest";
     this.userId = [];
   }

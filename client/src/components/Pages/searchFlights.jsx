@@ -14,7 +14,8 @@ const futureDate = date.getDate();
 date.setDate(futureDate);
 const currentDate = date.toLocaleDateString("en-CA");
 
-function SearchFlights() {
+function SearchFlights({ userid }) {
+  console.log(userid);
   const [departDate, setDepartDate] = useState(currentDate);
   const [flights, setflights] = useState([]);
   const [returnDate, setReturnDate] = useState(currentDate);
@@ -92,7 +93,7 @@ function SearchFlights() {
           <Alert variant="warning"> No Flights Available</Alert>
         </Container>
       ) : (
-        <ShowTable flights={flights} />
+        <ShowTable flights={flights} userid={userid} />
       )}
     </>
   );

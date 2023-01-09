@@ -43,4 +43,15 @@ router.get("/admin/:id", (req, res) => {
   });
 });
 
+router.get("/user/:id", (req, res) => {
+  const { id } = req.params;
+  db.query(
+    "select u.first_name, u.last_name, u.user_type, t.discount from registerd_users u left join user_types t on (u.user_type = t.user_type) where user_id=?",
+    [id],
+    (err, result) => {
+      if (err) res.send({ err: err });
+      else res.send(result);
+    }
+  );
+});
 export default router;

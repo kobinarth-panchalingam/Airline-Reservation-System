@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -17,6 +17,24 @@ import {
 } from "mdb-react-ui-kit";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 function SignIn() {
+  const [user, setUser] = useState();
+  const [admin, setAdmin] = useState();
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    const loggedInAdmin = localStorage.getItem("admin");
+
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+      console.log(foundUser[0].user_id);
+      navigate("/" + foundUser[0].user_id);
+    } else if (loggedInAdmin) {
+      const foundAdmin = JSON.parse(loggedInAdmin);
+      setAdmin(foundAdmin);
+      console.log(foundAdmin[0].user_id);
+      navigate("/" + foundAdmin[0].user_id);
+    }
+  }, []);
   const navigate = useNavigate();
   const [justifyActive, setJustifyActive] = useState("tab1");
   const [loginInfo, setLoginInfo] = useState({
@@ -48,7 +66,9 @@ function SignIn() {
           if (response.data.msg) {
             alert("Incorrect username and password");
           } else {
-            alert("Welcome admin  ");
+            setAdmin(response.data);
+            // store the us er in localStorage
+            localStorage.setItem("admin", JSON.stringify(response.data));
             auth.adminLogin();
             navigate("/");
           }
@@ -58,13 +78,14 @@ function SignIn() {
           email: loginInfo.email,
           password: loginInfo.password,
         }).then((response) => {
-          console.log(response);
+          setUser(response.data);
+          // store the user in localStorage
+          localStorage.setItem("user", JSON.stringify(response.data));
           if (response.data.msg) {
             alert("Incorrect username and password");
           } else {
-            alert("Welcome user  ");
             auth.userLogin(response.data[0]);
-            navigate("/");
+            navigate("/" + response.data[0].user_id);
           }
         });
       }

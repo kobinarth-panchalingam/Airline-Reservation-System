@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import NavBar from "./navbar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DrawGrid from "./drawGrid";
 import { currentDate } from "./searchFlights";
 import auth from "../utils/auth";
@@ -14,9 +14,12 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 
 function Booking() {
-  const [show, setShow] = useState(true);
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(true);
-  const { id } = useParams();
+  const [show3, setShow3] = useState(false);
+  const [show4, setShow4] = useState(false);
+  const { id, userid } = useParams();
   const [seatInfo, setSeatInfo] = useState([]);
   const platinum = [];
   const economy = [];
@@ -34,9 +37,12 @@ function Booking() {
   const [platinumBooked, setPlatinumBooked] = useState([]);
   const [businessBooked, setBusinessBooked] = useState([]);
 
+  const [discount, setDiscount] = useState(0);
+  const [price, setPrice] = useState(0);
+
   const [ticketInfo, setTicketInfo] = useState({
     class: "economy",
-    totalPrice: 0,
+    totalPrice: price,
     noOfPassengers: 1,
     flight_id: id,
     user: auth.userId,
@@ -44,21 +50,25 @@ function Booking() {
     discount: 0,
     bookingID: null,
   });
-
+  const [flightInfo, setFlightInfo] = useState([]);
   useEffect(() => {
-    console.log("test");
-    Axios.get(`http://localhost:4000/booking/discount/` + auth.userId.user_type).then((response) => {
-      // setSeatInfo(response.data[0]);
-      setTicketInfo({ ...ticketInfo, discount: response.data[0].discount });
-      console.log(ticketInfo);
+    console.log(userid);
+    Axios.get(`http://localhost:4000/login/user/${userid}`).then((response) => {
+      setDiscount(response.data[0].discount);
     });
+    console.log(discount);
+    //   // setSeatInfo(response.data[0]);
+    //   setTicketInfo({ ...ticketInfo, discount: response.data[0].discount });
+    //   console.log(ticketInfo);
+    // });
+
     Axios.get(`http://localhost:4000/booking/flightDetails/${id}`).then((response) => {
       setFlightInfo(response.data[0]);
+      setPrice(response.data[0].economy_fare);
       setTicketInfo({ ...ticketInfo, totalPrice: response.data[0].economy_fare });
     });
     Axios.get(`http://localhost:4000/booking/seatCount/${id}`).then((response) => {
       setSeatInfo(response.data[0]);
-      console.log(response.data[0]);
     });
 
     Axios.post(`http://localhost:4000/booking/seats`, { type: "economy", id: id }).then((response) => {
@@ -90,15 +100,16 @@ function Booking() {
 
   var options = [];
 
-  const [flightInfo, setFlightInfo] = useState([]);
-
   const handleChange = (event) => {
     if (event.target.name === "class") {
       if (event.target.value === "economy") {
+        setPrice(flightInfo.economy_fare);
         setTicketInfo({ ...ticketInfo, totalPrice: flightInfo.economy_fare, class: event.target.value });
       } else if (event.target.value === "business") {
+        setPrice(flightInfo.business_fare);
         setTicketInfo({ ...ticketInfo, totalPrice: flightInfo.business_fare, class: event.target.value });
       } else {
+        setPrice(flightInfo.platinum_fare);
         setTicketInfo({ ...ticketInfo, totalPrice: flightInfo.platinum_fare, class: event.target.value });
       }
     } else if (event.target.name === "passengerName") {
@@ -141,42 +152,59 @@ function Booking() {
     );
   }
 
-  const handleSubmitPassengers = (event) => {
+  const handleSubmitPassengers = async (event) => {
     event.preventDefault();
+    await savePassengers();
+    setShow2(false);
+  };
+  const savePassengers = async () => {
     Axios.post("http://localhost:4000/booking/passenger", {
       ticketInfo: ticketInfo,
       passengerName: passengerNames,
       passengerPassports: passengerPassports,
       passengerDob: passengerDob,
     }).then((response) => {
-      setPassengerIds(response.data);
       console.log("pId", response.data);
+      setShow3(true);
     });
 
     Axios.post("http://localhost:4000/booking/book", {
+      id: id,
+      user_id: userid,
+      price: price,
+      discount: discount,
       ticketInfo: ticketInfo,
     }).then((response) => {
-      console.log("booking finished");
+      console.log("b_id", response);
+      setTicketInfo({ ...ticketInfo, bookingID: response.data });
+      setShow4(true);
     });
-    Axios.get("http://localhost:4000/booking/bookingID/" + ticketInfo.user.user_id).then((response) => {
-      setTicketInfo({ ...ticketInfo, bookingID: response.data.booking_id });
-      console.log("bookingId fetched");
-    });
-    setShow2(false);
   };
+
+  // const fetchBooking = async () => {
+  //   Axios.get("http://localhost:4000/booking/bookingID/" + userid).then((response) => {
+  //     setTicketInfo({ ...ticketInfo, bookingID: response.data.booking_id });
+  //     console.log("bookingId fetched",);
+  //   });
+  // };
 
   const handleCheckOut = () => {
     if (passengerSeats.length != ticketInfo.noOfPassengers) {
       setShow(true);
     } else {
+      // Axios.get("http://localhost:4000/booking/bookingID/" + ticketInfo.user.user_id).then((response) => {
+      //   setTicketInfo({ ...ticketInfo, bookingID: response.data.booking_id });
+      //   console.log("bookingId fetched");
+      // });
+
       Axios.post("http://localhost:4000/booking/ticket", {
         ticketInfo: ticketInfo,
         passengerSeats: passengerSeats,
-        passengerIds: passengerIds,
+        passengerPassports: passengerPassports,
       }).then((response) => {
         console.log("ticket finished");
+        navigate("/checkOut/" + ticketInfo.bookingID);
       });
-      alert("finished");
     }
   };
   return (
@@ -226,9 +254,11 @@ function Booking() {
               {options.map((option) => {
                 return option;
               })}
-              <button type="submit" className="btn btn-primary btn-lg btn-block">
-                Submit Passenger Details
-              </button>
+              {show2 && (
+                <button type="submit" className="btn btn-primary btn-lg btn-block">
+                  Submit Passenger Details
+                </button>
+              )}
             </Form>
           </div>
 
@@ -262,11 +292,11 @@ function Booking() {
                   <div>
                     <strong>Total amount</strong>
                     <strong>
-                      <p className="mb-0">(including discount {ticketInfo.discount} % ) </p>
+                      <p className="mb-0">(including discount {discount} % ) </p>
                     </strong>
                   </div>
                   <span>
-                    <strong>$ {(ticketInfo.totalPrice * ticketInfo.noOfPassengers * (100 - ticketInfo.discount)) / 100}</strong>
+                    <strong>$ {(price * ticketInfo.noOfPassengers * (100 - discount)) / 100}</strong>
                   </span>
                 </li>
               </ul>
@@ -281,7 +311,7 @@ function Booking() {
                 </Button>
               </div>
             </Alert>
-            {!show && !show2 && (
+            {show3 && show4 && (
               // <Button variant="warning" onClick={() => handleCheckOut()}>
               //   Checkout
               // </Button>
