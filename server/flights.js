@@ -12,7 +12,7 @@ router.get("/origins", (req, res) => {
 
 router.get("/flights", (req, res) => {
   const sqlGet =
-    "select s.flight_id, s.airplane_id, s.origin, s.destination, DATE_FORMAT(s.departure_time , '%Y-%m-%d | %h:%i:%p') as departure_time, DATE_FORMAT(s.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time, s.economy_fare, s.business_fare, s.platinum_fare from shedule s order by s.flight_id";
+    "select s.flight_id, s.airplane_id, s.origin, s.destination, DATE_FORMAT(s.departure_time , '%Y-%m-%d | %h:%i:%p') as departure_time, DATE_FORMAT(s.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time, s.economy_fare, s.business_fare, s.platinum_fare, s.status from shedule s order by s.flight_id";
   db.query(sqlGet, (err, result) => {
     if (err) res.send({ err: err });
     else res.send(result);
@@ -62,7 +62,7 @@ router.put("/flightStatus/update/:id", (req, res) => {
 
 router.get("/getFlights", (req, res) => {
   const sqlGet =
-    "SELECT s.flight_id, s.origin, s.destination, s.economy_fare, concat(date_format(s.departure_time, '%h:%i %p'), ' - ', date_format(s.arrival_time, '%h:%i %p')) as time, concat(date_format(s.arrival_time, '%a %b %D %Y'),' - ', date_format(s.departure_time, '%a %b %D %Y')) as date, s.image_url from shedule s where s.departure_time > now() and s.flightstatus_id='1' order by s.departure_time limit 6";
+    "SELECT s.flight_id, s.origin, s.destination, s.economy_fare, concat(date_format(s.departure_time, '%h:%i %p'), ' - ', date_format(s.arrival_time, '%h:%i %p')) as time, concat(date_format(s.arrival_time, '%a %b %D %Y'),' - ', date_format(s.departure_time, '%a %b %D %Y')) as date, s.image_url from shedule s where s.departure_time > now() and s.status='Scheduled' order by s.departure_time limit 6";
   db.query(sqlGet, (err, result) => {
     if (err) res.send({ err: err });
     else res.send(result);

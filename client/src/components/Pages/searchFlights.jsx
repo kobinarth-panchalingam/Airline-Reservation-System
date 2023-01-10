@@ -15,7 +15,6 @@ date.setDate(futureDate);
 const currentDate = date.toLocaleDateString("en-CA");
 
 function SearchFlights({ userid }) {
-  console.log(userid);
   const [show, setShow] = useState(false);
   const [departDate, setDepartDate] = useState(currentDate);
   const [flights, setflights] = useState([]);

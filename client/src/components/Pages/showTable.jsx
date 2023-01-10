@@ -10,13 +10,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { Slide, Zoom, Flip, Bounce } from "react-toastify";
 
 function ShowTable({ flights, userid }) {
-  console.log(userid == null);
   const notify = () => toast.info("You need to sign up first");
   const navigate = useNavigate();
   const handleBookMe = (id) => {
     if (userid == null) {
       notify();
-      // navigate("/signup");
     } else {
       navigate(`/booking/${userid}/${id}`);
     }
@@ -24,7 +22,6 @@ function ShowTable({ flights, userid }) {
 
   return (
     <div className="container table-responsive ">
-      {/* <ToastContainer /> */}
       <ToastContainer
         position="top-center"
         autoClose={3000}

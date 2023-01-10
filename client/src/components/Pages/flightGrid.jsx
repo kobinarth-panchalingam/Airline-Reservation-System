@@ -14,6 +14,7 @@ export default function FlightGrid({ userid }) {
   useEffect(() => {
     axios.get("http://localhost:4000/flight/getFlights").then((response) => {
       setData(response.data);
+      // console.log(response.data);
     });
   }, []);
 
@@ -49,26 +50,24 @@ export default function FlightGrid({ userid }) {
                 <MDBCardImage src={flight.image_url} height="250" alt="..." position="top" />
                 <MDBCardBody>
                   <MDBCardTitle>
-                    <h5>
-                      {flight.origin} &nbsp;
-                      <i class="bi bi-arrow-left-right"></i> &nbsp;
-                      {flight.destination}
-                    </h5>
+                    {flight.origin} &nbsp;
+                    <i className="bi bi-arrow-left-right"></i> &nbsp;
+                    {flight.destination}
                     <hr />
                   </MDBCardTitle>
-                  <MDBCardText>
-                    <h6>
-                      <i class="bi bi-clock"></i> &nbsp;
-                      {flight.time}
-                    </h6>
-                    <h6>
-                      <i class="bi bi-calendar2-month"></i> &nbsp;
-                      {flight.date}
-                    </h6>
-                    <h6>
-                      <i class="bi bi-airplane"></i> &nbsp; B Air Ways
-                    </h6>
-                  </MDBCardText>
+
+                  <h6>
+                    <i className="bi bi-clock"></i> &nbsp;
+                    {flight.time}
+                  </h6>
+                  <h6>
+                    <i className="bi bi-calendar2-month"></i> &nbsp;
+                    {flight.date}
+                  </h6>
+                  <h6>
+                    <i className="bi bi-airplane"></i> &nbsp; B Air Ways
+                  </h6>
+
                   <button
                     type="button"
                     className="btn btn-danger"

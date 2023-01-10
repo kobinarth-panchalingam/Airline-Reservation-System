@@ -85,7 +85,7 @@ function SignIn() {
             alert("Incorrect username and password");
           } else {
             auth.userLogin(response.data[0]);
-            navigate("/" + response.data[0].user_id);
+            navigate("/");
           }
         });
       }

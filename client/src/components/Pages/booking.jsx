@@ -30,8 +30,6 @@ function Booking() {
   const [passengerNames, setPassengerNames] = useState([]);
   const [passengerPassports, seetPassengerPassports] = useState([]);
   const [passengerDob, seetPassengerDob] = useState([]);
-  const [passengerIds, setPassengerIds] = useState([]);
-
   const [seatAvialablePlatinum, setSeatAvailablePlatinum] = useState(platinum);
   const [seatAvialableBusiness, setSeatAvailableBusiness] = useState(business);
   const [seatAvialableEconomy, setSeatAvailableEconomy] = useState(economy);
@@ -168,14 +166,14 @@ function Booking() {
     }).then((response) => {
       console.log("pId", response.data);
       setShow3(true);
-      toast.warn("🦄 Wow so easy!", {
+      toast.success("Passenger deatails are submitted", {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined,
+        progress: true,
         theme: "light",
       });
     });
@@ -193,22 +191,10 @@ function Booking() {
     });
   };
 
-  // const fetchBooking = async () => {
-  //   Axios.get("http://localhost:4000/booking/bookingID/" + userid).then((response) => {
-  //     setTicketInfo({ ...ticketInfo, bookingID: response.data.booking_id });
-  //     console.log("bookingId fetched",);
-  //   });
-  // };
-
   const handleCheckOut = () => {
     if (passengerSeats.length != ticketInfo.noOfPassengers) {
       setShow(true);
     } else {
-      // Axios.get("http://localhost:4000/booking/bookingID/" + ticketInfo.user.user_id).then((response) => {
-      //   setTicketInfo({ ...ticketInfo, bookingID: response.data.booking_id });
-      //   console.log("bookingId fetched");
-      // });
-
       Axios.post("http://localhost:4000/booking/ticket", {
         ticketInfo: ticketInfo,
         passengerSeats: passengerSeats,
@@ -222,7 +208,7 @@ function Booking() {
   return (
     <>
       <NavBar />
-
+      <ToastContainer />
       <div className="container">
         <div className="row mt-3 justify-content-between">
           <div className="card col-8 mb-4">
@@ -267,7 +253,7 @@ function Booking() {
                 return option;
               })}
               {show2 && (
-                <button type="submit" className="btn btn-primary btn-lg btn-block">
+                <button type="submit" className="btn btn-primary btn-lg btn-block pt-3">
                   Submit Passenger Details
                 </button>
               )}
@@ -275,15 +261,22 @@ function Booking() {
           </div>
 
           <div className="card col-4 mb-4">
-            <div className="card-header py-3">
+            <div className="card-header pt-3 pb-0">
               <h5 className="mb-1">Flight Details</h5>
+              <hr />
               <h6 className="mx-2">
-                {flightInfo.origin} ---- {flightInfo.destination}
+                {flightInfo.origin} <i className="bi bi-arrow-right"></i> &nbsp;
+                {flightInfo.destination}
               </h6>
-              <h6 className="mx-2"> {flightInfo.departure_time}</h6>
+              <p className="mx-2">
+                Depart -<strong> {flightInfo.departure_time}</strong>
+              </p>
+              <p className="mx-2">
+                Arival &nbsp; -<strong> {flightInfo.arrival_time}</strong>
+              </p>
             </div>
             <div className="card-body py-0">
-              <ul className="list-group list-group-flush">
+              <ul className="list-group list-group-flush mx-2">
                 <li key="list1" className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                   Platinum
                   <span>$ {flightInfo.platinum_fare}</span>
@@ -296,10 +289,6 @@ function Booking() {
                   Economy
                   <span>$ {flightInfo.economy_fare}</span>
                 </li>
-                {/* <li key="5" className="list-group-item d-flex justify-content-between align-items-center px-0">
-                  Discount
-                  <span>Gratis</span>
-                </li> */}
                 <li key="list4" className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                   <div>
                     <strong>Total amount</strong>
@@ -324,9 +313,6 @@ function Booking() {
               </div>
             </Alert>
             {show3 && show4 && (
-              // <Button variant="warning" onClick={() => handleCheckOut()}>
-              //   Checkout
-              // </Button>
               <button type="submit" onClick={() => handleCheckOut()} className="btn btn-warning btn-lg btn-block">
                 Checkout
               </button>

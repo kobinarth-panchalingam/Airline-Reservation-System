@@ -7,15 +7,29 @@ import Aboutus from "./aboutUs";
 import { useParams } from "react-router-dom";
 import NavBar from "./navbar";
 import FlightGrid from "./flightGrid";
+import { useState } from "react";
+import { useEffect } from "react";
 function Home() {
-  const { userid } = useParams();
-  console.log(userid == "undefined");
+  const [user, setUser] = useState(false);
+  const [admin, setAdmin] = useState(false);
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    const loggedInAdmin = localStorage.getItem("admin");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser[0]);
+    } else if (loggedInAdmin) {
+      const foundAdmin = JSON.parse(loggedInAdmin);
+      setAdmin(foundAdmin[0]);
+      console.log(foundAdmin[0].name);
+    }
+  }, []);
   return (
     <div className="home">
       <NavBar />
-      <Header userid={userid} />
-      <SearchFlights userid={userid} />
-      <FlightGrid userid={userid} />
+      <Header userid={user.user_id} />
+      <SearchFlights userid={user.user_id} />
+      <FlightGrid userid={user.user_id} />
       <Footer />
     </div>
   );
