@@ -53,7 +53,7 @@ function UpComingFlights() {
   return (
     <>
       <NavBar />
-      <Container className="rounded rounded-5 border border-5 border-secondary  my-5">
+      <Container className="rounded rounded-5 bg-gradient bg-secondary border-secondary  my-5">
         <Row>
           <Form.Group as={Col} controlId="formGridState">
             <Form.Label>From</Form.Label>

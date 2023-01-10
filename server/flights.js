@@ -62,7 +62,7 @@ router.put("/flightStatus/update/:id", (req, res) => {
 
 router.get("/getFlights", (req, res) => {
   const sqlGet =
-    "SELECT s.flight_id, s.origin, s.destination, s.economy_fare, concat(date_format(s.departure_time, '%h:%i %p'), ' - ', date_format(s.arrival_time, '%h:%i %p')) as time, concat(date_format(s.arrival_time, '%a %b %D %Y'),' - ', date_format(s.departure_time, '%a %b %D %Y')) as date, s.image_url from shedule s where s.departure_time > now() order by s.departure_time limit 6";
+    "SELECT s.flight_id, s.origin, s.destination, s.economy_fare, concat(date_format(s.departure_time, '%h:%i %p'), ' - ', date_format(s.arrival_time, '%h:%i %p')) as time, concat(date_format(s.arrival_time, '%a %b %D %Y'),' - ', date_format(s.departure_time, '%a %b %D %Y')) as date, s.image_url from shedule s where s.departure_time > now() and s.flightstatus_id='1' order by s.departure_time limit 6";
   db.query(sqlGet, (err, result) => {
     if (err) res.send({ err: err });
     else res.send(result);

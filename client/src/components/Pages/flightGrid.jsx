@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
@@ -19,28 +19,33 @@ export default function FlightGrid({ userid }) {
 
   const handleBookMe = (id) => {
     if (userid == null) {
-      toast.warn("You need to sign up first", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      navigate("/signup");
+      toast.info("You need to sign up first");
+      // navigate("/signup");
     } else {
       navigate(`/booking/${userid}/${id}`);
     }
   };
   return (
     <MDBContainer className="mb-5">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Flip}
+      />
       <MDBRow className="row-cols-2 row-cols-md-3 g-5">
         {data.map((flight) => {
           return (
             <MDBCol>
-              <MDBCard className="h-100">
+              <MDBCard className="h-100 hover-shadow ">
                 <MDBCardImage src={flight.image_url} height="250" alt="..." position="top" />
                 <MDBCardBody>
                   <MDBCardTitle>

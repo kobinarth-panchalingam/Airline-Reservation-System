@@ -9,7 +9,7 @@ import ShowTable from "./showTable";
 import axios from "axios";
 import auth from "../utils/auth";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import { ToastContainer, toast, Flip } from "react-toastify";
 function ViewFlights() {
   const [flights, setflights] = useState([]);
   const [status, setStatus] = useState(1);
@@ -23,11 +23,7 @@ function ViewFlights() {
   const handleAction = (flight_id) => {
     console.log(status);
     axios.put(`http://localhost:4000/flight/flightStatus/update/${flight_id}`, { status: status }).then((response) => {
-      // AppToaster.show({
-      //   message: "Data updated successfully",
-      //   intent: "success",
-      //   timeout: 3000,
-      // });
+      toast.success("status changed");
     });
   };
   useEffect(() => {
@@ -40,6 +36,20 @@ function ViewFlights() {
   return (
     auth.isAuthenticated() && (
       <>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          limit={1}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={false}
+          theme="light"
+          transition={Flip}
+        />
         <NavBar />
         <div className="mb-5" />
         <div className="container table-responsive">
