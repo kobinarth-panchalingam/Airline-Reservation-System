@@ -97,7 +97,7 @@ function SignIn() {
       <form onSubmit={handleSubmit}>
         <MDBContainer className="p-3 mt-5 d-flex flex-column col-md-8 col-lg-6">
           <MDBTypography tag="div" className="display-6 text-center mb-4 text-primary">
-            Airline Reservation Sysytem
+            B Airways Reservation System
           </MDBTypography>
           <MDBTabs pills justify className="mb-3 d-flex flex-row justify-content-between">
             <MDBTabsItem>
@@ -119,7 +119,7 @@ function SignIn() {
 
               <div className="d-flex justify-content-between mx-4 mb-4">
                 <MDBCheckbox name="flexCheck" value="" id="flexCheckDefault" label="Remember me" />
-                <a href="!#">Forgot password?</a>
+                {/* <a href="!#">Forgot password?</a> */}
               </div>
 
               <MDBBtn type="submit" className="mb-4 w-100">

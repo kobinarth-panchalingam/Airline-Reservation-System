@@ -16,6 +16,7 @@ const currentDate = date.toLocaleDateString("en-CA");
 
 function SearchFlights({ userid }) {
   console.log(userid);
+  const [show, setShow] = useState(false);
   const [departDate, setDepartDate] = useState(currentDate);
   const [flights, setflights] = useState([]);
   const [returnDate, setReturnDate] = useState(currentDate);
@@ -38,6 +39,7 @@ function SearchFlights({ userid }) {
     Axios.post("http://localhost:4000/flight/viewFlights", flightInfo).then((response) => {
       console.log(response.data.length);
       setflights(response.data);
+      setShow(true);
     });
   };
 
@@ -46,7 +48,7 @@ function SearchFlights({ userid }) {
       <Container className="rounded rounded-5 border border-5 border-secondary  my-5">
         <Row>
           <Form.Group as={Col} controlId="formGridState">
-            <Form.Label>From</Form.Label>
+            <Form.Label>Origin</Form.Label>
             <Form.Select onChange={(e) => setNewOrigin(e.target.value)} value={newOrigin}>
               <option>Choose...</option>
               {origins.map((from) => {
@@ -60,7 +62,7 @@ function SearchFlights({ userid }) {
             </Form.Select>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridState">
-            <Form.Label>To</Form.Label>
+            <Form.Label>Destination</Form.Label>
             <Form.Select onChange={(e) => setNewDestination(e.target.value)} value={newDestination}>
               <option>Choose...</option>
               {origins.map((from) => {
@@ -74,27 +76,32 @@ function SearchFlights({ userid }) {
             </Form.Select>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridState">
-            <Form.Label>Deapart</Form.Label>
+            <Form.Label>From </Form.Label>
             <Form.Control type="date" name="datepic" placeholder="DatzeRange" value={departDate} onChange={(e) => setDepartDate(e.target.value)} />
           </Form.Group>
           <Form.Group as={Col} controlId="formGridState">
-            <Form.Label>Return</Form.Label>
+            <Form.Label>To</Form.Label>
             <Form.Control type="date" name="datepic" placeholder="DateRange" value={returnDate} onChange={(e) => setReturnDate(e.target.value)} />
           </Form.Group>
         </Row>
         <Row className="mt-3">
-          <Button variant="warning" onClick={showFlights}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              showFlights();
+            }}
+          >
             Show Flights
           </Button>
         </Row>
       </Container>
-      {flights.length === 0 ? (
+      {flights.length === 0 && show && (
         <Container>
           <Alert variant="warning"> No Flights Available</Alert>
         </Container>
-      ) : (
-        <ShowTable flights={flights} userid={userid} />
       )}
+
+      {flights.length !== 0 && show && <ShowTable flights={flights} userid={userid} />}
     </>
   );
 }

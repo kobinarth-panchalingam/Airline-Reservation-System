@@ -12,6 +12,8 @@ import { currentDate } from "./searchFlights";
 import auth from "../utils/auth";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Booking() {
   const navigate = useNavigate();
@@ -166,6 +168,16 @@ function Booking() {
     }).then((response) => {
       console.log("pId", response.data);
       setShow3(true);
+      toast.warn("🦄 Wow so easy!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     });
 
     Axios.post("http://localhost:4000/booking/book", {
