@@ -1,5 +1,6 @@
 import React from "react";
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -36,38 +37,35 @@ export default function Footer() {
           <MDBRow className="mt-3">
             <MDBCol md="3" lg="4" xl="3" className="mx-auto mb-4">
               <h6 className="text-uppercase fw-bold mb-4">
-                <MDBIcon color="secondary" icon="gem" className="me-3" />
-                Company name
+                <MDBIcon color="secondary" icon="gem" className="me-3" />B Air Ways
               </h6>
-              <p>Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+              <p>To trave is to take a journey into yourself</p>
             </MDBCol>
 
             <MDBCol md="2" lg="2" xl="2" className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Products</h6>
+              <h6 className="text-uppercase fw-bold mb-4">Links</h6>
               <p>
-                <a href="#!" className="text-reset">
-                  Angular
+                <a as={Link} to="/aboutUs" className="text-reset">
+                  Flights
                 </a>
               </p>
               <p>
-                <a href="#!" className="text-reset">
-                  React
-                </a>
+                {/* <a href="#!" className="text-reset">
+                  About Us
+                </a> */}
+                <Link to="/aboutUs" className="text-reset">
+                  About Us
+                </Link>
               </p>
               <p>
-                <a href="#!" className="text-reset">
-                  Vue
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Laravel
-                </a>
+                <Link to="/aircraftDetails" className="text-reset">
+                  About Us
+                </Link>
               </p>
             </MDBCol>
 
             <MDBCol md="3" lg="2" xl="2" className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Useful links</h6>
+              <h6 className="text-uppercase fw-bold mb-4"> More</h6>
               <p>
                 <a href="#!" className="text-reset">
                   Pricing
@@ -78,11 +76,7 @@ export default function Footer() {
                   Settings
                 </a>
               </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Orders
-                </a>
-              </p>
+
               <p>
                 <a href="#!" className="text-reset">
                   Help
@@ -94,7 +88,7 @@ export default function Footer() {
               <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
               <p>
                 <MDBIcon color="secondary" icon="home" className="me-2" />
-                New York, NY 10012, US
+                Sri Lanka, Moratuwa
               </p>
               <p>
                 <MDBIcon color="secondary" icon="envelope" className="me-3" />
@@ -112,9 +106,9 @@ export default function Footer() {
       </section>
 
       <div className="text-center p-4" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}>
-        © 2021 Copyright:
+        © 2023 Copyright:
         <a className="text-reset fw-bold" href="https://mdbootstrap.com/">
-          MDBootstrap.com
+          BAirWays.com
         </a>
       </div>
     </MDBFooter>

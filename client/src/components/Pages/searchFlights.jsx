@@ -45,7 +45,7 @@ function SearchFlights({ userid }) {
 
   return (
     <>
-      <Container className="rounded rounded-5 border border-5 border-secondary  my-5">
+      <Container className="rounded rounded-5 bg-secondary bg-gradient border-secondary  my-5 hover-shadow">
         <Row>
           <Form.Group as={Col} controlId="formGridState">
             <Form.Label>Origin</Form.Label>

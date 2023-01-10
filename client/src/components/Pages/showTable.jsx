@@ -7,23 +7,15 @@ import axios from "axios";
 import auth from "../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Slide, Zoom, Flip, Bounce } from "react-toastify";
 
 function ShowTable({ flights, userid }) {
   console.log(userid == null);
-  const notify = () => toast("Wow so easy!");
+  const notify = () => toast.info("You need to sign up first");
   const navigate = useNavigate();
   const handleBookMe = (id) => {
     if (userid == null) {
-      toast.warn("You need to sign up first", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      notify();
       // navigate("/signup");
     } else {
       navigate(`/booking/${userid}/${id}`);
@@ -31,9 +23,24 @@ function ShowTable({ flights, userid }) {
   };
 
   return (
-    <div className="container table-responsive">
-      <ToastContainer />;
-      <table className="table  table-bordered table-striped table-hover">
+    <div className="container table-responsive ">
+      {/* <ToastContainer /> */}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Flip}
+      />
+
+      <table className="table  table-bordered table-striped table-hover hover-shadow">
         <thead className=" table-light">
           <tr>
             <th className="text-center">Flight ID</th>
