@@ -5,40 +5,58 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "../styles/viewFlights.css";
 import NavBar from "./navbar";
-import ShowTable from "./showTable";
 import axios from "axios";
 import auth from "../utils/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Flip } from "react-toastify";
+import { Button, EditableText, InputGroup, Toaster, Position } from "@blueprintjs/core";
+import { EditText, EditTextarea } from "react-edit-text";
+import "react-edit-text/dist/index.css";
+
 function ViewFlights() {
   const [flights, setflights] = useState([]);
   const [status, setStatus] = useState(1);
-  const navigate = useNavigate();
+  const [change, setChange] = useState(0);
 
-  const handleBookMe = (id) => {
-    navigate("/booking/" + id);
-    console.log("/booking/" + id);
-  };
+  const handleBookMe = (id) => {};
 
   const handleAction = (flight_id) => {
     console.log(status);
-    axios.put(`http://localhost:4000/flight/flightStatus/update/${flight_id}`, { status: status }).then((response) => {
-      toast.success("status changed");
+    axios.put(`http://localhost:4000/admin/flightStatus/update/${flight_id}`, { status: status }).then((response) => {
+      toast.success("flight status changed");
+      setChange(change + 1);
     });
   };
   useEffect(() => {
-    Axios.get("http://localhost:4000/flight/flights").then((response) => {
-      const { data } = response;
-      setflights(data);
+    Axios.get("http://localhost:4000/admin/flights").then((response) => {
+      setflights(response.data);
     });
-  }, []);
+  }, [change]);
+
+  const handleDeparture = (flight_id, event) => {
+    axios.put(`http://localhost:4000/admin/departureTime/update/${flight_id}`, { departure_time: event.value }).then((response) => {
+      if (response.data == "1") {
+        toast.success("departure time changed");
+      }
+      setChange(change + 1);
+    });
+  };
+
+  const handleArival = (flight_id, event) => {
+    axios.put(`http://localhost:4000/admin/arrivalTime/update/${flight_id}`, { arrival_time: event.value }).then((response) => {
+      if (response.data == "1") {
+        toast.success("arrival time changed");
+      }
+      setChange(change + 1);
+    });
+  };
 
   return (
     auth.isAuthenticated() && (
       <>
         <ToastContainer
           position="top-center"
-          autoClose={3000}
+          autoClose={2000}
           limit={1}
           hideProgressBar={false}
           newestOnTop={false}
@@ -61,19 +79,44 @@ function ViewFlights() {
                 <th className="text-center">Destination</th>
                 <th className="text-center">Departure Time</th>
                 <th className="text-center">Arival Time</th>
+                <th className="text-center">Status</th>
                 <th className="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
               {flights.map((flight) => {
-                const { flight_id, origin, destination, departure_time, arrival_time } = flight;
+                const { flight_id, origin, destination, departure_time, arrival_time, status } = flight;
                 return (
                   <tr key={flight_id}>
                     <td className="text-center">{flight_id}</td>
                     <td className="text-center">{origin}</td>
                     <td className="text-center">{destination}</td>
-                    <td className="text-center">{departure_time}</td>
-                    <td className="text-center">{arrival_time}</td>
+
+                    <td>
+                      <EditText
+                        name="departure_time"
+                        defaultValue={departure_time}
+                        style={{ fontSize: "16px" }}
+                        onSave={(event) => {
+                          handleDeparture(flight_id, event);
+                        }}
+                        placeholder="This is a uncontrolled component"
+                        showEditButton
+                      />
+                    </td>
+                    <td>
+                      <EditText
+                        name="departure_time"
+                        defaultValue={arrival_time}
+                        style={{ fontSize: "16px" }}
+                        onSave={(event) => {
+                          handleArival(flight_id, event);
+                        }}
+                        placeholder="This is a uncontrolled component"
+                        showEditButton
+                      />
+                    </td>
+                    <td className="text-center">{status}</td>
                     <td className="text-center">
                       <Form>
                         <Form.Select onChange={(e) => setStatus(e.target.value)}>
@@ -81,7 +124,7 @@ function ViewFlights() {
                           <option value={2}>Delayed</option>
                           <option value={3}>Departed</option>
                           <option value={4}>In Air</option>
-                          <option value={5}>Diverted</option>
+                          <option value={5}>Landed</option>
                           <option value={6}>Cancelled</option>
                         </Form.Select>
 

@@ -5,6 +5,7 @@ import login from "./login.js";
 import signup from "./signup.js";
 import booking from "./booking.js";
 import flights from "./flights.js";
+import admin from "./admin.js";
 const app = express();
 import db from "./dbconfig.js";
 app.use(cors());
@@ -14,6 +15,7 @@ app.use("/login", login);
 app.use("/signup", signup);
 app.use("/booking", booking);
 app.use("/flight", flights);
+app.use("/admin", admin);
 
 app
   .listen(4000, () => {

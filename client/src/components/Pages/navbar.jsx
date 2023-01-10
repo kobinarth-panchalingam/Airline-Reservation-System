@@ -3,8 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import "../styles/navbar.css";
-import auth from "../utils/auth";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -17,8 +16,6 @@ function NavBar() {
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser[0]);
-      // console.log(user.user_id);
-      // navigate("/" + foundUser[0].user_id);
     } else if (loggedInAdmin) {
       const foundAdmin = JSON.parse(loggedInAdmin);
       setAdmin(foundAdmin[0]);
@@ -33,7 +30,7 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to={"/" + user.user_id}>
+            <Nav.Link as={Link} to={"/"}>
               Home
             </Nav.Link>
             {admin && (
