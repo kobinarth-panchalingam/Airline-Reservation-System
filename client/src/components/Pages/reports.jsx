@@ -24,7 +24,7 @@ function Reports() {
   const [newDestination, setNewDestination] = useState("");
 
   useEffect(() => {
-    Axios.get("http://localhost:4000/origins").then((response) => {
+    Axios.get("http://localhost:4000/flight/origins").then((response) => {
       const { data } = response;
       setOrigins(data);
       console.log(data.result);

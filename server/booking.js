@@ -3,6 +3,7 @@ import express from "express";
 import util from "util";
 var router = express.Router();
 import { v4 as uuidv4 } from "uuid";
+import { Console } from "console";
 
 router.get("/flightDetails/:id", (req, res) => {
   const { id } = req.params;
@@ -66,25 +67,13 @@ router.post("/passenger", (req, res) => {
     const sqlInsert = "insert into passenger(passenger_name, passport_number, dob ) values (?,?,?)";
     db.query(sqlInsert, [passengerName[i], passengerPassports[i], passengerDob[i]], (err, result) => {
       if (err) {
-        console.log(err);
-        res.send(result);
+        console.log("ALREADY ENTERED");
       } else {
-        res.send(result);
+        console.log("Success");
       }
     });
   }
-  // const x = passports.length;
-  // for (var i = 0; i < 5 - x; i++) {
-  //   passports.push("0");
-  // }
-  // const sqlGet = "select passenger_id from passengers where passport_number in (?,?,?,?,?)";
-  // db.query(sqlGet, passports, (err, result) => {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     res.send(result);
-  //   }
-  // });
+  res.send("succesS");
 });
 
 router.get("/discount/:id", (req, res) => {
@@ -111,18 +100,6 @@ router.post("/book", (req, res) => {
       console.log(err);
     } else {
       res.send(uuid);
-    }
-  });
-});
-
-router.get("/bookingID/:id", (req, res) => {
-  const { id } = req.params;
-  const getBookingId = "select max(booking_id) as booking_id from booking where user_id= ?";
-  db.query(getBookingId, [id], (err, result) => {
-    if (err) {
-      console.log("error");
-    } else {
-      res.send(result[0]);
     }
   });
 });

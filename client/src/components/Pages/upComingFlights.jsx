@@ -11,6 +11,7 @@ import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import NavBar from "./navbar";
 import { useParams } from "react-router-dom";
+import FlightGrid from "./flightGrid";
 const date = new Date();
 const futureDate = date.getDate();
 date.setDate(futureDate);
@@ -88,7 +89,7 @@ function UpComingFlights() {
           </Form.Group>
         </Row>
         <Row className="mt-3">
-          <Button variant="warning" onClick={showFlights}>
+          <Button variant="primary" onClick={showFlights}>
             Show Flights
           </Button>
         </Row>
@@ -100,6 +101,7 @@ function UpComingFlights() {
       ) : (
         <ShowTable flights={flights} userid={user.user_id} />
       )}
+      <FlightGrid userid={user.user_id} />
     </>
   );
 }

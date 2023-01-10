@@ -5,14 +5,26 @@ import "../styles/viewFlights.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import auth from "../utils/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ShowTable({ flights, userid }) {
   console.log(userid == null);
+  const notify = () => toast("Wow so easy!");
   const navigate = useNavigate();
   const handleBookMe = (id) => {
     if (userid == null) {
-      alert("first register yourself");
-      navigate("/signup");
+      toast.warn("You need to sign up first", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      // navigate("/signup");
     } else {
       navigate(`/booking/${userid}/${id}`);
     }
@@ -20,6 +32,7 @@ function ShowTable({ flights, userid }) {
 
   return (
     <div className="container table-responsive">
+      <ToastContainer />;
       <table className="table  table-bordered table-striped table-hover">
         <thead className=" table-light">
           <tr>

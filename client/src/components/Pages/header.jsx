@@ -24,11 +24,10 @@ function Header() {
 
   return (
     <header>
-      <NavBar />
       <div
         className="p-5 text-center bg-image"
         style={{
-          backgroundImage: "url('https://mdbootstrap.com/img/new/slides/041.webp')",
+          backgroundImage: "url('https://img.etimg.com/thumb/msid-78939167,width-1200,height-900,imgsize-916228,resizemode-8/jet-airways.jpg')",
           height: "400px",
         }}
       >
