@@ -14,13 +14,12 @@ export default function FlightGrid({ userid }) {
   useEffect(() => {
     axios.get("http://localhost:4000/flight/getFlights").then((response) => {
       setData(response.data);
-      // console.log(response.data);
     });
   }, []);
 
   const handleBookMe = (id) => {
     if (userid == null) {
-      toast.info("You need to sign up first");
+      toast.info("You need to sign up first as a registered  user");
       // navigate("/signup");
     } else {
       navigate(`/booking/${userid}/${id}`);

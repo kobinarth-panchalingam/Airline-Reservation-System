@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import SignIn from "./components/Pages/signin";
 import SignUp from "./components/Pages/signup";
 import Home from "./components/Pages/home";
-import ProtectedRoutes from "./components/utils/protectedRoutes";
+import { ProtectedRoutes, ProtectedRoutes2 } from "./components/utils/protectedRoutes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ViewFlights from "./components/Pages/editFlights";
 import Booking from "./components/Pages/booking";
@@ -12,26 +12,39 @@ import Aboutus from "./components/Pages/aboutUs";
 import UpComingFlights from "./components/Pages/upComingFlights";
 import AircraftDetails from "./components/Pages/aircraftDetails";
 import CheckOut from "./components/Pages/checkOut";
+import { useEffect, useState } from "react";
 function App() {
+  const [user, setUser] = useState();
+  const [admin, setAdmin] = useState();
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    const loggedInAdmin = localStorage.getItem("admin");
+
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+    } else if (loggedInAdmin) {
+      const foundAdmin = JSON.parse(loggedInAdmin);
+      setAdmin(foundAdmin);
+    }
+  }, []);
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route exact path="/login" element={<SignIn />} />
-        {/* <Route element={<ProtectedRoutes />}>
-          <Route path="/home" element={<Home />} />
-        </Route> */}
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/viewFlights" element={<ViewFlights />} />
+        </Route>
+        <Route element={<ProtectedRoutes2 />}>
+          <Route path="/checkOut/:booking_id" element={<CheckOut />} />
+          <Route path="/booking/:userid/:id" element={<Booking />} />
+        </Route>
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/viewFlights" element={<ViewFlights />} />
-        {/* <Route path="/booking/:id" element={<Booking />} /> */}
-        <Route path="/reports" element={<Reports />} />
         <Route path="/aboutUs" element={<Aboutus />} />
         <Route path="/upComingFlights" element={<UpComingFlights />} />
-        {/* <Route path="/upComingFlights/:userid" element={<UpComingFlights />} /> */}
         <Route path="/aircraftDetails" element={<AircraftDetails />} />
-        <Route path="/checkOut/:booking_id" element={<CheckOut />} />
-        {/* <Route path="/:userid/" element={<Home />} /> */}
-        <Route path="/booking/:userid/:id" element={<Booking />} />
       </Routes>
     </BrowserRouter>
   );
