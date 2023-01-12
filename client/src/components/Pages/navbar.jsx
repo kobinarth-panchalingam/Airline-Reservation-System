@@ -34,7 +34,7 @@ function NavBar() {
               Home
             </Nav.Link>
 
-            <Nav.Link as={Link} to={"/upComingFlights"}>
+            <Nav.Link as={Link} to={"/serachFlights/" + user.user_id}>
               Flights
             </Nav.Link>
             {admin && (

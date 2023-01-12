@@ -13,6 +13,7 @@ import UpComingFlights from "./components/Pages/upComingFlights";
 import AircraftDetails from "./components/Pages/aircraftDetails";
 import CheckOut from "./components/Pages/checkOut";
 import { useEffect, useState } from "react";
+import { SearchFlights } from "./components/Pages/searchFlights";
 function App() {
   const [user, setUser] = useState();
   const [admin, setAdmin] = useState();
@@ -43,7 +44,7 @@ function App() {
         </Route>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/aboutUs" element={<Aboutus />} />
-        <Route path="/upComingFlights" element={<UpComingFlights />} />
+        <Route path="/serachFlights/:id" element={<SearchFlights />} />
         <Route path="/aircraftDetails" element={<AircraftDetails />} />
       </Routes>
     </BrowserRouter>

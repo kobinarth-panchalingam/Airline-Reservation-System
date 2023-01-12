@@ -10,10 +10,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { Slide, Zoom, Flip, Bounce } from "react-toastify";
 
 function ShowTable({ flights, userid }) {
-  const notify = () => toast.info("You need to sign up first");
+  const notify = () => toast.info("You need to sign up first as a registered user");
   const navigate = useNavigate();
   const handleBookMe = (id) => {
-    if (userid == null) {
+    if (userid == null || userid == "undefined") {
       notify();
     } else {
       navigate(`/booking/${userid}/${id}`);
