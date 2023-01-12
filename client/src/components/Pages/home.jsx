@@ -9,6 +9,7 @@ import NavBar from "./navbar";
 import FlightGrid from "./flightGrid";
 import { useState } from "react";
 import { useEffect } from "react";
+import UpComingFlights from "./upComingFlights";
 function Home() {
   const [user, setUser] = useState(false);
   const [admin, setAdmin] = useState(false);
@@ -28,7 +29,8 @@ function Home() {
     <div className="home">
       <NavBar />
       <Header userid={user.user_id} />
-      <SearchFlights userid={user.user_id} />
+      <UpComingFlights />
+      {/* <SearchFlights userid={user.user_id} /> */}
       <FlightGrid userid={user.user_id} />
       <Footer />
     </div>

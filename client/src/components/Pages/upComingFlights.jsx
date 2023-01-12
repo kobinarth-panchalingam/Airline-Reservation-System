@@ -52,7 +52,6 @@ function UpComingFlights() {
 
   return (
     <>
-      <NavBar />
       <Container className="rounded rounded-5 bg-gradient bg-secondary border-secondary  my-5">
         <Row>
           <Form.Group as={Col} controlId="formGridState">
@@ -101,7 +100,6 @@ function UpComingFlights() {
       ) : (
         <ShowTable flights={flights} userid={user.user_id} />
       )}
-      <FlightGrid userid={user.user_id} />
     </>
   );
 }

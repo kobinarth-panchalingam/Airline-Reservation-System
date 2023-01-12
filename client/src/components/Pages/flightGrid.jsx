@@ -48,10 +48,13 @@ export default function FlightGrid({ userid }) {
               <MDBCard className="h-100 hover-shadow ">
                 <MDBCardImage src={flight.image_url} height="250" alt="..." position="top" />
                 <MDBCardBody>
-                  <MDBCardTitle>
-                    {flight.origin} &nbsp;
-                    <i className="bi bi-arrow-left-right"></i> &nbsp;
-                    {flight.destination}
+                  <MDBCardTitle className="row">
+                    <div class="col-8 mb-2">
+                      {flight.origin} &nbsp;
+                      <i className="bi bi-arrow-left-right"></i> &nbsp;
+                      {flight.destination}
+                    </div>
+                    <div className="col-4">{flight.flight_time}</div>
                     <hr />
                   </MDBCardTitle>
 
