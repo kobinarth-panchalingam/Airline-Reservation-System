@@ -3,6 +3,9 @@ import Axios from "axios";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Slide, Zoom, Flip, Bounce } from "react-toastify";
 import {
   MDBContainer,
   MDBTabs,
@@ -59,17 +62,32 @@ function SignUp() {
       dob: signUpInfo.dob,
       nic: signUpInfo.nic,
     }).then((response) => {
-      if (response === "0") {
-        alert("Unscusseful Registration");
+      if (response.data != "1") {
+        toast.error(response.data.sqlMessage);
       } else {
-        alert("Success");
-        navigate("/login");
+        toast.success("Successfully registered");
+        evt.target.reset();
       }
+      console.log(response);
     });
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Flip}
+      />
       <MDBContainer className="p-3 my-5 d-flex flex-column col-md-8 col-lg-6 ">
         <MDBTypography tag="div" className="display-6 text-center mb-4 text-primary">
           Airline Reservation Sysytem

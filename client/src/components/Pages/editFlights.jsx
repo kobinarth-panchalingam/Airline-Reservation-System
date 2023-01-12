@@ -76,8 +76,8 @@ function ViewFlights() {
               <th className="text-center">Flight ID</th>
               <th className="text-center">Origin</th>
               <th className="text-center">Destination</th>
-              <th className="text-center">Departure Time</th>
-              <th className="text-center">Arival Time</th>
+              <th className="text-center">Departure Time - UTC</th>
+              <th className="text-center">Arival Time - UTC</th>
               <th className="text-center">Status</th>
               <th className="text-center">Action</th>
             </tr>

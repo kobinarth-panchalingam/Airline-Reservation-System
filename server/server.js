@@ -8,6 +8,11 @@ import flights from "./flights.js";
 import admin from "./admin.js";
 const app = express();
 import db from "./dbconfig.js";
+var offset = new Date().getTimezoneOffset();
+var sign = offset < 0 ? "+" : "-";
+var offsetInHours = Math.abs(offset / 60);
+export var offsetWithColon = `${sign}${Math.floor(offsetInHours)}:${Math.abs(offset % 60)}`;
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));

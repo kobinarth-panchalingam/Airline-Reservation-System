@@ -13,16 +13,17 @@ import UpComingFlights from "./upComingFlights";
 function Home() {
   const [user, setUser] = useState(false);
   const [admin, setAdmin] = useState(false);
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     const loggedInAdmin = localStorage.getItem("admin");
+    console.log(timeZone);
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser[0]);
     } else if (loggedInAdmin) {
       const foundAdmin = JSON.parse(loggedInAdmin);
       setAdmin(foundAdmin[0]);
-      console.log(foundAdmin[0].name);
     }
   }, []);
   return (

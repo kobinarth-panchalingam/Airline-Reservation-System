@@ -10,6 +10,7 @@ import { useEffect } from "react";
 function NavBar() {
   const [user, setUser] = useState(false);
   const [admin, setAdmin] = useState(false);
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     const loggedInAdmin = localStorage.getItem("admin");
@@ -22,7 +23,11 @@ function NavBar() {
       console.log(foundAdmin[0].name);
     }
   }, []);
-
+  var offset = new Date().getTimezoneOffset();
+  var sign = offset < 0 ? "+" : "-";
+  var offsetInHours = Math.abs(offset / 60);
+  var offsetWithColon = `${sign}${Math.floor(offsetInHours)}:${Math.abs(offset % 60)}`;
+  console.log(offsetWithColon);
   return (
     <Navbar sticky="top" bg="light" expand="lg">
       <Container>
@@ -59,6 +64,7 @@ function NavBar() {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
+        <Nav.Link>{timeZone}</Nav.Link>
         {(user || admin) && (
           <Nav.Link
             onClick={() => {

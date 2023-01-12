@@ -105,7 +105,7 @@ function CheckOut() {
             <h3 className="text-center">Have a safe journey</h3>
             <hr />
           </Alert>
-          <div class="col text-center">
+          <div className="col text-center">
             {!show && (
               <button onClick={handlePayment} className="btn btn-primary btn-lg ">
                 Pay Now
