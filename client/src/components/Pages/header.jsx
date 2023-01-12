@@ -38,7 +38,7 @@ function Header() {
               {!admin && <h4 className="mb-3">{user.first_name + " " + user.last_name} </h4>}
               {admin && <h4 className="mb-3">Admin {admin.name}</h4>}
               <button className="btn btn-outline-light btn-lg">
-                <Link style={{ color: "white" }} to={"/upComingFlights"}>
+                <Link style={{ color: "white" }} to="/upComingFlights">
                   BOOK
                 </Link>
               </button>

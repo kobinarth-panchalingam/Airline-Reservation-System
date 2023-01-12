@@ -3,6 +3,7 @@ import Axios from "axios";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import auth from "../utils/auth";
+import { ToastContainer, toast, Flip } from "react-toastify";
 import {
   MDBContainer,
   MDBTabs,
@@ -64,10 +65,10 @@ function SignIn() {
           password: loginInfo.password,
         }).then((response) => {
           if (response.data.msg) {
-            alert("Incorrect username and password");
+            toast.error("Incorrect username and password");
           } else {
             setAdmin(response.data);
-            // store the us er in localStorage
+            // store the user in localStorage
             localStorage.setItem("admin", JSON.stringify(response.data));
             auth.adminLogin();
             navigate("/");
@@ -78,12 +79,13 @@ function SignIn() {
           email: loginInfo.email,
           password: loginInfo.password,
         }).then((response) => {
-          setUser(response.data);
-          // store the user in localStorage
-          localStorage.setItem("user", JSON.stringify(response.data));
           if (response.data.msg) {
-            alert("Incorrect username and password");
+            // alert("Incorrect username and password");
+            toast.error("Incorrect username and password");
           } else {
+            setUser(response.data);
+            // store the user in localStorage
+            localStorage.setItem("user", JSON.stringify(response.data));
             auth.userLogin(response.data[0]);
             navigate("/");
           }
@@ -94,6 +96,20 @@ function SignIn() {
 
   return (
     <React.Fragment>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Flip}
+      />
       <form onSubmit={handleSubmit}>
         <MDBContainer className="p-3 mt-5 d-flex flex-column col-md-8 col-lg-6">
           <MDBTypography tag="div" className="display-6 text-center mb-4 text-primary">

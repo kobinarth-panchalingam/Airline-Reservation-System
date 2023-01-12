@@ -33,15 +33,15 @@ function NavBar() {
             <Nav.Link as={Link} to={"/"}>
               Home
             </Nav.Link>
+
+            <Nav.Link as={Link} to={"/upComingFlights"}>
+              Flights
+            </Nav.Link>
             {admin && (
               <Nav.Link as={Link} to="/viewFlights">
                 Edit Flights
               </Nav.Link>
             )}
-            <Nav.Link as={Link} to={"/upComingFlights"}>
-              Flights
-            </Nav.Link>
-
             {admin && (
               <Nav.Link as={Link} to="/reports">
                 Reports
