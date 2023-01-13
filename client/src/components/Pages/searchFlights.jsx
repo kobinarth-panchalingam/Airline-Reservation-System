@@ -114,7 +114,7 @@ function SearchFlights() {
       )}
 
       {flights.length !== 0 && show && <ShowTable flights={flights} userid={id} />}
-      <FlightGrid />
+      <FlightGrid userid={id} />
     </>
   );
 }

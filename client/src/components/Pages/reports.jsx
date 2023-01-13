@@ -111,7 +111,7 @@ function Reports() {
                     <tr key={model_name}>
                       <td className="text-center">{model_name}</td>
                       <td className="text-center">{variant}</td>
-                      <td className="text-center">{total_revenue}</td>
+                      <td className="text-center">$ {total_revenue}</td>
                     </tr>
                   );
                 })}
