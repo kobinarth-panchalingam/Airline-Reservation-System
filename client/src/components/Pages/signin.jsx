@@ -28,12 +28,12 @@ function SignIn() {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
       console.log(foundUser[0].user_id);
-      navigate("/" + foundUser[0].user_id);
+      navigate("/");
     } else if (loggedInAdmin) {
       const foundAdmin = JSON.parse(loggedInAdmin);
       setAdmin(foundAdmin);
       console.log(foundAdmin[0].user_id);
-      navigate("/" + foundAdmin[0].user_id);
+      navigate("/");
     }
   }, []);
   const navigate = useNavigate();
