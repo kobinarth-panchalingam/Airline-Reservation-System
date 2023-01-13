@@ -34,10 +34,9 @@ function UpComingFlights() {
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser[0]);
-      // console.log(user.user_id);
-      // navigate("/" + foundUser[0].user_id);
     }
   }, []);
+
   console.log(user.user_id);
   const showFlights = () => {
     const origin = newOrigin.slice(0, 3);
