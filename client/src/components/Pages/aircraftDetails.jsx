@@ -18,7 +18,7 @@ import NavBar from "./navbar";
 export default function AircraftDetails() {
   return (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
       <MDBCarousel showIndicators showControls fade>
         <MDBCarouselItem className="w-100 d-block" itemId={1} src={require("../images/flight_for_Details.jpg")} alt="...">
           <h1>AircraftDetails</h1>
@@ -70,7 +70,9 @@ export default function AircraftDetails() {
                     <b>Manufacturer: </b>Boeing Commercial
                   </li>
                 </MDBCardText>
-                <MDBBtn href="https://en.wikipedia.org/wiki/Boeing_737">Learn more...</MDBBtn>
+                <MDBBtn href="https://en.wikipedia.org/wiki/Boeing_737" target="new">
+                  Learn more...
+                </MDBBtn>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
@@ -106,7 +108,9 @@ export default function AircraftDetails() {
                     <b>Manufacturer: </b>Boeing Commercial
                   </li>
                 </MDBCardText>
-                <MDBBtn href="https://en.wikipedia.org/wiki/Boeing_757">Learn more...</MDBBtn>
+                <MDBBtn href="https://en.wikipedia.org/wiki/Boeing_757" target="new">
+                  Learn more...
+                </MDBBtn>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
@@ -143,7 +147,9 @@ export default function AircraftDetails() {
                     <b>Manufacturer: </b>Airbus
                   </li>
                 </MDBCardText>
-                <MDBBtn href="https://en.wikipedia.org/wiki/Airbus_A380">Learn more...</MDBBtn>
+                <MDBBtn href="https://en.wikipedia.org/wiki/Airbus_A380" target="new">
+                  Learn more...
+                </MDBBtn>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>

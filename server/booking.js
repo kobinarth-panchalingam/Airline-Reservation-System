@@ -33,18 +33,18 @@ router.post("/seats", (req, res) => {
 
 router.post("/ticket", (req, res) => {
   const { ticketInfo, passengerPassports, passengerSeats } = req.body;
+  const seatNos = passengerSeats.join(",");
+  const passportNumbers = Object.values(passengerPassports).join(",");
 
-  for (var i = 0; i < ticketInfo.noOfPassengers; i++) {
-    const sqlInsert = "insert into ticket(seat_no, passport_number, booking_id) values (?,?,?)";
-    db.query(sqlInsert, [passengerSeats[i], passengerPassports[i], ticketInfo.bookingID], (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("ticket entered   ");
-      }
-    });
-  }
-  res.send("1");
+  const sqlInsert = "call generate_ticket (?,?,?,?)";
+  db.query(sqlInsert, [ticketInfo.bookingID, seatNos, passportNumbers, ticketInfo.noOfPassengers], (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      console.log("ticket entered   ");
+      res.send("1");
+    }
+  });
 });
 
 router.post("/passenger", (req, res) => {

@@ -11,7 +11,7 @@ h1 {
   /* width: 50px;
   height: 50px; */
   padding: 5px 5px;
-  border: 2px solid orange;
+  border: 2px solid rgb(171, 182, 227);
   text-align: center;
   /* float: left; */
   /* margin: 5px; */
@@ -27,7 +27,7 @@ h1 {
 }
 
 .reserved .seat {
-  background: orange;
+  background: rgb(62, 131, 209);
   color: #fff;
   /* display: inline-block; */
 }

@@ -1,0 +1,3 @@
+
+cd client
+npm start
