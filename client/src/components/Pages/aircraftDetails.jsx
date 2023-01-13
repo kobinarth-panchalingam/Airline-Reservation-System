@@ -14,11 +14,12 @@ import {
   MDBCarouselItem,
 } from "mdb-react-ui-kit";
 import NavBar from "./navbar";
+import Footer from "./footer";
 
 export default function AircraftDetails() {
   return (
     <>
-      {/* <NavBar /> */}
+      <NavBar />
       <MDBCarousel showIndicators showControls fade>
         <MDBCarouselItem className="w-100 d-block" itemId={1} src={require("../images/flight_for_Details.jpg")} alt="...">
           <h1>AircraftDetails</h1>
@@ -155,6 +156,7 @@ export default function AircraftDetails() {
           </MDBCol>
         </MDBRow>
       </MDBContainer>
+      <Footer />
     </>
   );
 }

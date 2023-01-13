@@ -32,9 +32,8 @@ function Home() {
       <NavBar />
       <Header userid={user.user_id} />
       <UpComingFlights />
-      {/* <SearchFlights userid={user.user_id} /> */}
       <FlightGrid userid={user.user_id} />
-      <AircraftDetails />
+      {/* <AircraftDetails /> */}
       <Footer />
     </div>
   );

@@ -1,7 +1,7 @@
 import db from "./dbconfig.js";
 import express from "express";
 var router = express.Router();
-
+//to get flight details in UTC time
 router.get("/flights", (req, res) => {
   const sqlGet =
     "select s.flight_id, s.airplane_id, s.origin, s.destination, DATE_FORMAT(s.departure_time , '%Y-%m-%d %k:%i:%s') as departure_time, DATE_FORMAT(s.arrival_time , '%Y-%m-%d %k:%i:%s') as arrival_time, s.economy_fare, s.business_fare, s.platinum_fare, s.status from shedule s order by s.flight_id";
@@ -11,6 +11,7 @@ router.get("/flights", (req, res) => {
   });
 });
 
+//to update flight status
 router.put("/flightStatus/update/:id", (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
@@ -21,6 +22,7 @@ router.put("/flightStatus/update/:id", (req, res) => {
   });
 });
 
+//to update departure time
 router.put("/departureTime/update/:id", (req, res) => {
   const { id } = req.params;
   const { departure_time } = req.body;
@@ -31,6 +33,7 @@ router.put("/departureTime/update/:id", (req, res) => {
   });
 });
 
+//to update arrival time
 router.put("/arrivalTime/update/:id", (req, res) => {
   const { id } = req.params;
   const { arrival_time } = req.body;

@@ -90,7 +90,7 @@ function SignUp() {
       />
       <MDBContainer className="p-3 my-5 d-flex flex-column col-md-8 col-lg-6 ">
         <MDBTypography tag="div" className="display-6 text-center mb-4 text-primary">
-          Airline Reservation Sysytem
+          B Airways Reservation System
         </MDBTypography>
         <MDBTabs pills justify className="mb-3 d-flex flex-row justify-content-between">
           <MDBTabsItem>

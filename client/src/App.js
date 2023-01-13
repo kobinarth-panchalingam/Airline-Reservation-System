@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import SignIn from "./components/Pages/signin";
 import SignUp from "./components/Pages/signup";
 import Home from "./components/Pages/home";
-import { ProtectedRoutes, ProtectedRoutes2 } from "./components/utils/protectedRoutes";
+import { ProtectedRoutesAdmin, ProtectedRoutesUser } from "./components/utils/protectedRoutes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ViewFlights from "./components/Pages/editFlights";
 import Booking from "./components/Pages/booking";
@@ -34,11 +34,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route exact path="/login" element={<SignIn />} />
-        <Route element={<ProtectedRoutes />}>
+        <Route element={<ProtectedRoutesAdmin />}>
           <Route path="/reports" element={<Reports />} />
           <Route path="/viewFlights" element={<ViewFlights />} />
         </Route>
-        <Route element={<ProtectedRoutes2 />}>
+        <Route element={<ProtectedRoutesUser />}>
           <Route path="/checkOut/:booking_id" element={<CheckOut />} />
           <Route path="/booking/:userid/:id" element={<Booking />} />
         </Route>

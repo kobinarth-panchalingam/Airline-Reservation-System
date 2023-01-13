@@ -18,7 +18,11 @@ function ViewFlights() {
   const [status, setStatus] = useState(1);
   const [change, setChange] = useState(0);
 
-  const handleBookMe = (id) => {};
+  useEffect(() => {
+    Axios.get("http://localhost:4000/admin/flights").then((response) => {
+      setflights(response.data);
+    });
+  }, [change]);
 
   const handleAction = (flight_id) => {
     console.log(status);
@@ -27,11 +31,6 @@ function ViewFlights() {
       setChange(change + 1);
     });
   };
-  useEffect(() => {
-    Axios.get("http://localhost:4000/admin/flights").then((response) => {
-      setflights(response.data);
-    });
-  }, [change]);
 
   const handleDeparture = (flight_id, event) => {
     axios.put(`http://localhost:4000/admin/departureTime/update/${flight_id}`, { departure_time: event.value }).then((response) => {
