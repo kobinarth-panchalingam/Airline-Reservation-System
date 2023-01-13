@@ -11,6 +11,14 @@ router.get("/origins", (req, res) => {
   });
 });
 
+router.get("/routes", (req, res) => {
+  const sqlGet = "select route.route_id, concat( route.route_id,' | ', route.origin, ' - ', route.destination) as route from route";
+  db.query(sqlGet, (err, result) => {
+    if (err) res.send({ err: err });
+    else res.send(result);
+  });
+});
+
 router.get("/flights", (req, res) => {
   const sqlGet =
     "select s.flight_id, s.airplane_id, s.origin, s.destination, DATE_FORMAT(s.departure_time , '%Y-%m-%d | %h:%i:%p') as departure_time, DATE_FORMAT(s.arrival_time , '%Y-%m-%d | %h:%i %p') as arrival_time, s.economy_fare, s.business_fare, s.platinum_fare, s.status from shedule s order by s.flight_id";
