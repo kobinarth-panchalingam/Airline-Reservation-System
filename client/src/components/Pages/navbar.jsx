@@ -56,9 +56,9 @@ function NavBar() {
               <NavDropdown.Item as={Link} to="/aboutUs">
                 AboutUs
               </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/aircraftDetails">
+              {/* <NavDropdown.Item as={Link} to="/aircraftDetails">
                 Aircrafts
-              </NavDropdown.Item>
+              </NavDropdown.Item> */}
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
             </NavDropdown>

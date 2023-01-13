@@ -12,12 +12,14 @@ import { currentDate } from "./searchFlights";
 import auth from "../utils/auth";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import { ToastContainer, toast } from "react-toastify";
+import { Flip, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "./footer.jsx";
+import "../styles/booking.css";
 
 function Booking() {
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
+  const [control, setControl] = useState(false);
   const [show2, setShow2] = useState(true);
   const [show3, setShow3] = useState(false);
   const [show4, setShow4] = useState(false);
@@ -132,19 +134,27 @@ function Booking() {
 
         <Col sm="4">
           <Form.Floating>
-            <Form.Control type="text" id={"" + i} name={"passengerName"} onChange={handleChange} required />
+            <Form.Control type="text" id={"" + i} name={"passengerName"} onChange={handleChange} required disabled={control} />
             <label htmlFor={"" + i}>Full Name</label>
           </Form.Floating>
         </Col>
         <Col sm="3">
           <Form.Floating>
-            <Form.Control type="text" id={"" + i} name={"passengerPassport"} onChange={handleChange} required />
+            <Form.Control type="text" id={"" + i} name={"passengerPassport"} onChange={handleChange} required disabled={control} />
             <label htmlFor={"" + i}>Passport</label>
           </Form.Floating>
         </Col>
         <Col sm="3">
           <Form.Floating>
-            <Form.Control type="date" id={"" + i} placeholder="Date of Birth" name={"passengerDob"} onChange={handleChange} required />
+            <Form.Control
+              type="date"
+              id={"" + i}
+              placeholder="Date of Birth"
+              name={"passengerDob"}
+              onChange={handleChange}
+              required
+              disabled={control}
+            />
             <label htmlFor={"" + i}>Date of Birth</label>
           </Form.Floating>
         </Col>
@@ -166,16 +176,9 @@ function Booking() {
     }).then((response) => {
       console.log("pId", response.data);
       setShow3(true);
-      toast.success("Passenger deatails are submitted", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: true,
-        theme: "light",
-      });
+      toast.success("Passenger deatails are submitted");
+      setControl(true);
+      setControlInput(style2);
     });
 
     Axios.post("http://localhost:4000/booking/book", {
@@ -191,24 +194,51 @@ function Booking() {
     });
   };
 
-  const handleCheckOut = () => {
+  const handleCheckOut = (event) => {
     if (passengerSeats.length != ticketInfo.noOfPassengers) {
-      setShow(true);
+      toast.warn("select all seats first");
     } else {
       Axios.post("http://localhost:4000/booking/ticket", {
         ticketInfo: ticketInfo,
         passengerSeats: passengerSeats,
         passengerPassports: passengerPassports,
       }).then((response) => {
-        console.log("ticket finished");
-        navigate("/checkOut/" + ticketInfo.bookingID);
+        console.log(response);
+        if (response.data == "1") {
+          console.log("ticket finished");
+          navigate("/checkOut/" + ticketInfo.bookingID);
+        } else {
+          toast.error(response.data.sqlMessage);
+        }
       });
     }
   };
+
+  const style1 = {
+    "pointer-events": "none",
+    opacity: 0.5,
+  };
+  const style2 = {
+    opacity: 1,
+  };
+  const [controlInput, setControlInput] = useState(style1);
   return (
     <>
       <NavBar />
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Flip}
+      />
       <div className="container">
         <div className="row mt-3 justify-content-between">
           <div className="card col-8 mb-4">
@@ -220,7 +250,14 @@ function Booking() {
                   Class
                 </Form.Label>
                 <Col sm="10">
-                  <Form.Select defaultValue="economy" name="class" onChange={handleChange} aria-label="Default select example" required>
+                  <Form.Select
+                    defaultValue="economy"
+                    name="class"
+                    onChange={handleChange}
+                    aria-label="Default select example"
+                    required
+                    disabled={control}
+                  >
                     {/* <option>Open this select menu</option> */}
                     <option value="platinum" required>
                       Platinum
@@ -240,7 +277,7 @@ function Booking() {
                   No of Passengers
                 </Form.Label>
                 <Col sm="10">
-                  <Form.Select defaultValue="1" name="noOfPassengers" onChange={handleChange} aria-label="Default select example">
+                  <Form.Select defaultValue="1" name="noOfPassengers" onChange={handleChange} aria-label="Default select example" disabled={control}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -253,9 +290,12 @@ function Booking() {
                 return option;
               })}
               {show2 && (
-                <button type="submit" className="btn btn-primary btn-lg btn-block pt-3">
-                  Submit Passenger Details
-                </button>
+                <>
+                  <p className="text-warning">After submitting passenger details you can't change above fields</p>
+                  <button type="submit" className="btn btn-primary btn-lg btn-block pt-3">
+                    Submit Passenger Details
+                  </button>
+                </>
               )}
             </Form>
           </div>
@@ -302,18 +342,8 @@ function Booking() {
                 </li>
               </ul>
             </div>
-            <Alert show={show} variant="success">
-              <Alert.Heading></Alert.Heading>
-              <p>Select ALL seats first</p>
-              <hr />
-              <div className="d-flex justify-content-end">
-                <Button onClick={() => setShow(false)} variant="outline-success">
-                  Ok
-                </Button>
-              </div>
-            </Alert>
             {show3 && show4 && (
-              <button type="submit" onClick={() => handleCheckOut()} className="btn btn-warning btn-lg btn-block">
+              <button type="submit" onClick={(event) => handleCheckOut(event)} className="btn btn-primary btn-lg btn-block">
                 Checkout
               </button>
             )}
@@ -321,55 +351,58 @@ function Booking() {
         </div>
       </div>
 
-      <div className="container mb-3 card">
-        <h3 className="mt-3">Step 2 - Select seats</h3>
-        <hr />
-        {ticketInfo.class === "platinum" && (
-          <div className="row text-center ">
-            <h3 className="col-8">Platinum Class</h3>
+      {true && (
+        <div style={controlInput} className="container mb-3 card">
+          <h3 className="mt-3">Step 2 - Select seats</h3>
+          <hr />
+          {ticketInfo.class === "platinum" && (
+            <div className="row text-center ">
+              <h3 className="col-8">Platinum Class</h3>
 
-            <DrawGrid
-              seats={platinum}
-              seatAvialable={seatAvialablePlatinum}
-              seatReserved={passengerSeats}
-              setSeatAvailable={setSeatAvailablePlatinum}
-              setSeatReserved={setPassengerSeats}
-              seatBooked={platinumBooked}
-              max={ticketInfo.noOfPassengers}
-            />
-          </div>
-        )}
-        {ticketInfo.class === "business" && (
-          <div className="row text-center ">
-            <h3 className="col-8">Business Class</h3>
+              <DrawGrid
+                seats={platinum}
+                seatAvialable={seatAvialablePlatinum}
+                seatReserved={passengerSeats}
+                setSeatAvailable={setSeatAvailablePlatinum}
+                setSeatReserved={setPassengerSeats}
+                seatBooked={platinumBooked}
+                max={ticketInfo.noOfPassengers}
+              />
+            </div>
+          )}
+          {ticketInfo.class === "business" && (
+            <div className="row text-center ">
+              <h3 className="col-8">Business Class</h3>
 
-            <DrawGrid
-              seats={business}
-              seatAvialable={seatAvialableBusiness}
-              seatReserved={passengerSeats}
-              setSeatAvailable={setSeatAvailableBusiness}
-              setSeatReserved={setPassengerSeats}
-              seatBooked={businessBooked}
-              max={ticketInfo.noOfPassengers}
-            />
-          </div>
-        )}
-        {ticketInfo.class === "economy" && (
-          <div className="row text-center ">
-            <h3 className="col-8">Economy</h3>
+              <DrawGrid
+                seats={business}
+                seatAvialable={seatAvialableBusiness}
+                seatReserved={passengerSeats}
+                setSeatAvailable={setSeatAvailableBusiness}
+                setSeatReserved={setPassengerSeats}
+                seatBooked={businessBooked}
+                max={ticketInfo.noOfPassengers}
+              />
+            </div>
+          )}
+          {ticketInfo.class === "economy" && (
+            <div className="row text-center ">
+              <h3 className="col-8">Economy</h3>
 
-            <DrawGrid
-              seats={economy}
-              seatAvialable={seatAvialableEconomy}
-              seatReserved={passengerSeats}
-              setSeatAvailable={setSeatAvailableEconomy}
-              setSeatReserved={setPassengerSeats}
-              seatBooked={economyBooked}
-              max={ticketInfo.noOfPassengers}
-            />
-          </div>
-        )}
-      </div>
+              <DrawGrid
+                seats={economy}
+                seatAvialable={seatAvialableEconomy}
+                seatReserved={passengerSeats}
+                setSeatAvailable={setSeatAvailableEconomy}
+                setSeatReserved={setPassengerSeats}
+                seatBooked={economyBooked}
+                max={ticketInfo.noOfPassengers}
+              />
+            </div>
+          )}
+        </div>
+      )}
+      <Footer />
     </>
   );
 }

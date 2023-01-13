@@ -10,6 +10,7 @@ import FlightGrid from "./flightGrid";
 import { useState } from "react";
 import { useEffect } from "react";
 import UpComingFlights from "./upComingFlights";
+import AircraftDetails from "./aircraftDetails";
 function Home() {
   const [user, setUser] = useState(false);
   const [admin, setAdmin] = useState(false);
@@ -33,6 +34,7 @@ function Home() {
       <UpComingFlights />
       {/* <SearchFlights userid={user.user_id} /> */}
       <FlightGrid userid={user.user_id} />
+      <AircraftDetails />
       <Footer />
     </div>
   );
