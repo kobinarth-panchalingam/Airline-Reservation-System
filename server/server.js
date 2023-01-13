@@ -6,6 +6,7 @@ import signup from "./signup.js";
 import booking from "./booking.js";
 import flights from "./flights.js";
 import admin from "./admin.js";
+import report from "./reports.js";
 const app = express();
 import db from "./dbconfig.js";
 var offset = new Date().getTimezoneOffset();
@@ -21,6 +22,7 @@ app.use("/signup", signup);
 app.use("/booking", booking);
 app.use("/flight", flights);
 app.use("/admin", admin);
+app.use("/report", report);
 
 app
   .listen(4000, () => {

@@ -20,14 +20,12 @@ function NavBar() {
     } else if (loggedInAdmin) {
       const foundAdmin = JSON.parse(loggedInAdmin);
       setAdmin(foundAdmin[0]);
-      console.log(foundAdmin[0].name);
     }
   }, []);
   var offset = new Date().getTimezoneOffset();
   var sign = offset < 0 ? "+" : "-";
   var offsetInHours = Math.abs(offset / 60);
   var offsetWithColon = `${sign}${Math.floor(offsetInHours)}:${Math.abs(offset % 60)}`;
-  console.log(offsetWithColon);
   return (
     <Navbar sticky="top" bg="light" expand="lg">
       <Container>
