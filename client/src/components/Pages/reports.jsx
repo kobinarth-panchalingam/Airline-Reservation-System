@@ -11,6 +11,7 @@ import NavBar from "./navbar";
 import { useParams } from "react-router-dom";
 import Footer from "./footer";
 import auth from "../utils/auth";
+import { v4 as uuid } from "uuid";
 function Reports() {
   const [totalRevenue, setTotalRevenue] = useState([]);
   const [passengerCount, setPassengerCount] = useState(0);
@@ -118,7 +119,7 @@ function Reports() {
             </table>
           </div>
 
-          <div class="row">
+          <div className="row">
             <Form className="col-6" onSubmit={handlePassengerCount}>
               <div className="mb-4 p-2 card border border-2">
                 <h2 className="text-center">Passenger Count</h2>
@@ -161,7 +162,7 @@ function Reports() {
                   </Form.Group>
 
                   <div className="container">
-                    <div class="row my-2 gx-2 mx-1">
+                    <div className="row my-2 gx-2 mx-1">
                       <h3 className="col-lg-6 col-md-12 border border-2 bg-primary text-center text-white">Passenger Count</h3>
                       <h3 className="col-lg-6 col-md-12 border border-2 bg-primary text-center text-white">{passengerCount}</h3>
                     </div>
@@ -201,9 +202,9 @@ function Reports() {
                   <div className="container">
                     {bookingCount.map((row) => {
                       const { user_type, booking_count } = row;
-                      console.log(row);
+                      // console.log(row);
                       return (
-                        <div class="row my-2 gx-2 m-1">
+                        <div key={user_type} className="row my-2 gx-2 m-1">
                           <h3 className="col-lg-6 col-md-12 border border-2 bg-primary text-center text-white">{user_type}</h3>
                           <h3 className="col-lg-6 col-md-12 border border-2 bg-primary text-center text-white">{booking_count}</h3>
                         </div>
@@ -319,10 +320,11 @@ function Reports() {
                 </thead>
                 <tbody>
                   {passengerByAge.map((row) => {
+                    const unique_id = uuid();
+                    const small_id = unique_id.slice(0, 8);
                     const { passenger_name, passport_number, age } = row;
-                    console.log(row);
                     return (
-                      <tr key={passport_number}>
+                      <tr key={small_id}>
                         <td className="text-center">{passenger_name}</td>
                         <td className="text-center">{passport_number}</td>
                         <td className="text-center">{age}</td>

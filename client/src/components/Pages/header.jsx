@@ -4,6 +4,7 @@ import auth from "../utils/auth";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import Background from "../images/jet-airways.webp";
 function Header() {
   const [user, setUser] = useState({ user_id: null, first_name: "", last_name: "Guest" });
   const [admin, setAdmin] = useState(false);
@@ -27,7 +28,7 @@ function Header() {
       <div
         className="p-5 text-center bg-image"
         style={{
-          backgroundImage: "url('https://img.etimg.com/thumb/msid-78939167,width-1200,height-900,imgsize-916228,resizemode-8/jet-airways.jpg')",
+          backgroundImage: `url(${Background})`,
           height: "400px",
         }}
       >

@@ -14,7 +14,7 @@ router.get("/origins", (req, res) => {
 
 //to get all available routes
 router.get("/routes", (req, res) => {
-  const sqlGet = "select route.route_id, concat( route.route_id,' | ', route.origin, ' - ', route.destination) as route from route";
+  const sqlGet = "select route.route_id, concat( route.route_id,' | ', route.origin, ' - ', route.destination) as route from route order by route_id";
   db.query(sqlGet, (err, result) => {
     if (err) res.send({ err: err });
     else res.send(result);
