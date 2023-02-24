@@ -25,7 +25,7 @@ function UpComingFlights() {
   const [newDestination, setNewDestination] = useState("");
   const [user, setUser] = useState({ user_id: null });
   useEffect(() => {
-    Axios.get("http://localhost:4000/flight/origins").then((response) => {
+    Axios.get("https://bairways-backend.onrender.com/flight/origins").then((response) => {
       const { data } = response;
       setOrigins(data);
     });
@@ -43,7 +43,7 @@ function UpComingFlights() {
     const destination = newDestination.slice(0, 3);
     const flightInfo = { origin: origin, destination: destination, departDate: departDate };
     console.log([origin, destination, departDate]);
-    Axios.post("http://localhost:4000/flight/upComingFlights", flightInfo).then((response) => {
+    Axios.post("https://bairways-backend.onrender.com/flight/upComingFlights", flightInfo).then((response) => {
       console.log(response.data.length);
       setflights(response.data);
     });

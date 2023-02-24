@@ -52,7 +52,7 @@ function SignUp() {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     console.log(signUpInfo.class);
-    Axios.post("http://localhost:4000/signup", {
+    Axios.post("https://bairways-backend.onrender.com/signup", {
       firstName: signUpInfo.firstName,
       lastName: signUpInfo.lastName,
       password: signUpInfo.password,

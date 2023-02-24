@@ -12,7 +12,7 @@ export default function FlightGrid({ userid }) {
   const [data, setData] = useState([{}]);
   const navigate = useNavigate();
   useEffect(() => {
-    axios.get("http://localhost:4000/flight/getFlights").then((response) => {
+    axios.get("https://bairways-backend.onrender.com/flight/getFlights").then((response) => {
       setData(response.data);
     });
   }, []);

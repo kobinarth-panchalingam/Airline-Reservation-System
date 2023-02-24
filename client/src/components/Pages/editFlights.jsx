@@ -19,21 +19,21 @@ function ViewFlights() {
   const [change, setChange] = useState(0);
 
   useEffect(() => {
-    Axios.get("http://localhost:4000/admin/flights").then((response) => {
+    Axios.get("https://bairways-backend.onrender.com/admin/flights").then((response) => {
       setflights(response.data);
     });
   }, [change]);
 
   const handleAction = (flight_id) => {
     console.log(status);
-    axios.put(`http://localhost:4000/admin/flightStatus/update/${flight_id}`, { status: status }).then((response) => {
+    axios.put(`https://bairways-backend.onrender.com/admin/flightStatus/update/${flight_id}`, { status: status }).then((response) => {
       toast.success("flight status changed");
       setChange(change + 1);
     });
   };
 
   const handleDeparture = (flight_id, event) => {
-    axios.put(`http://localhost:4000/admin/departureTime/update/${flight_id}`, { departure_time: event.value }).then((response) => {
+    axios.put(`https://bairways-backend.onrender.com/admin/departureTime/update/${flight_id}`, { departure_time: event.value }).then((response) => {
       if (response.data == "1") {
         toast.success("departure time changed");
       }
@@ -42,7 +42,7 @@ function ViewFlights() {
   };
 
   const handleArival = (flight_id, event) => {
-    axios.put(`http://localhost:4000/admin/arrivalTime/update/${flight_id}`, { arrival_time: event.value }).then((response) => {
+    axios.put(`https://bairways-backend.onrender.com/admin/arrivalTime/update/${flight_id}`, { arrival_time: event.value }).then((response) => {
       if (response.data == "1") {
         toast.success("arrival time changed");
       }

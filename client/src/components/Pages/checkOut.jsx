@@ -23,7 +23,7 @@ function CheckOut() {
   const [admin, setAdmin] = useState();
   const [ticketInfo, setTicketInfo] = useState([{ amount: "-", booked_date: "-" }]);
   useEffect(() => {
-    Axios.get(`http://localhost:4000/booking/bookingDetails/${booking_id}`).then((response) => {
+    Axios.get(`https://bairways-backend.onrender.com/booking/bookingDetails/${booking_id}`).then((response) => {
       setTicketInfo(response.data);
       console.log(response);
     });
@@ -40,7 +40,7 @@ function CheckOut() {
   }, []);
 
   const handlePayment = () => {
-    Axios.put(`http://localhost:4000/booking/update/${booking_id}`).then((response) => {
+    Axios.put(`https://bairways-backend.onrender.com/booking/update/${booking_id}`).then((response) => {
       console.log(response);
       setShow(true);
     });
