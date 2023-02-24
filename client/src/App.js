@@ -43,7 +43,7 @@ function App() {
           <Route path="/booking/:userid/:id" element={<Booking />} />
         </Route>
         <Route path="/signup" element={<SignUp />} />
-        {/* <Route path="/aboutUs" element={<Aboutus />} /> */}
+        <Route path="/aboutUs" element={<Aboutus />} />
         <Route path="/serachFlights/:id" element={<SearchFlights />} />
         <Route path="/aircraftDetails" element={<AircraftDetails />} />
       </Routes>
