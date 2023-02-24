@@ -58,7 +58,7 @@ function CheckOut() {
               <h3>Ticket Details</h3>
             </div>
             <div className="col-4">
-              <h4>Booked date</h4>
+              <h4>Booked date - UTC</h4>
               <h5>{ticketInfo[0].booked_date}</h5>
             </div>
             <div className="col-4">
