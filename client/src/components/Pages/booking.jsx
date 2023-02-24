@@ -54,36 +54,30 @@ function Booking() {
   });
   const [flightInfo, setFlightInfo] = useState([]);
   useEffect(() => {
-    console.log(userid);
-    Axios.get(`http://localhost:4000/login/user/${userid}`).then((response) => {
+    Axios.get(`https://bairways-backend.onrender.com/login/user/${userid}`).then((response) => {
       setDiscount(response.data[0].discount);
     });
-    console.log(discount);
-    //   // setSeatInfo(response.data[0]);
-    //   setTicketInfo({ ...ticketInfo, discount: response.data[0].discount });
-    //   console.log(ticketInfo);
-    // });
 
-    Axios.get(`http://localhost:4000/booking/flightDetails/${id}`).then((response) => {
+    Axios.get(`https://bairways-backend.onrender.com/booking/flightDetails/${id}`).then((response) => {
       setFlightInfo(response.data[0]);
       setPrice(response.data[0].economy_fare);
       setTicketInfo({ ...ticketInfo, totalPrice: response.data[0].economy_fare });
     });
-    Axios.get(`http://localhost:4000/booking/seatCount/${id}`).then((response) => {
+    Axios.get(`https://bairways-backend.onrender.com/booking/seatCount/${id}`).then((response) => {
       setSeatInfo(response.data[0]);
     });
 
-    Axios.post(`http://localhost:4000/booking/seats`, { type: "economy", id: id }).then((response) => {
+    Axios.post(`https://bairways-backend.onrender.com/booking/seats`, { type: "economy", id: id }).then((response) => {
       response.data.forEach((element) => {
         economyBooked.push(element.seat_no + "");
       });
     });
-    Axios.post(`http://localhost:4000/booking/seats`, { type: "business", id: id }).then((response) => {
+    Axios.post(`https://bairways-backend.onrender.com/booking/seats`, { type: "business", id: id }).then((response) => {
       response.data.forEach((element) => {
         businessBooked.push(element.seat_no + "");
       });
     });
-    Axios.post(`http://localhost:4000/booking/seats`, { type: "platinum", id: id }).then((response) => {
+    Axios.post(`https://bairways-backend.onrender.com/booking/seats`, { type: "platinum", id: id }).then((response) => {
       response.data.forEach((element) => {
         platinumBooked.push(element.seat_no + "");
       });
@@ -168,7 +162,7 @@ function Booking() {
     setShow2(false);
   };
   const savePassengers = async () => {
-    Axios.post("http://localhost:4000/booking/passenger", {
+    Axios.post("https://bairways-backend.onrender.com/booking/passenger", {
       ticketInfo: ticketInfo,
       passengerName: passengerNames,
       passengerPassports: passengerPassports,
@@ -181,7 +175,7 @@ function Booking() {
       setControlInput(style2);
     });
 
-    Axios.post("http://localhost:4000/booking/book", {
+    Axios.post("https://bairways-backend.onrender.com/booking/book", {
       id: id,
       user_id: userid,
       price: price,
@@ -198,7 +192,7 @@ function Booking() {
     if (passengerSeats.length != ticketInfo.noOfPassengers) {
       toast.warn("select all seats first");
     } else {
-      Axios.post("http://localhost:4000/booking/ticket", {
+      Axios.post("https://bairways-backend.onrender.com/booking/ticket", {
         ticketInfo: ticketInfo,
         passengerSeats: passengerSeats,
         passengerPassports: passengerPassports,
