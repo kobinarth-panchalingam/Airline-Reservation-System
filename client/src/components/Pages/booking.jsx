@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.css";
+import { MDBBtn, MDBContainer, MDBIcon } from "mdb-react-ui-kit";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -216,8 +217,43 @@ function Booking() {
     opacity: 1,
   };
   const [controlInput, setControlInput] = useState(style1);
+
+  let mybutton;
+
+  window.onscroll = function () {
+    mybutton = document.getElementById("btn-back-to-top");
+    scrollFunction(mybutton);
+  };
+
+  function scrollFunction(mybutton) {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+
+  function backToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
   return (
     <>
+      <MDBBtn
+        onClick={backToTop}
+        id="btn-back-to-top"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          display: "none",
+        }}
+        className="btn-floating"
+        color="primary"
+        size="lg"
+      >
+        <MDBIcon fas icon="arrow-up" />
+      </MDBBtn>
       <NavBar />
       <ToastContainer
         position="top-center"
@@ -235,7 +271,7 @@ function Booking() {
       />
       <div className="container">
         <div className="row mt-3 justify-content-between">
-          <div className="card col-8 mb-4">
+          <div className="card col-12 col-md-8 order-2   order-md-1  mb-4">
             <h3 className="mt-3">Step 1 - Fill passenger deatails</h3>
             <hr />
             <Form onSubmit={handleSubmitPassengers}>
@@ -294,7 +330,7 @@ function Booking() {
             </Form>
           </div>
 
-          <div className="card col-4 mb-4">
+          <div className="card col-12 col-md-4 order-1 order-md-2 mb-4">
             <div className="card-header pt-3 pb-0">
               <h5 className="mb-1">Flight Details</h5>
               <hr />
@@ -351,7 +387,7 @@ function Booking() {
           <hr />
           {ticketInfo.class === "platinum" && (
             <div className="row text-center ">
-              <h3 className="col-8">Platinum Class</h3>
+              <h3 className="col-12 col-md-8">Platinum Class</h3>
 
               <DrawGrid
                 seats={platinum}
@@ -366,7 +402,7 @@ function Booking() {
           )}
           {ticketInfo.class === "business" && (
             <div className="row text-center ">
-              <h3 className="col-8">Business Class</h3>
+              <h3 className="col-12 col-md-8">Business Class</h3>
 
               <DrawGrid
                 seats={business}
@@ -381,7 +417,7 @@ function Booking() {
           )}
           {ticketInfo.class === "economy" && (
             <div className="row text-center ">
-              <h3 className="col-8">Economy</h3>
+              <h3 className="col-12 col-md-8">Economy</h3>
 
               <DrawGrid
                 seats={economy}

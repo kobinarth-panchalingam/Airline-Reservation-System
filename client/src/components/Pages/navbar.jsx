@@ -27,12 +27,12 @@ function NavBar() {
   var offsetInHours = Math.abs(offset / 60);
   var offsetWithColon = `${sign}${Math.floor(offsetInHours)}:${Math.abs(offset % 60)}`;
   return (
-    <Navbar sticky="top" bg="light" expand="lg">
+    <Navbar sticky="top" bg="light" expand="md  ">
       <Container>
         <Navbar.Brand>B Air-Ways</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
+          <Nav className="me-auto">
             <Nav.Link as={Link} to={"/"}>
               Home
             </Nav.Link>
@@ -57,35 +57,37 @@ function NavBar() {
               <NavDropdown.Item as={Link} to="/aircraftDetails">
                 Aircrafts
               </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+              {/* <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
             </NavDropdown>
           </Nav>
-        </Navbar.Collapse>
-        <Nav.Link>{timeZone}</Nav.Link>
-        {(user || admin) && (
-          <Nav.Link
-            onClick={() => {
-              localStorage.clear();
-            }}
-            className="d-flex p-0"
-            href="/login"
-          >
-            Logout
-          </Nav.Link>
-        )}
 
-        {!(user || admin) && (
-          <>
-            <Nav.Link className="card d-flex p-2 " href="/login">
-              Login &nbsp;
-            </Nav.Link>
-            <span></span>
-            <Nav.Link className="card d-flex p-2" href="/signup">
-              Signup
-            </Nav.Link>
-          </>
-        )}
+          <Nav>
+            {(user || admin) && (
+              <Nav.Link
+                onClick={() => {
+                  localStorage.clear();
+                }}
+                className="d-flex pr-2"
+                href="/login"
+              >
+                Logout
+              </Nav.Link>
+            )}
+            {!(user || admin) && (
+              <>
+                <Nav.Link className="d-flex" href="/login">
+                  Login &nbsp;
+                </Nav.Link>
+                <span></span>
+                <Nav.Link className="d-flex" href="/signup">
+                  Signup
+                </Nav.Link>
+              </>
+            )}
+          </Nav>
+          <Nav.Link className="px-0">{timeZone}</Nav.Link>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

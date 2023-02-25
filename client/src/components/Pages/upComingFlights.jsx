@@ -53,7 +53,7 @@ function UpComingFlights() {
     <>
       <Container className="rounded rounded-5 bg-gradient bg-secondary border-secondary  my-5">
         <Row>
-          <Form.Group as={Col} controlId="formGridState">
+          <Form.Group as={Col} md={4} sm={6} controlId="formGridState">
             <Form.Label>From</Form.Label>
             <Form.Select onChange={(e) => setNewOrigin(e.target.value)} value={newOrigin}>
               <option>Choose...</option>
@@ -67,7 +67,7 @@ function UpComingFlights() {
               })}
             </Form.Select>
           </Form.Group>
-          <Form.Group as={Col} controlId="formGridState">
+          <Form.Group as={Col} md={4} sm={6} controlId="formGridState">
             <Form.Label>To</Form.Label>
             <Form.Select onChange={(e) => setNewDestination(e.target.value)} value={newDestination}>
               <option>Choose...</option>
@@ -81,7 +81,7 @@ function UpComingFlights() {
               })}
             </Form.Select>
           </Form.Group>
-          <Form.Group as={Col} controlId="formGridState">
+          <Form.Group as={Col} md={4} sm={12} controlId="formGridState">
             <Form.Label>Deapart</Form.Label>
             <Form.Control type="date" name="datepic" placeholder="DatzeRange" value={departDate} onChange={(e) => setDepartDate(e.target.value)} />
           </Form.Group>
