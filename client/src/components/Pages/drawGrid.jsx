@@ -28,7 +28,7 @@ const DrawGrid = (props) => {
   };
   return (
     <div className="container">
-      <div className="row col-8 grid">
+      <div className="row col-12 col-md-8 grid">
         {seats.map((row) => {
           return (
             <div
