@@ -23,7 +23,7 @@ function CheckOut() {
   const [admin, setAdmin] = useState();
   const [ticketInfo, setTicketInfo] = useState([{ amount: "-", booked_date: "-" }]);
   useEffect(() => {
-    Axios.get(`http://localhost:4000/booking/bookingDetails/${booking_id}`).then((response) => {
+    Axios.get(`https://bairways-backend.onrender.com/booking/bookingDetails/${booking_id}`).then((response) => {
       setTicketInfo(response.data);
       console.log(response);
     });
@@ -40,7 +40,7 @@ function CheckOut() {
   }, []);
 
   const handlePayment = () => {
-    Axios.put(`http://localhost:4000/booking/update/${booking_id}`).then((response) => {
+    Axios.put(`https://bairways-backend.onrender.com/booking/update/${booking_id}`).then((response) => {
       console.log(response);
       setShow(true);
     });
@@ -50,20 +50,20 @@ function CheckOut() {
     return (
       <>
         <NavBar />
-        <div className="container table-responsive">
+        <div className="container">
           <h1>Hello {user.first_name + " " + user.last_name}</h1>
           <hr />
           <div className="row">
-            <div className="col-4">
-              <h3>Ticket Details</h3>
+            <div className="col-12 col-md-4">
+              <h5>Ticket Details</h5>
             </div>
-            <div className="col-4">
-              <h4>Booked date</h4>
-              <h5>{ticketInfo[0].booked_date}</h5>
+            <div className="col-12 col-md-4">
+              <h5>Booked date - UTC</h5>
+              <h6 className="text-danger">{ticketInfo[0].booked_date}</h6>
             </div>
-            <div className="col-4">
-              <h4>Total Amount</h4>
-              <h5>$ {ticketInfo[0].amount}</h5>
+            <div className="col-12 col-md-4">
+              <h5>Total Amount</h5>
+              <h6 className="text-danger">$ {ticketInfo[0].amount}</h6>
             </div>
             {/* <div className="col-3">
               <h4>Total Amount</h4>
@@ -71,31 +71,33 @@ function CheckOut() {
             </div> */}
           </div>
           <hr />
-          <table className="table  table-bordered table-striped table-hover">
-            <thead className=" table-light">
-              <tr>
-                <th className="text-center">Ticket ID</th>
-                <th className="text-center">Seat No</th>
-                <th className="text-center">Class</th>
-                <th className="text-center">Passenger Name</th>
-                <th className="text-center">Passport Number</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ticketInfo.map((ticket) => {
-                const { ticket_id, seat_no, seat_class, passenger_name, passport_number } = ticket;
-                return (
-                  <tr key={ticket_id}>
-                    <td className="text-center">{ticket_id}</td>
-                    <td className="text-center">{seat_no}</td>
-                    <td className="text-center">{seat_class}</td>
-                    <td className="text-center">{passenger_name}</td>
-                    <td className="text-center">{passport_number}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table className="table   table-bordered table-striped table-hover ">
+              <thead className=" table-light">
+                <tr>
+                  <th className="text-center">Ticket ID</th>
+                  <th className="text-center">Seat No</th>
+                  <th className="text-center">Class</th>
+                  <th className="text-center">Passenger Name</th>
+                  <th className="text-center">Passport Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ticketInfo.map((ticket) => {
+                  const { ticket_id, seat_no, seat_class, passenger_name, passport_number } = ticket;
+                  return (
+                    <tr key={ticket_id}>
+                      <td className="text-center">{ticket_id}</td>
+                      <td className="text-center">{seat_no}</td>
+                      <td className="text-center">{seat_class}</td>
+                      <td className="text-center">{passenger_name}</td>
+                      <td className="text-center">{passport_number}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
           <Alert show={show} variant="success">
             <Alert.Heading></Alert.Heading>
             <h3 className="text-center">Thank You For your Payment</h3>

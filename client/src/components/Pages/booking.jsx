@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.css";
+import { MDBBtn, MDBContainer, MDBIcon } from "mdb-react-ui-kit";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -54,36 +55,30 @@ function Booking() {
   });
   const [flightInfo, setFlightInfo] = useState([]);
   useEffect(() => {
-    console.log(userid);
-    Axios.get(`http://localhost:4000/login/user/${userid}`).then((response) => {
+    Axios.get(`https://bairways-backend.onrender.com/login/user/${userid}`).then((response) => {
       setDiscount(response.data[0].discount);
     });
-    console.log(discount);
-    //   // setSeatInfo(response.data[0]);
-    //   setTicketInfo({ ...ticketInfo, discount: response.data[0].discount });
-    //   console.log(ticketInfo);
-    // });
 
-    Axios.get(`http://localhost:4000/booking/flightDetails/${id}`).then((response) => {
+    Axios.get(`https://bairways-backend.onrender.com/booking/flightDetails/${id}`).then((response) => {
       setFlightInfo(response.data[0]);
       setPrice(response.data[0].economy_fare);
       setTicketInfo({ ...ticketInfo, totalPrice: response.data[0].economy_fare });
     });
-    Axios.get(`http://localhost:4000/booking/seatCount/${id}`).then((response) => {
+    Axios.get(`https://bairways-backend.onrender.com/booking/seatCount/${id}`).then((response) => {
       setSeatInfo(response.data[0]);
     });
 
-    Axios.post(`http://localhost:4000/booking/seats`, { type: "economy", id: id }).then((response) => {
+    Axios.post(`https://bairways-backend.onrender.com/booking/seats`, { type: "economy", id: id }).then((response) => {
       response.data.forEach((element) => {
         economyBooked.push(element.seat_no + "");
       });
     });
-    Axios.post(`http://localhost:4000/booking/seats`, { type: "business", id: id }).then((response) => {
+    Axios.post(`https://bairways-backend.onrender.com/booking/seats`, { type: "business", id: id }).then((response) => {
       response.data.forEach((element) => {
         businessBooked.push(element.seat_no + "");
       });
     });
-    Axios.post(`http://localhost:4000/booking/seats`, { type: "platinum", id: id }).then((response) => {
+    Axios.post(`https://bairways-backend.onrender.com/booking/seats`, { type: "platinum", id: id }).then((response) => {
       response.data.forEach((element) => {
         platinumBooked.push(element.seat_no + "");
       });
@@ -168,7 +163,7 @@ function Booking() {
     setShow2(false);
   };
   const savePassengers = async () => {
-    Axios.post("http://localhost:4000/booking/passenger", {
+    Axios.post("https://bairways-backend.onrender.com/booking/passenger", {
       ticketInfo: ticketInfo,
       passengerName: passengerNames,
       passengerPassports: passengerPassports,
@@ -181,7 +176,7 @@ function Booking() {
       setControlInput(style2);
     });
 
-    Axios.post("http://localhost:4000/booking/book", {
+    Axios.post("https://bairways-backend.onrender.com/booking/book", {
       id: id,
       user_id: userid,
       price: price,
@@ -198,7 +193,7 @@ function Booking() {
     if (passengerSeats.length != ticketInfo.noOfPassengers) {
       toast.warn("select all seats first");
     } else {
-      Axios.post("http://localhost:4000/booking/ticket", {
+      Axios.post("https://bairways-backend.onrender.com/booking/ticket", {
         ticketInfo: ticketInfo,
         passengerSeats: passengerSeats,
         passengerPassports: passengerPassports,
@@ -222,8 +217,43 @@ function Booking() {
     opacity: 1,
   };
   const [controlInput, setControlInput] = useState(style1);
+
+  let mybutton;
+
+  window.onscroll = function () {
+    mybutton = document.getElementById("btn-back-to-top");
+    scrollFunction(mybutton);
+  };
+
+  function scrollFunction(mybutton) {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+
+  function backToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
   return (
     <>
+      <MDBBtn
+        onClick={backToTop}
+        id="btn-back-to-top"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          display: "none",
+        }}
+        className="btn-floating"
+        color="primary"
+        size="lg"
+      >
+        <MDBIcon fas icon="arrow-up" />
+      </MDBBtn>
       <NavBar />
       <ToastContainer
         position="top-center"
@@ -241,7 +271,7 @@ function Booking() {
       />
       <div className="container">
         <div className="row mt-3 justify-content-between">
-          <div className="card col-8 mb-4">
+          <div className="card col-12 col-md-8 order-2   order-md-1  mb-4">
             <h3 className="mt-3">Step 1 - Fill passenger deatails</h3>
             <hr />
             <Form onSubmit={handleSubmitPassengers}>
@@ -300,7 +330,7 @@ function Booking() {
             </Form>
           </div>
 
-          <div className="card col-4 mb-4">
+          <div className="card col-12 col-md-4 order-1 order-md-2 mb-4">
             <div className="card-header pt-3 pb-0">
               <h5 className="mb-1">Flight Details</h5>
               <hr />
@@ -357,7 +387,7 @@ function Booking() {
           <hr />
           {ticketInfo.class === "platinum" && (
             <div className="row text-center ">
-              <h3 className="col-8">Platinum Class</h3>
+              <h3 className="col-12 col-md-8">Platinum Class</h3>
 
               <DrawGrid
                 seats={platinum}
@@ -372,7 +402,7 @@ function Booking() {
           )}
           {ticketInfo.class === "business" && (
             <div className="row text-center ">
-              <h3 className="col-8">Business Class</h3>
+              <h3 className="col-12 col-md-8">Business Class</h3>
 
               <DrawGrid
                 seats={business}
@@ -387,7 +417,7 @@ function Booking() {
           )}
           {ticketInfo.class === "economy" && (
             <div className="row text-center ">
-              <h3 className="col-8">Economy</h3>
+              <h3 className="col-12 col-md-8">Economy</h3>
 
               <DrawGrid
                 seats={economy}
