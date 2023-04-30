@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 export default function FlightGrid({ userid }) {
-  const [data, setData] = useState([{}]);
+  const [data, setData] = useState([{ image_url: "sample.jpeg" }]);
   const navigate = useNavigate();
   useEffect(() => {
     axios.get("https://bairways-backend.onrender.com/flight/getFlights").then((response) => {
