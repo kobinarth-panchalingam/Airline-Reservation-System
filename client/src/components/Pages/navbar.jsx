@@ -50,16 +50,22 @@ function NavBar() {
                 Reports
               </Nav.Link>
             )}
-            <NavDropdown title="More" id="basic-nav-dropdown">
+            <Nav.Link as={Link} to="/aboutUs">
+              AboutUs
+            </Nav.Link>
+            <Nav.Link as={Link} to="/aircraftDetails">
+              Aircrafts
+            </Nav.Link>
+            {/* <NavDropdown title="More" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/aboutUs">
                 AboutUs
               </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/aircraftDetails">
                 Aircrafts
               </NavDropdown.Item>
-              {/* <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
-            </NavDropdown>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+            </NavDropdown> */}
           </Nav>
 
           <Nav>
