@@ -26,7 +26,7 @@ function UpComingFlights() {
   const [newDestination, setNewDestination] = useState("");
   const [user, setUser] = useState({ user_id: null });
   useEffect(() => {
-    Axios.get("https://bairways-backend.onrender.com/flight/origins").then((response) => {
+    Axios.get(`${process.env.REACT_APP_API_URL}/flight/origins`).then((response) => {
       const { data } = response;
       setOrigins(data);
     });
@@ -44,7 +44,7 @@ function UpComingFlights() {
     const destination = newDestination.slice(0, 3);
     const flightInfo = { origin: origin, destination: destination, departDate: departDate };
     // console.log([origin, destination, departDate]);
-    Axios.post("https://bairways-backend.onrender.com/flight/upComingFlights", flightInfo).then((response) => {
+    Axios.post(`${process.env.REACT_APP_API_URL}/flight/upComingFlights`, flightInfo).then((response) => {
       if (response.data.length == 0) {
         toast.warn("Sorry, No Flights available", {
           position: "top-center",

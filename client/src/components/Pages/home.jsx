@@ -32,7 +32,6 @@ function Home() {
       <Header userid={user.user_id} />
       <UpComingFlights />
       <FlightGrid userid={user.user_id} />
-      {/* <AircraftDetails /> */}
       <Footer />
     </div>
   );

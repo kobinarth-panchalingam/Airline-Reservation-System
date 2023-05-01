@@ -19,14 +19,14 @@ function ViewFlights() {
   const [change, setChange] = useState(0);
 
   useEffect(() => {
-    Axios.get("https://bairways-backend.onrender.com/admin/flights").then((response) => {
+    Axios.get(`${process.env.REACT_APP_API_URL}/admin/flights`).then((response) => {
       setflights(response.data);
     });
   }, [change]);
 
   const handleAction = (flight_id) => {
     console.log(status);
-    axios.put(`https://bairways-backend.onrender.com/admin/flightStatus/update/${flight_id}`, { status: status }).then((response) => {
+    axios.put(`${process.env.REACT_APP_API_URL}/admin/flightStatus/update/${flight_id}`, { status: status }).then((response) => {
       toast.success("flight status changed");
       setChange(change + 1);
     });
