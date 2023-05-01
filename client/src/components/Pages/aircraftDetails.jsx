@@ -51,23 +51,23 @@ export default function AircraftDetails() {
                 <MDBCardTitle>Boeing 737 MAX 10</MDBCardTitle>
                 <MDBCardText>
                   <li>
-                    <i class="flaticon-startup"></i>
+                    <i className="flaticon-startup"></i>
                     <b>Max Passenger Capacity: </b>186
                   </li>
                   <li>
-                    <i class="flaticon-coffee"></i>
+                    <i className="flaticon-coffee"></i>
                     <b>Fuel Capacity: </b>26 035 litres
                   </li>
                   <li>
-                    <i class="flaticon-search-interface-symbol"></i>
+                    <i className="flaticon-search-interface-symbol"></i>
                     <b>Max Load: </b>89 765 kg
                   </li>
                   <li>
-                    <i class="flaticon-plane"></i>
+                    <i className="flaticon-plane"></i>
                     <b>Avg Air Speed: </b>839 kmph
                   </li>
                   <li>
-                    <i class="flaticon-internet"></i>
+                    <i className="flaticon-internet"></i>
                     <b>Manufacturer: </b>Boeing Commercial
                   </li>
                 </MDBCardText>
@@ -89,23 +89,23 @@ export default function AircraftDetails() {
                 <MDBCardTitle>Boeing 757 300</MDBCardTitle>
                 <MDBCardText>
                   <li>
-                    <i class="flaticon-startup"></i>
+                    <i className="flaticon-startup"></i>
                     <b>Max Passenger Capacity: </b>242
                   </li>
                   <li>
-                    <i class="flaticon-coffee"></i>
+                    <i className="flaticon-coffee"></i>
                     <b>Fuel Capacity: </b>43 400 litres
                   </li>
                   <li>
-                    <i class="flaticon-search-interface-symbol"></i>
+                    <i className="flaticon-search-interface-symbol"></i>
                     <b>Max Load: </b>123 600 kg
                   </li>
                   <li>
-                    <i class="flaticon-plane"></i>
+                    <i className="flaticon-plane"></i>
                     <b>Avg Air Speed: </b>918 kmph
                   </li>
                   <li>
-                    <i class="flaticon-internet"></i>
+                    <i className="flaticon-internet"></i>
                     <b>Manufacturer: </b>Boeing Commercial
                   </li>
                 </MDBCardText>
@@ -128,23 +128,23 @@ export default function AircraftDetails() {
                 <MDBCardTitle>Airbus A380 800</MDBCardTitle>
                 <MDBCardText>
                   <li>
-                    <i class="flaticon-startup"></i>
+                    <i className="flaticon-startup"></i>
                     <b>Max Passenger Capacity: </b>568
                   </li>
                   <li>
-                    <i class="flaticon-coffee"></i>
+                    <i className="flaticon-coffee"></i>
                     <b>Fuel Capacity: </b>320 000 litres
                   </li>
                   <li>
-                    <i class="flaticon-search-interface-symbol"></i>
+                    <i className="flaticon-search-interface-symbol"></i>
                     <b>Max Load: </b>560 000 kg
                   </li>
                   <li>
-                    <i class="flaticon-plane"></i>
+                    <i className="flaticon-plane"></i>
                     <b>Avg Air Speed: </b>900 kmph
                   </li>
                   <li>
-                    <i class="flaticon-internet"></i>
+                    <i className="flaticon-internet"></i>
                     <b>Manufacturer: </b>Airbus
                   </li>
                 </MDBCardText>

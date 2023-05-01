@@ -18,9 +18,6 @@ const DrawGrid = (props) => {
       setSeatAvailable(seatAvialable.filter((res) => res != seat));
     } else {
     }
-
-    console.log(seatReserved);
-    console.log(seatReserved);
   };
 
   const onClickSeat = (seat) => {
