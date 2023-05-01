@@ -11,6 +11,7 @@ import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import NavBar from "./navbar";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import FlightGrid from "./flightGrid";
 const date = new Date();
 const futureDate = date.getDate();
@@ -19,19 +20,17 @@ const currentDate = date.toLocaleDateString("en-CA");
 
 function SearchFlights() {
   const { id } = useParams();
-  console.log(id);
   const [show, setShow] = useState(false);
   const [departDate, setDepartDate] = useState(currentDate);
   const [flights, setflights] = useState([]);
   const [returnDate, setReturnDate] = useState(currentDate);
-  const [origins, setOrigins] = useState([]);
+  const [origins, setOrigins] = useState(null);
   const [newOrigin, setNewOrigin] = useState("");
   const [newDestination, setNewDestination] = useState("");
 
   useEffect(() => {
     Axios.get("https://bairways-backend.onrender.com/flight/origins").then((response) => {
-      const { data } = response;
-      setOrigins(data);
+      setOrigins(response.data);
     });
   }, []);
 
@@ -41,7 +40,18 @@ function SearchFlights() {
     const flightInfo = { origin: origin, destination: destination, departDate: departDate, returnDate: returnDate };
     console.log([origin, destination, departDate, returnDate]);
     Axios.post("https://bairways-backend.onrender.com/flight/viewFlights", flightInfo).then((response) => {
-      console.log(response.data.length);
+      if (response.data.length == 0) {
+        toast.warn("Sorry, No Flights available", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
       setflights(response.data);
       setShow(true);
     });
@@ -55,37 +65,39 @@ function SearchFlights() {
         <h3 className="text-center">Search Flights</h3>
         <hr />
         <div className="row">
-          <div class="row col-6">
+          <div className="row col-6">
             <Form.Group className="col-6" controlId="formGridState">
               <Form.Label>Origin</Form.Label>
               <Form.Select onChange={(e) => setNewOrigin(e.target.value)} value={newOrigin}>
                 <option>Choose...</option>
-                {origins.map((from) => {
-                  const { origin } = from;
-                  return (
-                    <option key={origin} value={origin}>
-                      {origin}
-                    </option>
-                  );
-                })}
+                {origins &&
+                  origins.map((from) => {
+                    const { origin } = from;
+                    return (
+                      <option key={origin} value={origin}>
+                        {origin}
+                      </option>
+                    );
+                  })}
               </Form.Select>
             </Form.Group>
             <Form.Group className="col-6" controlId="formGridState">
               <Form.Label>Destination</Form.Label>
               <Form.Select onChange={(e) => setNewDestination(e.target.value)} value={newDestination}>
                 <option>Choose...</option>
-                {origins.map((from) => {
-                  const { origin } = from;
-                  return (
-                    <option key={origin} value={origin}>
-                      {origin}
-                    </option>
-                  );
-                })}
+                {origins &&
+                  origins.map((from) => {
+                    const { origin } = from;
+                    return (
+                      <option key={origin} value={origin}>
+                        {origin}
+                      </option>
+                    );
+                  })}
               </Form.Select>
             </Form.Group>
           </div>
-          <div class="row col-6">
+          <div className="row col-6">
             <Form.Group className="col-6" controlId="formGridState">
               <Form.Label>From </Form.Label>
               <Form.Control type="date" name="datepic" placeholder="DatzeRange" value={departDate} onChange={(e) => setDepartDate(e.target.value)} />
@@ -97,21 +109,11 @@ function SearchFlights() {
           </div>
         </div>
         <Row className="mt-3">
-          <Button
-            variant="primary"
-            onClick={() => {
-              showFlights();
-            }}
-          >
+          <Button variant="primary" onClick={showFlights}>
             Show Flights
           </Button>
         </Row>
       </Container>
-      {flights.length === 0 && show && (
-        <Container>
-          <Alert variant="warning"> No Flights Available</Alert>
-        </Container>
-      )}
 
       {flights.length !== 0 && show && <ShowTable flights={flights} userid={id} />}
       <FlightGrid userid={id} />

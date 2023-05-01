@@ -18,7 +18,6 @@ function Home() {
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     const loggedInAdmin = localStorage.getItem("admin");
-    console.log(timeZone);
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser[0]);

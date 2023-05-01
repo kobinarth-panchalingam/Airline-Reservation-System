@@ -9,6 +9,7 @@ import Row from "react-bootstrap/Row";
 import ShowTable from "./showTable";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
+import { toast } from "react-toastify";
 import NavBar from "./navbar";
 import { useParams } from "react-router-dom";
 import FlightGrid from "./flightGrid";
@@ -37,14 +38,25 @@ function UpComingFlights() {
     }
   }, []);
 
-  console.log(user.user_id);
+  // console.log(user.user_id);
   const showFlights = () => {
     const origin = newOrigin.slice(0, 3);
     const destination = newDestination.slice(0, 3);
     const flightInfo = { origin: origin, destination: destination, departDate: departDate };
-    console.log([origin, destination, departDate]);
+    // console.log([origin, destination, departDate]);
     Axios.post("https://bairways-backend.onrender.com/flight/upComingFlights", flightInfo).then((response) => {
-      console.log(response.data.length);
+      if (response.data.length == 0) {
+        toast.warn("Sorry, No Flights available", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
       setflights(response.data);
     });
   };
@@ -92,13 +104,7 @@ function UpComingFlights() {
           </Button>
         </Row>
       </Container>
-      {flights.length === 0 ? (
-        <Container>
-          <Alert variant="warning"> No Flights Available</Alert>
-        </Container>
-      ) : (
-        <ShowTable flights={flights} userid={user.user_id} />
-      )}
+      {flights.length !== 0 && <ShowTable flights={flights} userid={user.user_id} />}
     </>
   );
 }

@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 export default function FlightGrid({ userid }) {
-  const [data, setData] = useState([{ image_url: "sample.jpg" }]);
+  const [data, setData] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     axios.get("https://bairways-backend.onrender.com/flight/getFlights").then((response) => {
@@ -26,7 +26,7 @@ export default function FlightGrid({ userid }) {
     }
   };
   return (
-    <MDBContainer className="mb-5">
+    <MDBContainer className="mb-5 p-0">
       <ToastContainer
         position="top-center"
         autoClose={3000}
@@ -41,49 +41,51 @@ export default function FlightGrid({ userid }) {
         theme="light"
         transition={Flip}
       />
+      <hr />
       <MDBRow className="row-cols-1 row-cols-md-3 g-5">
-        {data.map((flight) => {
-          return (
-            <MDBCol>
-              <MDBCard className="h-100 hover-shadow ">
-                <MDBCardImage src={require("../images/airports/" + flight.image_url)} height="250" alt="..." position="top" />
-                <MDBCardBody>
-                  <MDBCardTitle className="row">
-                    <div class="col-12 col-md-8 mb-2">
-                      {flight.origin} &nbsp;
-                      <i className="bi bi-arrow-left-right"></i> &nbsp;
-                      {flight.destination}
-                    </div>
-                    <div className="col-12 col-md-4">{flight.flight_time}</div>
-                    <hr />
-                  </MDBCardTitle>
+        {data &&
+          data.map((flight) => {
+            return (
+              <MDBCol key={flight.flight_id}>
+                <MDBCard className="h-100 hover-shadow ">
+                  <MDBCardImage src={require("../images/airports/" + flight.image_url)} height="250" alt="..." position="top" />
+                  <MDBCardBody>
+                    <MDBCardTitle className="row">
+                      <div className="col-12 col-md-8 mb-2">
+                        {flight.origin} &nbsp;
+                        <i className="bi bi-arrow-left-right"></i> &nbsp;
+                        {flight.destination}
+                      </div>
+                      <div className="col-12 col-md-4">{flight.flight_time}</div>
+                      <hr />
+                    </MDBCardTitle>
 
-                  <h6>
-                    <i className="bi bi-clock"></i> &nbsp;
-                    {flight.time}
-                  </h6>
-                  <h6>
-                    <i className="bi bi-calendar2-month"></i> &nbsp;
-                    {flight.date}
-                  </h6>
-                  <h6>
-                    <i className="bi bi-airplane"></i> &nbsp; B Air Ways
-                  </h6>
+                    <h6>
+                      <i className="bi bi-clock"></i> &nbsp;
+                      {flight.time}
+                    </h6>
+                    <h6>
+                      <i className="bi bi-calendar2-month"></i> &nbsp;
+                      {flight.date}
+                    </h6>
+                    <h6>
+                      <i className="bi bi-airplane"></i> &nbsp; B Air Ways
+                    </h6>
 
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => {
-                      handleBookMe(flight.flight_id);
-                    }}
-                  >
-                    BOOK ME
-                  </button>
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-          );
-        })}
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => {
+                        handleBookMe(flight.flight_id);
+                      }}
+                    >
+                      BOOK ME
+                    </button>
+                  </MDBCardBody>
+                </MDBCard>
+              </MDBCol>
+            );
+          })}
       </MDBRow>
     </MDBContainer>
   );
