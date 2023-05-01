@@ -33,7 +33,7 @@ function ViewFlights() {
   };
 
   const handleDeparture = (flight_id, event) => {
-    axios.put(`https://bairways-backend.onrender.com/admin/departureTime/update/${flight_id}`, { departure_time: event.value }).then((response) => {
+    axios.put(`${process.env.REACT_APP_API_URL}/admin/departureTime/update/${flight_id}`, { departure_time: event.value }).then((response) => {
       if (response.data == "1") {
         toast.success("departure time changed");
       }
@@ -42,7 +42,7 @@ function ViewFlights() {
   };
 
   const handleArival = (flight_id, event) => {
-    axios.put(`https://bairways-backend.onrender.com/admin/arrivalTime/update/${flight_id}`, { arrival_time: event.value }).then((response) => {
+    axios.put(`${process.env.REACT_APP_API_URL}/admin/arrivalTime/update/${flight_id}`, { arrival_time: event.value }).then((response) => {
       if (response.data == "1") {
         toast.success("arrival time changed");
       }

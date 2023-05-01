@@ -31,21 +31,21 @@ function Reports() {
   const [flightNo, setFlightNo] = useState("");
 
   useEffect(() => {
-    Axios.get("https://bairways-backend.onrender.com/report/totalRevenue").then((response) => {
+    Axios.get(`${process.env.REACT_APP_API_URL}/report/totalRevenue`).then((response) => {
       setTotalRevenue(response.data[0]);
     });
 
-    Axios.get("https://bairways-backend.onrender.com/flight/origins").then((response) => {
+    Axios.get(`${process.env.REACT_APP_API_URL}/flight/origins`).then((response) => {
       setOrigins(response.data);
     });
-    Axios.get("https://bairways-backend.onrender.com/flight/routes").then((response) => {
+    Axios.get(`${process.env.REACT_APP_API_URL}/flight/routes`).then((response) => {
       setRoutes(response.data);
     });
   }, []);
 
   const handlePassengerCount = (event) => {
     event.preventDefault();
-    Axios.post("https://bairways-backend.onrender.com/report/passengerCount", {
+    Axios.post(`${process.env.REACT_APP_API_URL}/report/passengerCount`, {
       destination: newDestination.slice(0, 3),
       startDate: departDate,
       endDate: returnDate,
@@ -57,7 +57,7 @@ function Reports() {
 
   const handleBookingCount = (event) => {
     event.preventDefault();
-    Axios.post("https://bairways-backend.onrender.com/report/bookingCount", {
+    Axios.post(`${process.env.REACT_APP_API_URL}/report/bookingCount`, {
       destination: newDestination.slice(0, 3),
       startDate: departDate,
       endDate: returnDate,
@@ -69,7 +69,7 @@ function Reports() {
 
   const handlePastFlights = (event) => {
     event.preventDefault();
-    Axios.post("https://bairways-backend.onrender.com/report/pastFlights", {
+    Axios.post(`${process.env.REACT_APP_API_URL}/report/pastFlights`, {
       origin: newOrigin.slice(0, 3),
       destination: newDestination.slice(0, 3),
     }).then((response) => {
@@ -80,7 +80,7 @@ function Reports() {
 
   const handlePassengerbyAge = (event) => {
     event.preventDefault();
-    Axios.post("https://bairways-backend.onrender.com/report/passengerByAge", {
+    Axios.post(`${process.env.REACT_APP_API_URL}/report/passengerByAge`, {
       flight_no: flightNo,
     }).then((response) => {
       setPassengerByAge(response.data[0]);
