@@ -52,7 +52,7 @@ function SignUp() {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     console.log(signUpInfo.class);
-    Axios.post("https://bairways-backend.onrender.com/signup", {
+    Axios.post(`${process.env.REACT_APP_API_URL}/signup`, {
       firstName: signUpInfo.firstName,
       lastName: signUpInfo.lastName,
       password: signUpInfo.password,

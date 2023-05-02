@@ -57,10 +57,10 @@ function SignIn() {
     console.log(loginInfo);
     evt.preventDefault();
 
-    Axios.get("https://bairways-backend.onrender.com/login/admin/" + loginInfo.email).then((response) => {
+    Axios.get(`${process.env.REACT_APP_API_URL}/login/admin/` + loginInfo.email).then((response) => {
       const { data } = response;
       if (data.length > 0) {
-        Axios.post("https://bairways-backend.onrender.com/login/admin", {
+        Axios.post(`${process.env.REACT_APP_API_URL}/login/admin`, {
           email: loginInfo.email,
           password: loginInfo.password,
         }).then((response) => {
@@ -75,7 +75,7 @@ function SignIn() {
           }
         });
       } else {
-        Axios.post("https://bairways-backend.onrender.com/login/user", {
+        Axios.post(`${process.env.REACT_APP_API_URL}/login/user`, {
           email: loginInfo.email,
           password: loginInfo.password,
         }).then((response) => {

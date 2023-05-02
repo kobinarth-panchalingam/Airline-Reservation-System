@@ -26,7 +26,7 @@ function UpComingFlights() {
   const [newDestination, setNewDestination] = useState("");
   const [user, setUser] = useState({ user_id: null });
   useEffect(() => {
-    Axios.get("https://bairways-backend.onrender.com/flight/origins").then((response) => {
+    Axios.get(`${process.env.REACT_APP_API_URL}/flight/origins`).then((response) => {
       const { data } = response;
       setOrigins(data);
     });
@@ -44,7 +44,7 @@ function UpComingFlights() {
     const destination = newDestination.slice(0, 3);
     const flightInfo = { origin: origin, destination: destination, departDate: departDate };
     // console.log([origin, destination, departDate]);
-    Axios.post("https://bairways-backend.onrender.com/flight/upComingFlights", flightInfo).then((response) => {
+    Axios.post(`${process.env.REACT_APP_API_URL}/flight/upComingFlights`, flightInfo).then((response) => {
       if (response.data.length == 0) {
         toast.warn("Sorry, No Flights available", {
           position: "top-center",
@@ -63,7 +63,7 @@ function UpComingFlights() {
 
   return (
     <>
-      <Container className="rounded rounded-5 bg-gradient bg-secondary border-secondary  my-5">
+      <Container className="rounded rounded-5   border bg-light text-dark border-secondary  my-5">
         <Row>
           <Form.Group as={Col} md={4} sm={6} controlId="formGridState">
             <Form.Label>From</Form.Label>
@@ -94,7 +94,7 @@ function UpComingFlights() {
             </Form.Select>
           </Form.Group>
           <Form.Group as={Col} md={4} sm={12} controlId="formGridState">
-            <Form.Label>Deapart</Form.Label>
+            <Form.Label>Depart</Form.Label>
             <Form.Control type="date" name="datepic" placeholder="DatzeRange" value={departDate} onChange={(e) => setDepartDate(e.target.value)} />
           </Form.Group>
         </Row>

@@ -29,8 +29,9 @@ function SearchFlights() {
   const [newDestination, setNewDestination] = useState("");
 
   useEffect(() => {
-    Axios.get("https://bairways-backend.onrender.com/flight/origins").then((response) => {
+    Axios.get(`${process.env.REACT_APP_API_URL}/flight/origins`).then((response) => {
       setOrigins(response.data);
+      console.log(process.env.REACT_APP_API_URL);
     });
   }, []);
 
@@ -39,7 +40,7 @@ function SearchFlights() {
     const destination = newDestination.slice(0, 3);
     const flightInfo = { origin: origin, destination: destination, departDate: departDate, returnDate: returnDate };
     console.log([origin, destination, departDate, returnDate]);
-    Axios.post("https://bairways-backend.onrender.com/flight/viewFlights", flightInfo).then((response) => {
+    Axios.post(`${process.env.REACT_APP_API_URL}/flight/viewFlights`, flightInfo).then((response) => {
       if (response.data.length == 0) {
         toast.warn("Sorry, No Flights available", {
           position: "top-center",
@@ -61,7 +62,7 @@ function SearchFlights() {
     <>
       <NavBar />
 
-      <Container className="rounded rounded-5 bg-secondary bg-gradient border-secondary pt-2  my-5 hover-shadow">
+      <Container className="rounded rounded-5 border bg-light text-dark border-secondary pt-2  my-5 hover-shadow">
         <h3 className="text-center">Search Flights</h3>
         <hr />
         <div className="row">
