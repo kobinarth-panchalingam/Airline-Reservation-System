@@ -42,6 +42,13 @@ export default function FlightGrid({ userid }) {
         transition={Flip}
       />
       <hr />
+      {!data && (
+        <div class="text-center my-3">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      )}
       <MDBRow className="row-cols-1 row-cols-md-3 g-5">
         {data &&
           data.map((flight) => {

@@ -39,10 +39,8 @@ function Booking() {
   const [economyBooked, setEconomyBooked] = useState([]);
   const [platinumBooked, setPlatinumBooked] = useState([]);
   const [businessBooked, setBusinessBooked] = useState([]);
-
   const [discount, setDiscount] = useState(0);
   const [price, setPrice] = useState(0);
-
   const [ticketInfo, setTicketInfo] = useState({
     class: "economy",
     totalPrice: price,

@@ -62,7 +62,7 @@ function SearchFlights() {
     <>
       <NavBar />
 
-      <Container className="rounded rounded-5 bg-secondary bg-gradient border-secondary pt-2  my-5 hover-shadow">
+      <Container className="rounded rounded-5 border bg-light text-dark border-secondary pt-2  my-5 hover-shadow">
         <h3 className="text-center">Search Flights</h3>
         <hr />
         <div className="row">

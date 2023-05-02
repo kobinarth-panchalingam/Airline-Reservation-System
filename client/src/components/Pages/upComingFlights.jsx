@@ -63,7 +63,7 @@ function UpComingFlights() {
 
   return (
     <>
-      <Container className="rounded rounded-5 bg-gradient bg-secondary border-secondary  my-5">
+      <Container className="rounded rounded-5   border bg-light text-dark border-secondary  my-5">
         <Row>
           <Form.Group as={Col} md={4} sm={6} controlId="formGridState">
             <Form.Label>From</Form.Label>
@@ -94,7 +94,7 @@ function UpComingFlights() {
             </Form.Select>
           </Form.Group>
           <Form.Group as={Col} md={4} sm={12} controlId="formGridState">
-            <Form.Label>Deapart</Form.Label>
+            <Form.Label>Depart</Form.Label>
             <Form.Control type="date" name="datepic" placeholder="DatzeRange" value={departDate} onChange={(e) => setDepartDate(e.target.value)} />
           </Form.Group>
         </Row>
