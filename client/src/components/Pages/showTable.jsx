@@ -21,7 +21,7 @@ function ShowTable({ flights, userid }) {
   };
 
   return (
-    <div className="container table-responsive ">
+    <div className="container table-responsive p-0">
       <ToastContainer
         position="top-center"
         autoClose={3000}
