@@ -12,6 +12,7 @@ router.post("/", (req, res) => {
   // IF NOT (val_password REGEXP '^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).*$') THEN
   //   SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Password must contain at least one uppercase letter, one lowercase letter, and one digit.';
   // END IF;
+
   bcrypt
     .hash(password, 10)
     .then((hash) => {
