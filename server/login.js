@@ -1,6 +1,7 @@
 import db from "./dbconfig.js";
 import express from "express";
 var router = express.Router();
+import bcrypt from "bcrypt";
 
 //to get admin details
 router.get("/admin/:id", (req, res) => {
@@ -30,14 +31,14 @@ router.get("/user/:id", (req, res) => {
 
 //to validate user login
 router.post("/user", (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  db.query("select * from registerd_users where email=? and password=?", [email, password], (err, result) => {
+  const { email, password } = req.body;
+  db.query("select * from registerd_users where email=?", [email], (err, result) => {
     if (err) res.send({ err: err });
     if (result.length > 0) {
-      console.log(email, password);
-      res.send(result);
+      bcrypt.compare(password, result[0].password).then((matches) => {
+        if (!matches) res.send({ msg: "Invalid user Login" });
+        else res.send(result);
+      });
     } else {
       res.send({ msg: "Invalid user Login" });
     }
