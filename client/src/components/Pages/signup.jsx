@@ -66,7 +66,7 @@ function SignUp() {
         toast.error(response.data.sqlMessage);
       } else {
         toast.success("Successfully registered");
-        // evt.target.reset();
+        evt.target.reset();
       }
       console.log(response);
     });
