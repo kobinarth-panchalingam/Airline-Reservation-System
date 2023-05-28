@@ -26,7 +26,7 @@ app.use("/admin", admin);
 app.use("/report", report);
 
 app
-  .listen(4000, () => {
+  .listen(process.env.PORT || 4000, () => {
     console.log("Server is running on port 4000!");
   })
   .on("error", console.log);
