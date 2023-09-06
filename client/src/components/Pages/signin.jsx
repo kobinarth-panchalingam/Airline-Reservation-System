@@ -106,7 +106,7 @@ function SignIn() {
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
-        draggable
+        draggablegit
         pauseOnHover={false}
         theme="light"
         transition={Flip}
@@ -117,7 +117,7 @@ function SignIn() {
             B Airways Reservation System
           </MDBTypography>
           <Alert show={show} variant="success" dismissible onClose={() => setShow(false)}>
-            For testing purposes, you can use the following credentials to login as admin or user.
+            For quick testing purposes, use these credentials.
             <table className="table-responsive table-bordered text-center">
               <thead>
                 <tr>
