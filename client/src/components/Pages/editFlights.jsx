@@ -25,7 +25,6 @@ function ViewFlights() {
   }, [change]);
 
   const handleAction = (flight_id) => {
-    console.log(status);
     axios.put(`${process.env.REACT_APP_API_URL}/admin/flightStatus/update/${flight_id}`, { status: status }).then((response) => {
       toast.success("flight status changed");
       setChange(change + 1);

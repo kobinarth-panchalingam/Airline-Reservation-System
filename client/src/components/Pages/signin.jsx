@@ -4,6 +4,7 @@ import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import auth from "../utils/auth";
 import { ToastContainer, toast, Flip } from "react-toastify";
+import { Alert } from "react-bootstrap";
 import {
   MDBContainer,
   MDBTabs,
@@ -20,6 +21,8 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom";
 function SignIn() {
   const [user, setUser] = useState();
   const [admin, setAdmin] = useState();
+  const [show, setShow] = useState(true);
+
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     const loggedInAdmin = localStorage.getItem("admin");
@@ -27,12 +30,10 @@ function SignIn() {
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
-      console.log(foundUser[0].user_id);
       navigate("/");
     } else if (loggedInAdmin) {
       const foundAdmin = JSON.parse(loggedInAdmin);
       setAdmin(foundAdmin);
-      console.log(foundAdmin[0].user_id);
       navigate("/");
     }
   }, []);
@@ -53,8 +54,8 @@ function SignIn() {
     }
     setJustifyActive(value);
   };
+
   const handleSubmit = (evt) => {
-    console.log(loginInfo);
     evt.preventDefault();
 
     Axios.get(`${process.env.REACT_APP_API_URL}/login/admin/` + loginInfo.email).then((response) => {
@@ -115,6 +116,31 @@ function SignIn() {
           <MDBTypography tag="div" className="display-6 text-center mb-4 text-primary">
             B Airways Reservation System
           </MDBTypography>
+          <Alert show={show} variant="success" dismissible onClose={() => setShow(false)}>
+            Test user credentials
+            <table className="table-responsive table-bordered text-center">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Admin</th>
+                  <th>User</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Email</td>
+                  <td>admin@gmail.com</td>
+                  <td>kobinarth22@gmail.com</td>
+                </tr>
+                <tr>
+                  <td>Password</td>
+                  <td>123</td>
+                  <td>123</td>
+                </tr>
+              </tbody>
+            </table>
+          </Alert>
+
           <MDBTabs pills justify className="mb-3 d-flex flex-row justify-content-between">
             <MDBTabsItem>
               <MDBTabsLink onClick={() => handleJustifyClick("tab1")} active={justifyActive === "tab1"}>

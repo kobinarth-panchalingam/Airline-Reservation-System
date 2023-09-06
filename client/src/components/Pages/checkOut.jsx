@@ -25,7 +25,6 @@ function CheckOut() {
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_API_URL}/booking/bookingDetails/${booking_id}`).then((response) => {
       setTicketInfo(response.data);
-      console.log(response);
     });
 
     const loggedInUser = localStorage.getItem("user");
@@ -41,7 +40,6 @@ function CheckOut() {
 
   const handlePayment = () => {
     Axios.put(`${process.env.REACT_APP_API_URL}/booking/update/${booking_id}`).then((response) => {
-      console.log(response);
       setShow(true);
     });
   };
@@ -71,7 +69,7 @@ function CheckOut() {
             </div> */}
           </div>
           <hr />
-          <div class="table-responsive">
+          <div className="table-responsive">
             <table className="table   table-bordered table-striped table-hover ">
               <thead className=" table-light">
                 <tr>

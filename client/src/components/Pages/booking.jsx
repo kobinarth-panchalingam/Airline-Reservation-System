@@ -167,7 +167,6 @@ function Booking() {
       passengerPassports: passengerPassports,
       passengerDob: passengerDob,
     }).then((response) => {
-      console.log("pId", response.data);
       setShow3(true);
       toast.success("Passenger deatails are submitted");
       setControl(true);
@@ -181,7 +180,6 @@ function Booking() {
       discount: discount,
       ticketInfo: ticketInfo,
     }).then((response) => {
-      console.log("b_id", response);
       setTicketInfo({ ...ticketInfo, bookingID: response.data });
       setShow4(true);
     });
@@ -196,9 +194,7 @@ function Booking() {
         passengerSeats: passengerSeats,
         passengerPassports: passengerPassports,
       }).then((response) => {
-        console.log(response);
         if (response.data == "1") {
-          console.log("ticket finished");
           navigate("/checkOut/" + ticketInfo.bookingID);
         } else {
           toast.error(response.data.sqlMessage);

@@ -38,12 +38,10 @@ function UpComingFlights() {
     }
   }, []);
 
-  // console.log(user.user_id);
   const showFlights = () => {
     const origin = newOrigin.slice(0, 3);
     const destination = newDestination.slice(0, 3);
     const flightInfo = { origin: origin, destination: destination, departDate: departDate };
-    // console.log([origin, destination, departDate]);
     Axios.post(`${process.env.REACT_APP_API_URL}/flight/upComingFlights`, flightInfo).then((response) => {
       if (response.data.length == 0) {
         toast.warn("Sorry, No Flights available", {

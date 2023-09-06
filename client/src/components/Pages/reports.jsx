@@ -51,7 +51,6 @@ function Reports() {
       endDate: returnDate,
     }).then((response) => {
       setPassengerCount(response.data[0][0].passenger_count);
-      // console.log(response.data[0][0]);
     });
   };
 
@@ -63,7 +62,6 @@ function Reports() {
       endDate: returnDate,
     }).then((response) => {
       setBookingCount(response.data[0]);
-      // console.log(response.data[0]);
     });
   };
 
@@ -74,7 +72,6 @@ function Reports() {
       destination: newDestination.slice(0, 3),
     }).then((response) => {
       setPastFlights(response.data[0]);
-      // console.log(response.data);
     });
   };
 
@@ -84,7 +81,6 @@ function Reports() {
       flight_no: flightNo,
     }).then((response) => {
       setPassengerByAge(response.data[0]);
-      console.log(response.data);
     });
   };
 
@@ -202,7 +198,6 @@ function Reports() {
                   <div className="container">
                     {bookingCount.map((row) => {
                       const { user_type, booking_count } = row;
-                      // console.log(row);
                       return (
                         <div key={user_type} className="row my-2 gx-2 m-1">
                           <h3 className="col-lg-6 col-md-12 border border-2 bg-primary text-center text-white">{user_type}</h3>
@@ -269,7 +264,6 @@ function Reports() {
                 <tbody>
                   {pastFlights.map((row) => {
                     const { flight_id, airplane_id, flight_no, passenger_count } = row;
-                    console.log(row);
                     return (
                       <tr key={flight_id}>
                         <td className="text-center">{flight_id}</td>

@@ -9,7 +9,6 @@ class Auth {
     this.authenticated = true;
     this.role = "user";
     this.userId = user_id;
-    console.log(user_id.first_name);
   }
 
   adminLogin(user_id) {
@@ -37,7 +36,6 @@ class Auth {
     return false;
   }
   isGuest() {
-    console.log(this.role);
     if (this.role == "guest") {
       return true;
     }

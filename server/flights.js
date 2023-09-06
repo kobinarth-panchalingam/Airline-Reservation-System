@@ -50,7 +50,6 @@ router.post("/viewFlights", (req, res) => {
       res.send(result);
     } else {
       res.send(result);
-      // console.log(result);
     }
   });
 });

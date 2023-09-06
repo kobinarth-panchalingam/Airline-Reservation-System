@@ -19,7 +19,6 @@ router.post("/", (req, res) => {
       password = hash;
       const sqlInsert = "call insert_registered_user(?,?,?,?,?,?,?,?)";
       db.query(sqlInsert, [firstName, lastName, password, email, phoneNumber, gender, dob, nic], (err, result) => {
-        console.log(password);
         if (err) {
           res.send(err);
         } else {

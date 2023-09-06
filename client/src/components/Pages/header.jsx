@@ -14,12 +14,9 @@ function Header() {
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser[0]);
-      // console.log(user.user_id);
-      // navigate("/" + foundUser[0].user_id);
     } else if (loggedInAdmin) {
       const foundAdmin = JSON.parse(loggedInAdmin);
       setAdmin(foundAdmin[0]);
-      console.log(foundAdmin[0].name);
     }
   }, []);
 

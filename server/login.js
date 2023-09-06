@@ -10,7 +10,6 @@ router.get("/admin/:id", (req, res) => {
   db.query(sqlGet, id, (err, result) => {
     if (err) res.send({ err: err });
     else {
-      console.log(result);
       res.send(result);
     }
   });

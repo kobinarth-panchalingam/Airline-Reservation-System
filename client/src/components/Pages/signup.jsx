@@ -39,7 +39,6 @@ function SignUp() {
 
   const handleChange = (event) => {
     setSignUpInfo({ ...signUpInfo, [event.target.name]: event.target.value });
-    console.log(event.target.name);
   };
 
   const handleJustifyClick = (value) => {
@@ -51,7 +50,6 @@ function SignUp() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(signUpInfo.class);
     Axios.post(`${process.env.REACT_APP_API_URL}/signup`, {
       firstName: signUpInfo.firstName,
       lastName: signUpInfo.lastName,
@@ -68,7 +66,6 @@ function SignUp() {
         toast.success("Successfully registered");
         evt.target.reset();
       }
-      console.log(response);
     });
   };
 
@@ -128,12 +125,6 @@ function SignUp() {
             </MDBRow>
 
             <MDBRow>
-              {/* <MDBCol md="6" className="mb-4">
-                <h6 className="fw-bold">Class: </h6>
-                <MDBRadio name="class" value="5" label="Gold" onChange={handleChange} inline required />
-                <MDBRadio name="class" value="9" label="Platinum" onChange={handleChange} inline required />
-                <MDBRadio name="class" value="0" label="None" onChange={handleChange} inline required />
-              </MDBCol> */}
               <MDBCol md="6" className="mb-4">
                 <MDBInput wrapperClass="mb-4 p-1" label="Birthday" size="lg" name="dob" type="date" onChange={handleChange} required />
               </MDBCol>
