@@ -117,7 +117,7 @@ function SignIn() {
             B Airways Reservation System
           </MDBTypography>
           <Alert show={show} variant="success" dismissible onClose={() => setShow(false)}>
-            Test user credentials
+            For testing purposes, you can use the following credentials to login as admin or user.
             <table className="table-responsive table-bordered text-center">
               <thead>
                 <tr>
@@ -130,7 +130,7 @@ function SignIn() {
                 <tr>
                   <td>Email</td>
                   <td>admin@gmail.com</td>
-                  <td>kobinarth22@gmail.com</td>
+                  <td>user@gmail.com</td>
                 </tr>
                 <tr>
                   <td>Password</td>
