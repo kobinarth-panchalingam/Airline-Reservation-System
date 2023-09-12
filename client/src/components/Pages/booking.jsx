@@ -52,35 +52,80 @@ function Booking() {
     bookingID: null,
   });
   const [flightInfo, setFlightInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    Axios.get(`${process.env.REACT_APP_API_URL}/login/user/${userid}`).then((response) => {
-      setDiscount(response.data[0].discount);
-    });
+    // Axios.get(`${process.env.REACT_APP_API_URL}/login/user/${userid}`).then((response) => {
+    //   setDiscount(response.data[0].discount);
+    // });
 
-    Axios.get(`${process.env.REACT_APP_API_URL}/booking/flightDetails/${id}`).then((response) => {
-      setFlightInfo(response.data[0]);
-      setPrice(response.data[0].economy_fare);
-      setTicketInfo({ ...ticketInfo, totalPrice: response.data[0].economy_fare });
-    });
-    Axios.get(`${process.env.REACT_APP_API_URL}/booking/seatCount/${id}`).then((response) => {
-      setSeatInfo(response.data[0]);
-    });
+    // Axios.get(`${process.env.REACT_APP_API_URL}/booking/flightDetails/${id}`).then((response) => {
+    //   setFlightInfo(response.data[0]);
+    //   setPrice(response.data[0].economy_fare);
+    //   setTicketInfo({ ...ticketInfo, totalPrice: response.data[0].economy_fare });
+    // });
+    // Axios.get(`${process.env.REACT_APP_API_URL}/booking/seatCount/${id}`).then((response) => {
+    //   setSeatInfo(response.data[0]);
+    // });
 
-    Axios.post(`${process.env.REACT_APP_API_URL}/booking/seats`, { type: "economy", id: id }).then((response) => {
-      response.data.forEach((element) => {
-        economyBooked.push(element.seat_no + "");
+    // Axios.post(`${process.env.REACT_APP_API_URL}/booking/seats`, { type: "economy", id: id }).then((response) => {
+    //   response.data.forEach((element) => {
+    //     economyBooked.push(element.seat_no + "");
+    //   });
+    // });
+    // Axios.post(`${process.env.REACT_APP_API_URL}/booking/seats`, { type: "business", id: id }).then((response) => {
+    //   response.data.forEach((element) => {
+    //     businessBooked.push(element.seat_no + "");
+    //   });
+    // });
+    // Axios.post(`${process.env.REACT_APP_API_URL}/booking/seats`, { type: "platinum", id: id }).then((response) => {
+    //   response.data.forEach((element) => {
+    //     platinumBooked.push(element.seat_no + "");
+    //   });
+    // });
+
+    Promise.all([
+      Axios.get(`${process.env.REACT_APP_API_URL}/login/user/${userid}`),
+      Axios.get(`${process.env.REACT_APP_API_URL}/booking/flightDetails/${id}`),
+      Axios.get(`${process.env.REACT_APP_API_URL}/booking/seatCount/${id}`),
+      Axios.post(`${process.env.REACT_APP_API_URL}/booking/seats`, { type: "economy", id: id }),
+      Axios.post(`${process.env.REACT_APP_API_URL}/booking/seats`, { type: "business", id: id }),
+      Axios.post(`${process.env.REACT_APP_API_URL}/booking/seats`, { type: "platinum", id: id }),
+    ])
+      .then((responses) => {
+        const userResponse = responses[0];
+        const flightDetailsResponse = responses[1];
+        const seatCountResponse = responses[2];
+        const economySeatsResponse = responses[3];
+        const businessSeatsResponse = responses[4];
+        const platinumSeatsResponse = responses[5];
+
+        setDiscount(userResponse.data[0].discount);
+        setFlightInfo(flightDetailsResponse.data[0]);
+        setPrice(flightDetailsResponse.data[0].economy_fare);
+        setTicketInfo({ ...ticketInfo, totalPrice: flightDetailsResponse.data[0].economy_fare });
+        setSeatInfo(seatCountResponse.data[0]);
+
+        // Handle economy seats response
+        economySeatsResponse.data.forEach((element) => {
+          economyBooked.push(element.seat_no + "");
+        });
+
+        // Handle business seats response
+        businessSeatsResponse.data.forEach((element) => {
+          businessBooked.push(element.seat_no + "");
+        });
+
+        // Handle platinum seats response
+        platinumSeatsResponse.data.forEach((element) => {
+          platinumBooked.push(element.seat_no + "");
+        });
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
       });
-    });
-    Axios.post(`${process.env.REACT_APP_API_URL}/booking/seats`, { type: "business", id: id }).then((response) => {
-      response.data.forEach((element) => {
-        businessBooked.push(element.seat_no + "");
-      });
-    });
-    Axios.post(`${process.env.REACT_APP_API_URL}/booking/seats`, { type: "platinum", id: id }).then((response) => {
-      response.data.forEach((element) => {
-        platinumBooked.push(element.seat_no + "");
-      });
-    });
   }, []);
 
   for (var i = 1; i <= seatInfo.platinum_seatcapacity; i++) {
@@ -231,6 +276,17 @@ function Booking() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
+
+  if (loading) {
+    return (
+      <div className="text-center my-3">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <MDBBtn

@@ -22,9 +22,12 @@ function CheckOut() {
   const [user, setUser] = useState([{ first_name: "-", last_name: "-" }]);
   const [admin, setAdmin] = useState();
   const [ticketInfo, setTicketInfo] = useState([{ amount: "-", booked_date: "-" }]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(true);
     Axios.get(`${process.env.REACT_APP_API_URL}/booking/bookingDetails/${booking_id}`).then((response) => {
       setTicketInfo(response.data);
+      setLoading(false);
     });
 
     const loggedInUser = localStorage.getItem("user");
@@ -37,6 +40,16 @@ function CheckOut() {
       setAdmin(foundAdmin[0]);
     }
   }, []);
+
+  if (loading) {
+    return (
+      <div className="text-center my-3">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   const handlePayment = () => {
     Axios.put(`${process.env.REACT_APP_API_URL}/booking/update/${booking_id}`).then((response) => {

@@ -27,6 +27,7 @@ function SearchFlights() {
   const [origins, setOrigins] = useState(null);
   const [newOrigin, setNewOrigin] = useState("");
   const [newDestination, setNewDestination] = useState("");
+  const [showAlert, setShowAlert] = useState(true);
 
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_API_URL}/flight/origins`).then((response) => {
@@ -34,6 +35,15 @@ function SearchFlights() {
     });
   }, []);
 
+  if (!origins) {
+    return (
+      <div className="text-center my-3">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   const showFlights = () => {
     const origin = newOrigin.slice(0, 3);
     const destination = newDestination.slice(0, 3);
@@ -55,7 +65,7 @@ function SearchFlights() {
       setShow(true);
     });
   };
-  const [showAlert, setShowAlert] = useState(true);
+
   return (
     <>
       <NavBar />

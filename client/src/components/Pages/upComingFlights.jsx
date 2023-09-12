@@ -21,7 +21,7 @@ const currentDate = date.toLocaleDateString("en-CA");
 function UpComingFlights() {
   const [departDate, setDepartDate] = useState(currentDate);
   const [flights, setflights] = useState([]);
-  const [origins, setOrigins] = useState([]);
+  const [origins, setOrigins] = useState();
   const [newOrigin, setNewOrigin] = useState("");
   const [newDestination, setNewDestination] = useState("");
   const [user, setUser] = useState({ user_id: null });
@@ -37,6 +37,16 @@ function UpComingFlights() {
       setUser(foundUser[0]);
     }
   }, []);
+
+  if (!origins) {
+    return (
+      <div className="text-center my-3">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   const showFlights = () => {
     const origin = newOrigin.slice(0, 3);

@@ -17,6 +17,15 @@ export default function FlightGrid({ userid }) {
     });
   }, []);
 
+  if (!data) {
+    return (
+      <div className="text-center my-3">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   const handleBookMe = (id) => {
     if (userid == null) {
       toast.info("You need to sign up first as a registered  user");
@@ -42,13 +51,7 @@ export default function FlightGrid({ userid }) {
         transition={Flip}
       />
       <hr />
-      {!data && (
-        <div className="text-center my-3">
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      )}
+
       <MDBRow className="row-cols-1 row-cols-md-3 g-5">
         {data &&
           data.map((flight) => {
