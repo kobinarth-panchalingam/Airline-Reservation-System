@@ -9,6 +9,7 @@
 - [Reports](#reports)
 - [Installation](#installation)
 - [Usage](#usage)
+- [License](#usage)
 
 ---
 
@@ -122,6 +123,10 @@ To start the frontend, run the following command from the `client` directory:
 
 Once the project is set up and both the backend and frontend servers are running, users can access the system through the http://localhost:3000. They can view flight schedules, register or log in, and book flights.
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
 ---
 
-Feel free to reach out to kobinarth.20@cse.mrt.ac.lk for any questions or clarifications related to this project. Thank you for your interest and contribution!
+Feel free to reach out to kobinarth22@gmail.com for any questions or clarifications related to this project. Thank you for your interest and contribution!
