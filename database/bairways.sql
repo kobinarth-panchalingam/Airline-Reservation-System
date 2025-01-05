@@ -5,7 +5,7 @@
 -- Server version: 8.0.28-19
 -- PHP Version: 7.2.34
 
-/*TOsDO : Find a way to host the database for free*/
+/*TODO : Find a way to host the database for free*/
 
 DROP DATABASE `bairways`;
 CREATE DATABASE `bairways`;
