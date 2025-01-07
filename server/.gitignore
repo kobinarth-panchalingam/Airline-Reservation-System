@@ -1,2 +1,25 @@
-/node_modules
+# Logs
+logs
+*.log
+
+# Dependency directories
+node_modules/
+
+# Build output
+build/
+# dist/
+# Environment variables
 .env
+.env.development
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+
+# Testing artifacts
+coverage/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
