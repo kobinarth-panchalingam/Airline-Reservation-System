@@ -49,6 +49,29 @@ Thank you for considering contributing to our project! Here are some guidelines 
     - Use `UPPER_CASE` for constants.
     - Use `UPPER_SNAKE_CASE` for environment variables.
 
+## Dependencies Management
+
+1. **Adding Dependencies**
+    - Use `npm install <package-name>` to add new dependencies.
+    - Use `--save` flag to add the dependency to `dependencies` in `package.json`.
+    - Use `--save-dev` flag to add the dependency to `devDependencies` in `package.json`.
+
+2. **Updating Dependencies**
+    - Regularly check for outdated packages using `npm outdated`.
+    - Update dependencies using `npm update` or `npm install <package-name>@latest`.
+    - Test the application thoroughly after updating dependencies to ensure compatibility.
+
+3. **Removing Dependencies**
+    - Use `npm uninstall <package-name>` to remove a dependency.
+    - Ensure that the dependency is not used anywhere in the codebase before removing it.
+
+4. **Version Control**
+    - Use semantic versioning for dependencies.
+    - Avoid using `*` or `latest` for version numbers to prevent unexpected breaking changes.
+    - Do not delete `package-lock.json` to ensure consistent dependency versions across different environments.
+
+By managing dependencies carefully, you help maintain the stability and security of the project.
+
 ## Best Practices
 
 1. **Error Handling**
