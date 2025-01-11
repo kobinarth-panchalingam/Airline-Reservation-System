@@ -128,21 +128,4 @@ Thank you for considering contributing to our project! Here are some guidelines 
         - `404 Not Found` for non-existent resources.
         - `500 Internal Server Error` for internal server errors.
 
-## Git Workflow
-
-1. **Branching**
-    - Use feature branches for new features (`feature/feature-name`).
-    - Use bugfix branches for bug fixes (`bugfix/bug-name`).
-    - Use `main` branch for production-ready code.
-
-2. **Commits**
-    - Write clear and concise commit messages.
-    - Use present tense ("Add feature" not "Added feature").
-    - Reference issues in commit messages when applicable.
-
-3. **Pull Requests**
-    - Ensure your code passes all tests before creating a pull request.
-    - Provide a clear description of the changes.
-    - Request reviews from relevant team members.
-
 By following these guidelines, you help ensure that our codebase remains clean, maintainable, and efficient. Thank you for your contributions!
