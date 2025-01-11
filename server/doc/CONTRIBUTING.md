@@ -9,8 +9,6 @@ Thank you for considering contributing to our project! Here are some guidelines 
     ├── 📁 controllers
     │   ├── book.controller.js
     │   └── user.controller.js
-    ├── app.js
-    ├── server.js
     ├── 📁 middlewares
     │   ├── has-token.js
     │   └── is-admin.js
@@ -34,7 +32,9 @@ Thank you for considering contributing to our project! Here are some guidelines 
     │       └── 📁 utils
     │           └── foo.test.js
     ├── 📁 utils
-        └── foo.js
+    |   └── foo.js
+    ├── app.js
+    └── server.js
 
 ## Coding Standards
 
@@ -70,34 +70,63 @@ Thank you for considering contributing to our project! Here are some guidelines 
     - Avoid using `*` or `latest` for version numbers to prevent unexpected breaking changes.
     - Do not delete `package-lock.json` to ensure consistent dependency versions across different environments.
 
-By managing dependencies carefully, you help maintain the stability and security of the project.
+## REST API Naming Conventions
 
-## Best Practices
+1. **HTTP Methods**
+    - Use appropriate HTTP methods for actions:
+    - `GET`: Retrieve data (e.g., `/users` or `/users/{id}`).
+    - `POST`: Create a new resource (e.g., `/users`).
+    - `PUT`: Update an existing resource (replace) (e.g., `/users/{id}`).
+    - `PATCH`: Update part of a resource (partial update) (e.g., `/users/{id}`).
+    - `DELETE`: Delete a resource (e.g., `/users/{id}`).
 
-1. **Error Handling**
-    - Use middleware for centralized error handling.
-    - Always return meaningful error messages.
-    - Avoid using generic error messages.
+2. **Resource Names**
+    - Use plural nouns for resource names.
+    - Use hyphens to separate words for readability - !this is the only place where we use hypens.
+    - Example: `/users`, `/flights`, `/bookings`, `/aircraft-models`
 
-2. **Security**
-    - Use `helmet` to set HTTP headers for security.
-    - Sanitize user inputs to prevent SQL injection and XSS attacks.
-    - Use environment variables for sensitive information.
+3. **Query Parameters**
+    - Use query parameters for filtering, sorting, and pagination (optional).
+    - Example: `/flights?origin=NYC&destination=LAX&sort=departure_time`.
 
-3. **Performance**
-    - Use `compression` middleware to gzip responses.
-    - Optimize database queries.
-    - Use caching where appropriate.
+4. **Path Parameters**
+    - Use resource IDs in the path for specific resources. (e.g., `/users/{id}`).
+    - Avoid using query strings for IDs. (e.g., `/users?id=123`).
 
-4. **Testing**
-    - Write unit tests for all functions and methods.
-    - Use `mocha` and `chai` for testing.
-    - Ensure tests cover edge cases and potential failure points.
+3. **Endpoint Structure**
+    - Use hierarchical structure for endpoints.
 
-5. **Documentation**
-    - Comment your code where necessary.
-    - Update the README.md with any new features or changes.
-    - Use JSDoc for documenting functions and methods.
+4. **Response Body Naming Conventions**
+    - Use `snake_case` for JSON keys.
+    - Ensure consistency in naming conventions across all response bodies.
+    - Example:
+        ```json
+        {
+            "user_id": 123,
+            "user_name": "JohnDoe",
+            "user_email": "john.doe@example.com"
+        }
+    - Use a consistent structure for error responses to ensure clarity and uniformity.
+    - Example:
+        ```json
+        {
+            "error": {
+                "status": 400,
+                "message": "string"
+            }
+        }
+        ```
+
+5. **Status Codes**
+    - Use appropriate HTTP status codes for responses:
+        - `200 OK` for successful GET, PUT, or DELETE.
+        - `201 Created` for successful POST.
+        - `204 No Content` for successful request with no body in response.
+        - `400 Bad Request` for invalid requests.
+        - `401 Unauthorized` for unauthorized requests.
+        - `403 Forbidden` for access denied requests.
+        - `404 Not Found` for non-existent resources.
+        - `500 Internal Server Error` for internal server errors.
 
 ## Git Workflow
 

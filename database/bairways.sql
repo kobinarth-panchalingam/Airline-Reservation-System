@@ -110,7 +110,6 @@ CREATE  PROCEDURE `insert_registered_user` (IN `val_firstName` VARCHAR(255), IN 
     VALUES (val_firstName, val_lastName, val_password, val_email, val_phoneNumber, val_gender, val_dateOfBirth, val_NIC, "normal");
 
     COMMIT;
-
 END$$
 
 CREATE  PROCEDURE `passenger_agewise_report` (IN `flight_number` VARCHAR(45))   BEGIN
@@ -121,10 +120,7 @@ CREATE  PROCEDURE `passenger_agewise_report` (IN `flight_number` VARCHAR(45))   
                     WHERE flights.route_id=flight_number AND flights.flightstatus_id in (1,2)
                     ORDER BY flights.departure_time ASC
                     LIMIT 1
-                );
-            
-	
-            
+                );            
 END$$
 
 CREATE  PROCEDURE `passenger_count_report` (`end_destination` VARCHAR(3), `start_time` DATETIME, `end_time` DATETIME)   BEGIN
@@ -155,8 +151,8 @@ CREATE  PROCEDURE `schedule_flight` (IN `val_airplane_id` VARCHAR(5), IN `val_ro
     
     select airplane_id into var_exisiting_airplane_id from airplane where airplane_id = val_airplane_id;
     if var_exisiting_airplane_id = NULL then
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid airplane id';
-	end if;
+		  SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid airplane id';
+	  end if;
     
     select max(arrival_time) into var_exisiting_max_arrival_time from flights where 
     (airplane_id = var_exisiting_airplane_id);
@@ -183,7 +179,6 @@ CREATE  PROCEDURE `schedule_flight` (IN `val_airplane_id` VARCHAR(5), IN `val_ro
     INSERT INTO flights (airplane_id, route_id, flightstatus_id, departure_time, arrival_time, flight_no, economy_fare, business_fare,platinum_fare)
     VALUES (val_airplane_id , val_route_id , val_flightstatus_id , val_departure_time , val_arrival_time , 
     val_flight_no , val_economy_fare , val_business_fare , val_platinum_fare );
-    
 END$$
 
 CREATE  PROCEDURE `total_revenue_report` ()   BEGIN
@@ -202,50 +197,50 @@ END$$
 -- Functions
 --
 CREATE  FUNCTION `duration` (`start_date` DATETIME, `end_date` DATETIME) RETURNS VARCHAR(50) CHARSET utf8mb4 DETERMINISTIC
-BEGIN
-	declare diff varchar(10);
-    declare output varchar(10);
-	select substring_index(sec_to_time(TIMESTAMPDIFF(second, start_date ,end_date )),":",2)
-    into diff;
-    select 
-    concat(substring_index(diff,':',1),"h ",substring_index(diff,':',-1),"m") 
-    into output;
-RETURN output;
+  BEGIN
+    declare diff varchar(10);
+      declare output varchar(10);
+    select substring_index(sec_to_time(TIMESTAMPDIFF(second, start_date ,end_date )),":",2)
+      into diff;
+      select 
+      concat(substring_index(diff,':',1),"h ",substring_index(diff,':',-1),"m") 
+      into output;
+  RETURN output;
 END$$
 
 CREATE  FUNCTION `get_age` (`birthday` DATETIME) RETURNS VARCHAR(10) CHARSET utf8mb4 DETERMINISTIC  
-BEGIN
-    declare age int;
-    declare output varchar(10);
-	select TIMESTAMPDIFF(year, birthday ,current_timestamp )
-    into age;
-    if (age<18) then set output="below 18";
-    else set output="above 18";
-    end if;
-RETURN output;  
+  BEGIN
+      declare age int;
+      declare output varchar(10);
+    select TIMESTAMPDIFF(year, birthday ,current_timestamp )
+      into age;
+      if (age<18) then set output="below 18";
+      else set output="above 18";
+      end if;
+  RETURN output;  
 END$$
 
 CREATE  FUNCTION `show_routes` (`val_airplane_id` VARCHAR(5)) RETURNS INT DETERMINISTIC  
-BEGIN
-    DECLARE var_existing_route_id INT DEFAULT 0;
-    DECLARE var_exisiting_last_destination VARCHAR(3) DEFAULT '';
+  BEGIN
+      DECLARE var_existing_route_id INT DEFAULT 0;
+      DECLARE var_exisiting_last_destination VARCHAR(3) DEFAULT '';
 
-    SELECT destination
-    INTO var_exisiting_last_destination
-    FROM route
-    WHERE route_id = (SELECT route_id
-                     FROM flights
-                     WHERE airplane_id = val_airplane_id 
-                       AND flights.arrival_time = (SELECT MAX(arrival_time)
-                                          FROM flights
-                                          WHERE airplane_id = val_airplane_id));
+      SELECT destination
+      INTO var_exisiting_last_destination
+      FROM route
+      WHERE route_id = (SELECT route_id
+                      FROM flights
+                      WHERE airplane_id = val_airplane_id 
+                        AND flights.arrival_time = (SELECT MAX(arrival_time)
+                                            FROM flights
+                                            WHERE airplane_id = val_airplane_id));
 
-    RETURN(
-    SELECT route_id
-                     FROM route
-                     WHERE origin = var_exisiting_last_destination LIMIT 1
-	);
-END$$
+      RETURN(
+      SELECT route_id
+                      FROM route
+                      WHERE origin = var_exisiting_last_destination LIMIT 1
+    );
+  END$$
 
 DELIMITER ;
 
