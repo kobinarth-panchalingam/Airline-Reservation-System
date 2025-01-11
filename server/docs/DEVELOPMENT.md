@@ -3,16 +3,19 @@
 
 1. **Clone the Repository**
     ```sh
-    git clone https://github.com/your-repo/airline-reservation-system.git
+    git clone https://github.com/kobinarth-panchalingam/Airline-Reservation-System.git
     cd airline-reservation-system
     ```
+2. **Set Up ESLint and Prettier**
+    - Download the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) extension for VSCode:
+    - Download the [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extension for VSCode.
 
-2. **Install Dependencies**
+3. **Install Dependencies**
     ```sh
     npm install
     ```
 
-3. **Environment Variables**
+4. **Environment Variables**
     - Create a `.env` file in the root directory and add the necessary environment variables.
     - Example:
         ```env
@@ -23,14 +26,14 @@
         PORT=3000
         ```
 
-4. **Node.js Version**
+5. **Node.js Version**
     - Ensure you are using lastest Node.js version 22.13.0
     - You can check your Node.js version with:
         ```sh
         node -v
         ```
 
-5. **Running the Application**
+6. **Running the Application**
     ```sh
     npm start
     ```

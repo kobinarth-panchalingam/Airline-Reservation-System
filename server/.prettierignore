@@ -1,0 +1,21 @@
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+
+# Ignore artifacts:
+build
+coverage
+
+docs
+old-code
+
+# All config files
+.gitignore
+.prettierignore
+.prettierrc
+package.json
+package-lock.json
+eslint.config.js
+vercel.json
+.husky
