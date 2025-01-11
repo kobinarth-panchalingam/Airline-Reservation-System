@@ -3,12 +3,12 @@ CREATE TABLE customer (
     id SERIAL PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
     phone_number VARCHAR(20) NOT NULL UNIQUE,
-    customer_type VARCHAR(20) NOT NULL CHECK (customer_type IN ('guest', 'registered'))
+    customer_type VARCHAR(20) NOT NULL CHECK (customer_type IN ('guest', 'registered')) DEFAULT 'guest'
 );
 
 CREATE TABLE registered_customer_category (
     id SERIAL PRIMARY KEY,
-    category_name VARCHAR(20) NOT NULL UNIQUE, -- e.g., platinum, gold, silver
+    category_name VARCHAR(20) NOT NULL UNIQUE, -- e.g., platinum, gold, silver, normal
     discount_rate NUMERIC(5,2) NOT NULL CHECK (discount_rate >= 0 AND discount_rate <= 100)
 );
 
@@ -60,6 +60,13 @@ CREATE TABLE location (
     FOREIGN KEY (parent_id) REFERENCES location(id)
 );
 
+-- 1, Sri Lanka, NULL, country
+-- 2, Colombo, 1, city
+-- 3, Hambantota, 1, city
+-- 4, USA, NULL, country
+-- 5, Texas, 4, state
+-- 6, New York, 5, city
+
 CREATE TABLE airport (
     id SERIAL PRIMARY KEY,
     airport_code VARCHAR(3) NOT NULL UNIQUE,
@@ -69,6 +76,9 @@ CREATE TABLE airport (
     FOREIGN KEY (location_id) REFERENCES location(id)
 );
 
+-- 1, BIC, 2, Bandaranaike International Airport, NULL x
+-- 2, HGA, 6, New York Airport, NULL
+
 CREATE TABLE route (
     id SERIAL PRIMARY KEY,
     origin VARCHAR(3) NOT NULL,
@@ -77,11 +87,16 @@ CREATE TABLE route (
     FOREIGN KEY (origin) REFERENCES airport(airport_code) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (destination) REFERENCES airport(airport_code) ON UPDATE CASCADE ON DELETE CASCADE
 );
+-- 1, BIC, HGA x
 
 CREATE TABLE traveler_class (
     id SERIAL PRIMARY KEY,
     class_name VARCHAR(10) NOT NULL UNIQUE
 );
+
+-- 1, Economy
+-- 2, Business
+-- 3, First Class
 
 CREATE TABLE flight_fare (
     id SERIAL PRIMARY KEY,
@@ -92,6 +107,10 @@ CREATE TABLE flight_fare (
     FOREIGN KEY (route_id) REFERENCES route(id) ON DELETE CASCADE,
     FOREIGN KEY (traveler_class_id) REFERENCES traveler_class(id) ON DELETE CASCADE
 );
+
+-- 1, 1, 1, 100.00
+-- 2, 1, 2, 200.00
+-- 3, 1, 3, 300.00
 
 CREATE TABLE flight (
     id SERIAL PRIMARY KEY,

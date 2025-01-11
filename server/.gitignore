@@ -6,8 +6,9 @@ logs
 node_modules/
 
 # Build output
-build/
+build
 # dist/
+
 # Environment variables
 .env
 .env.development
