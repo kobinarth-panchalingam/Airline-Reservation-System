@@ -9,7 +9,7 @@
 
 2. **Update the `.env` file:**
     ```env
-    DB_HOST={publicIP} # can get from terminal by ipconfig
+    DB_HOST={privateIP} # can get from terminal by ipconfig
     DB_USER=postgres
     DB_PASSWORD=test123
     DB_DATABASE=airline
