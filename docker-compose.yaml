@@ -1,0 +1,33 @@
+services:
+  airline-db:
+    build: database/
+    image: airline_db:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    expose:
+      - "${DB_PORT}"
+    environment:
+      POSTGRES_PASSWORD: test123 
+      PGPORT: ${DB_PORT}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 30s
+      retries: 3
+
+  airline-server:
+    build: server/
+    image: airline_server:latest
+    restart: always
+    ports:
+      - "5000:5000"
+    env_file:
+      - path: .env
+        required: true
+    depends_on:
+      airline-db:
+        condition: service_healthy
+    command: ["npm", "start"]
