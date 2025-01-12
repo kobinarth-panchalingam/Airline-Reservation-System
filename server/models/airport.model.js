@@ -42,6 +42,19 @@ export const AirportModel = {
         }
     },
 
+    getByLocationId: async locationId => {
+        try {
+            const result = await db.query(
+                'SELECT * FROM airport WHERE location_id = $1',
+                [locationId]
+            )
+            return result.rows[0]
+        } catch (error) {
+            console.error('Error fetching airport by location_id:', error)
+            throw error
+        }
+    },
+
     updateById: async (id, data) => {
         try {
             const result = await db.query(

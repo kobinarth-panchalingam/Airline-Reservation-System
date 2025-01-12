@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.get('/', airportController.getAllAirports)
 router.get('/:code', airportController.getAirportByCode)
+router.get('/:locationId', airportController.getAirportByLocationId)
 router.post('/', airportController.createAirport)
 router.put('/:id', airportController.updateAirport)
 router.delete('/:id', airportController.deleteAirport)

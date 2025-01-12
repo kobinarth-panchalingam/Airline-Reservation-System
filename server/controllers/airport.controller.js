@@ -23,6 +23,21 @@ export const airportController = {
         }
     },
 
+    getAirportByLocationId: async (req, res) => {
+        try {
+            const airport = await AirportModel.getByLocationId(
+                req.params.locationId
+            )
+            if (!airport) {
+                res.status(404).json({ message: 'Airport not found' })
+                return
+            }
+            res.json(airport)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    },
+
     createAirport: async (req, res) => {
         try {
             const airport = await AirportModel.create(req.body)
