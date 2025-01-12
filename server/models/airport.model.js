@@ -29,15 +29,15 @@ export const AirportModel = {
         }
     },
 
-    getById: async id => {
+    getByCode: async code => {
         try {
             const result = await db.query(
-                'SELECT * FROM airport WHERE id = $1',
-                [id]
+                'SELECT * FROM airport WHERE airport_code = $1',
+                [code]
             )
             return result.rows[0]
         } catch (error) {
-            console.error('Error fetching airport by id:', error)
+            console.error('Error fetching airport by airport_code:', error)
             throw error
         }
     },
