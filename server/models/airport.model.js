@@ -1,4 +1,4 @@
-import { db } from '../configs/db.config'
+import { db } from '../configs/db.config.js'
 
 export const AirportModel = {
     create: async data => {
