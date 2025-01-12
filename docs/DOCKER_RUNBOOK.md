@@ -21,7 +21,7 @@
 
 1. **Build the updated Docker images:**
     ```sh
-    docker-compose build
+    docker compose build
     ```
 
 2. **Start the application using Docker Compose:**
