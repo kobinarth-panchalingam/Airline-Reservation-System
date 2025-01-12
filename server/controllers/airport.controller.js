@@ -10,9 +10,9 @@ export const airportController = {
         }
     },
 
-    getAirportByCode: async (req, res) => {
+    getAirportByAirportCode: async (req, res) => {
         try {
-            const airport = await AirportModel.getByCode(req.params.code)
+            const airport = await AirportModel.getByAirportCode(req.params.code)
             if (!airport) {
                 res.status(404).json({ message: 'Airport not found' })
                 return

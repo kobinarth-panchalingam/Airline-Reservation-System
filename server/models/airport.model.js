@@ -29,7 +29,7 @@ export const AirportModel = {
         }
     },
 
-    getByCode: async code => {
+    getByAirportCode: async code => {
         try {
             const result = await db.query(
                 'SELECT * FROM airport WHERE airport_code = $1',
