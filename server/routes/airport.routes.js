@@ -4,8 +4,9 @@ import { airportController } from '../controllers/airport.controller.js'
 const router = express.Router()
 
 router.get('/', airportController.getAllAirports)
-router.get('/:code', airportController.getAirportByAirportCode)
-router.get('/:locationId', airportController.getAirportByLocationId)
+router.get('/:id', airportController.getAirportById)
+router.get('/code/:code', airportController.getAirportByAirportCode)
+router.get('/location/:locationId', airportController.getAirportByLocationId)
 router.post('/', airportController.createAirport)
 router.put('/:id', airportController.updateAirport)
 router.delete('/:id', airportController.deleteAirport)
