@@ -10,7 +10,7 @@ export const locationController = {
         }
     },
 
-    getLocationById: async (req, res) => {
+    getById: async (req, res) => {
         try {
             const location = await LocationModel.getById(req.params.id)
             if (!location) {
@@ -18,6 +18,17 @@ export const locationController = {
                 return
             }
             res.json(location)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    },
+
+    getAllLocationsByParentId: async (req, res) => {
+        try {
+            const locations = await LocationModel.getAllLocationsByParentId(
+                req.params.parentId
+            )
+            res.json(locations)
         } catch (error) {
             res.status(500).json({ message: error.message })
         }

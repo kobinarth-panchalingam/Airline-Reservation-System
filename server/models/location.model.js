@@ -1,71 +1,50 @@
 import { db } from '../configs/db.config'
 
 export const LocationModel = {
-    create: async data => {
-        try {
-            const result = await db.query(
-                'INSERT INTO location (location_name, country, city, image_url) VALUES ($1, $2, $3, $4) RETURNING *',
-                [data.location_name, data.country, data.city, data.image_url]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error creating location:', error)
-            throw error
-        }
+    async getAll() {
+        const query = 'SELECT * FROM location'
+        const { rows } = await db.query(query)
+        return rows
     },
 
-    getAll: async () => {
-        try {
-            const result = await db.query('SELECT * FROM location')
-            return result.rows
-        } catch (error) {
-            console.error('Error fetching locations:', error)
-            throw error
-        }
+    async getById(id) {
+        const query = 'SELECT * FROM location WHERE id = $1'
+        const { rows } = await db.query(query, [id])
+        return rows[0]
     },
 
-    getById: async id => {
-        try {
-            const result = await db.query(
-                'SELECT * FROM location WHERE id = $1',
-                [id]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error fetching location by id:', error)
-            throw error
-        }
+    async getAllLocationsByParentId(parentId) {
+        const query = 'SELECT * FROM location WHERE parent_id = $1'
+        const { rows } = await db.query(query, [parentId])
+        return rows
     },
 
-    update: async (id, data) => {
-        try {
-            const result = await db.query(
-                'UPDATE location SET location_name = $1, country = $2, city = $3, image_url = $4 WHERE id = $5 RETURNING *',
-                [
-                    data.location_name,
-                    data.country,
-                    data.city,
-                    data.image_url,
-                    id
-                ]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error updating location:', error)
-            throw error
-        }
+    async create(location) {
+        const query =
+            'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING *'
+        const { rows } = await db.query(query, [
+            location.location_name,
+            location.parent_id,
+            location.level
+        ])
+        return rows[0]
     },
 
-    delete: async id => {
-        try {
-            const result = await db.query(
-                'DELETE FROM location WHERE id = $1 RETURNING *',
-                [id]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error deleting location:', error)
-            throw error
-        }
+    async update(id, location) {
+        const query =
+            'UPDATE location SET location_name = $1, parent_id = $2, level = $3 WHERE id = $4 RETURNING *'
+        const { rows } = await db.query(query, [
+            location.location_name,
+            location.parent_id,
+            location.level,
+            id
+        ])
+        return rows[0]
+    },
+
+    async delete(id) {
+        const query = 'DELETE FROM location WHERE id = $1 RETURNING *'
+        const { rows } = await db.query(query, [id])
+        return rows[0]
     }
 }
