@@ -9,11 +9,11 @@
 
 2. **Update the `.env` file:**
     ```env
-    DB_HOST={privateIP} # can get from terminal by ipconfig
-    DB_USER=postgres
-    DB_PASSWORD=test123
-    DB_DATABASE=airline
-    DB_PORT=8795
+    PG_HOST=192.168.8.100
+    PG_USER=postgres
+    PG_PASSWORD=test123
+    PG_DATABASE=airline
+    PG_PORT=8795
     PORT=5000
     ```
 
