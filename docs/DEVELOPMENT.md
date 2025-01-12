@@ -32,11 +32,11 @@
 
    - Create a `.env` file in the root directory and add the necessary environment variables.
      ```env
-     DB_HOST=localhost
-     DB_USER=postgres
-     DB_PASSWORD=password
-     DB_DATABASE=airline
-     PORT=5432
+     PG_HOST=localhost
+     PG_PORT=5432
+     PG_USER=postgres
+     PG_PASSWORD=password
+     PG_DATABASE=airline
      ```
 
 6. **Node.js Version**
@@ -84,11 +84,11 @@
    - The application is deployed at: [https://airline-reservation-system-dev.vercel.app/](https://airline-reservation-system-dev.vercel.app/)
 2. **Deployed Databse**
    ```
-   DB_HOST=ep-misty-union-a1b7ni07-pooler.ap-southeast-1.aws.neon.tech
-   DB_PORT=5432
-   DB_USER=airline
-   DB_PASSWORD=ijgKpUc9r1fv
-   DB_NAME=airline
+   PG_HOST=ep-misty-union-a1b7ni07-pooler.ap-southeast-1.aws.neon.tech
+   PG_PORT=5432
+   PG_USER=neondb_owner
+   PG_PASSWORD=ijgKpUc9r1fv
+   PG_DATABASE=airline
    ```
 
 ## Additional Resources
