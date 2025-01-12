@@ -19,3 +19,7 @@ package-lock.json
 eslint.config.js
 vercel.json
 .husky
+
+# Docker files
+Dockerfile
+.dockerignore
