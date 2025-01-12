@@ -28,3 +28,9 @@
     ```sh
     docker compose up
     ```
+
+## Accessing the Database
+```sh
+psql -h {privateIP} -U postgres -d airline -p 8795
+# password: test123
+```
