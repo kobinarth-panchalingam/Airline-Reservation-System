@@ -3,8 +3,8 @@
 - [ ] Employee - Assigned to: [Developer Name]
 - [ ] Registered customer - Assigned to: [Developer Name]
 
-- [ ] Airport - Assigned to: [SY]
-- [ ] Location - Assigned to: [SY]
+- [x] Airport - Assigned to: [SY]
+- [x] Location - Assigned to: [SY]
 - [ ] Airplane - Assigned to: [KP]
 - [ ] Air_craft_Model - Assigned to: [KP]
 - [ ] Route - Assigned to: [SP]
