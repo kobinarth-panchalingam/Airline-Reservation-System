@@ -14,7 +14,15 @@ export const LocationModel = {
     },
 
     async getAllLocationsByParentId(parentId) {
-        const query = 'SELECT * FROM location WHERE parent_id = $1'
+        const query = `
+        WITH RECURSIVE location_tree AS (
+            SELECT * FROM location WHERE parent_id = $1
+            UNION ALL
+            SELECT l.* FROM location l
+            INNER JOIN location_tree lt ON lt.id = l.parent_id
+        )
+        SELECT * FROM location_tree
+    `
         const { rows } = await db.query(query, [parentId])
         return rows
     },
