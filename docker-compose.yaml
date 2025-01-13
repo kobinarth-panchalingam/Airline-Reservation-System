@@ -6,12 +6,12 @@ services:
     env_file:
       - .env
     ports:
-      - "${PG_PORT}:${PG_PORT}"
+      - "${PGPORT}:${PGPORT}"
     expose:
-      - "${PG_PORT}"
+      - "${PGPORT}"
     environment:
-      POSTGRES_PASSWORD: test123 
-      PGPORT: ${PG_PORT}
+      POSTGRES_PASSWORD: test123
+      PGPORT: ${PGPORT}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s

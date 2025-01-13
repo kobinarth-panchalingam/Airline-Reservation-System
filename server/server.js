@@ -3,12 +3,13 @@ import { db } from './configs/db.config.js'
 
 const PORT = process.env.PORT || 4000
 
-db.connect()
-    .then(() => {
-        console.log('Connected to PostgreSQL Database')
+db.getClient()
+    .then(client => {
+        console.log('Successfully connected to database')
+        client.release()
     })
     .catch(err => {
-        console.error('Error connecting to PostgreSQL database', err)
+        console.error('error connecting to database\n', err)
     })
 
 app.listen(PORT, () => {

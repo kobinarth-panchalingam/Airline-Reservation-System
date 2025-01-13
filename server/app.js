@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 
-import { responseFormatter } from './middleware/response-formatter.js'
+import { responseFormatter } from './middlewares/response-formatter.js'
 import { aircraftModelRoutes } from './routes/aircraft-model.routes.js'
 import { flightModelRoutes } from './routes/flight-model.routes.js'
 import { airportRoutes } from './routes/airport.routes.js'

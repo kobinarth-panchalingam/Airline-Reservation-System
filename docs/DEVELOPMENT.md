@@ -31,12 +31,18 @@
 5. **Environment Variables**
 
    - Create a `.env` file in the root directory and add the necessary environment variables.
+
      ```env
-     PG_HOST=localhost
-     PG_PORT=5432
-     PG_USER=postgres
-     PG_PASSWORD=password
-     PG_DATABASE=airline
+      # App config
+      PORT=5000
+      NODE_ENV=development
+
+      # Postgres config local
+      PGHOST=localhost
+      PGPORT=5432
+      PGUSER=postgres
+      PGPASSWORD=password
+      PGDATABASE=airline
      ```
 
 6. **Node.js Version**
@@ -84,14 +90,18 @@
    - The application is deployed at: [https://airline-reservation-system-dev.vercel.app/](https://airline-reservation-system-dev.vercel.app/)
 2. **Deployed Databse**
    ```
-   PG_HOST=ep-misty-union-a1b7ni07-pooler.ap-southeast-1.aws.neon.tech
-   PG_PORT=5432
-   PG_USER=neondb_owner
-   PG_PASSWORD=ijgKpUc9r1fv
-   PG_DATABASE=airline
+   PGHOST=ep-misty-union-a1b7ni07-pooler.ap-southeast-1.aws.neon.tech
+   PGPORT=5432
+   PGUSER=neondb_owner
+   PGPASSWORD=ijgKpUc9r1fv
+   PGDATABASE=airline
    ```
 
 ## Additional Resources
 
 1. **Postman Workspace**
+
    - Access the Postman workspace at: [https://app.getpostman.com/airline-reservation](https://app.getpostman.com/join-team?invite_code=27b42d80fd87d5fe667e29bb06fbc890e6f6d87c4a7fe79eab46b4a1410bb3d3&target_code=042ecaab342c8edb3a6b2aaa27e2c720)
+
+2. **Database ERD**
+   - Access lucid chart editable diargram ar: [https://lucid.app/lucidchart](https://lucid.app/lucidchart/724da39b-9cc4-4bf5-a270-66bf53f3430c/edit?viewport_loc=-853%2C-717%2C2157%2C1248%2C0_0&invitationId=inv_dc351c39-96dd-4f21-b94b-d1276b779c7a)
