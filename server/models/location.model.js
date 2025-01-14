@@ -2,20 +2,15 @@ import { db } from '../configs/db.config.js'
 
 export const LocationModel = {
     getAll: async () => {
-        return db.transaction(async client => {
-            const result = await client.query('SELECT * FROM location')
-            return result.rows
-        })
+        const result = await db.query('SELECT * FROM location')
+        return result.rows
     },
 
     getById: async id => {
-        return db.transaction(async client => {
-            const result = await client.query(
-                'SELECT * FROM location WHERE id = $1',
-                [id]
-            )
-            return result.rows[0]
-        })
+        const result = await db.query('SELECT * FROM location WHERE id = $1', [
+            id
+        ])
+        return result.rows[0]
     },
 
     getAllLocationsByParentId: async parentId => {
