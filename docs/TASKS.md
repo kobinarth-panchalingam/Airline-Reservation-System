@@ -9,8 +9,8 @@
 - [ ] Air_craft_Model - Assigned to: [KP]
 - [ ] Route - Assigned to: [SP]
 - [ ] Flight - Assigned to: [SP]
-- [ ] Flight Fare - Assigned to: [Developer Name]
-- [ ] Traveler class - Assigned to: [Developer Name]
+- [ ] Flight Fare - Assigned to: [TJ]
+- [ ] Traveler class - Assigned to: [TJ]
 
 - [ ] Booking - Assigned to: [Developer Name]
 - [ ] Customer - Assigned to: [Developer Name]
