@@ -54,7 +54,7 @@ export const db = {
     },
 
     transaction: async callback => {
-        const client = await pool.connect()
+        const client = await db.getClient()
         try {
             await client.query('BEGIN')
             const result = await callback(client)
