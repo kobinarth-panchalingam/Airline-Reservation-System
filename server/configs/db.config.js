@@ -19,10 +19,19 @@ const pool = new Pool({
 export const db = {
     query: async (text, params) => {
         const start = Date.now()
-        const res = await pool.query(text, params)
-        const duration = Date.now() - start
-        console.log('executed query', { text, duration, rows: res.rowCount })
-        return res
+        try {
+            const res = await pool.query(text, params)
+            const duration = Date.now() - start
+            console.log('executed query', {
+                text,
+                duration,
+                rows: res.rowCount
+            })
+            return res
+        } catch (error) {
+            console.error('Error executing query', { text, error })
+            throw error
+        }
     },
     getClient: async () => {
         const client = await pool.connect()
