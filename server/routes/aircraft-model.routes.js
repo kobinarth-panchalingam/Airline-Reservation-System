@@ -4,5 +4,8 @@ import { aircraftModelController } from '../controllers/aircraft-model.controlle
 const router = express.Router()
 
 router.get('/', aircraftModelController.getAllAircraftModels)
+router.post('/', aircraftModelController.createAircraftModel)
+router.put('/:id', aircraftModelController.updateAircraftModel)
+router.delete('/:id', aircraftModelController.deleteAircraftModel)
 
 export { router as aircraftModelRoutes }
