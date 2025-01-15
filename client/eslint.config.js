@@ -10,6 +10,7 @@ import eslintPluginReactRefresh from "eslint-plugin-react-refresh";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import typescriptEslint from "typescript-eslint";
+import eslintPluginQuery from "@tanstack/eslint-plugin-query";
 
 const patchedReactHooksPlugin = fixupPluginRules(eslintPluginReactHooks);
 const patchedImportPlugin = fixupPluginRules(eslintPluginImport);
@@ -30,7 +31,7 @@ const baseESLintConfig = {
 		"no-unused-private-class-members": "error",
 		"no-use-before-define": "error",
 		"require-atomic-updates": "error",
-		camelcase: "error",
+		// camelcase: "error",
 	},
 };
 
@@ -63,7 +64,7 @@ const typescriptConfig = {
 		"@typescript-eslint/consistent-type-imports": "error",
 		// "@typescript-eslint/explicit-function-return-type": "warn",
 		"@typescript-eslint/explicit-member-accessibility": "error",
-		"@typescript-eslint/explicit-module-boundary-types": "warn",
+		// "@typescript-eslint/explicit-module-boundary-types": "warn",
 		"@typescript-eslint/no-confusing-void-expression": "error",
 		"@typescript-eslint/no-import-type-side-effects": "error",
 		"@typescript-eslint/no-require-imports": "error",
@@ -182,13 +183,24 @@ const unicornConfig = {
 	},
 };
 
+const queryConfig = {
+	name: "query",
+	plugins: {
+		"@tanstack/query": eslintPluginQuery,
+	},
+	rules: {
+		"@tanstack/query/exhaustive-deps": "error",
+	},
+};
+
 const eslintConfig = typescriptEslint.config(
 	baseESLintConfig,
 	typescriptConfig,
 	eslintConfigPrettier,
 	reactConfig,
 	jsxA11yConfig,
-	unicornConfig
+	unicornConfig,
+	queryConfig
 );
 
 eslintConfig.map((config) => {

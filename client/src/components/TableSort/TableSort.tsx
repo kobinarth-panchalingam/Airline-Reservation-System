@@ -1,5 +1,6 @@
 import {
 	ActionIcon,
+	Button,
 	Center,
 	Group,
 	keys,
@@ -20,7 +21,7 @@ import {
 	IconSelector,
 	IconTrash,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./TableSort.module.css";
 
 interface RowData {
@@ -34,6 +35,7 @@ interface Column {
 }
 
 interface ActionConfig {
+	type: "view" | "edit" | "delete" | "insert";
 	label: string;
 	onClick: (row: RowData) => React.ReactNode;
 }
@@ -121,6 +123,10 @@ export function TableSort({ data, columns, actions }: TableSortProps) {
 	const [modalContent, setModalContent] = useState<React.ReactNode>(null);
 	const [actionTitle, setActionTitle] = useState<string>("");
 
+	useEffect(() => {
+		setSortedData(data);
+	}, [data]);
+
 	const handleOnSort = (field: keyof RowData) => {
 		const reversed = field === sortBy ? !reverseSortDirection : false;
 		setReverseSortDirection(reversed);
@@ -137,9 +143,22 @@ export function TableSort({ data, columns, actions }: TableSortProps) {
 	};
 
 	const handleActionClick = (action: ActionConfig, row: RowData) => {
+		if (action.type === "delete") {
+			action.onClick(row);
+			return;
+		}
 		setActionTitle(action.label);
 		setModalContent(action.onClick(row));
 		open();
+	};
+
+	const handleInsertClick = () => {
+		const action = actions?.find((a) => a.type === "insert");
+		if (action) {
+			setActionTitle(action.label);
+			setModalContent(action.onClick({}));
+			open();
+		}
 	};
 
 	const rows = sortedData.map((row, index) => (
@@ -150,18 +169,21 @@ export function TableSort({ data, columns, actions }: TableSortProps) {
 			{actions && (
 				<Table.Td>
 					<Group>
-						{actions.map((action) => (
-							<ActionIcon
-								key={action.label}
-								onClick={() => {
-									handleActionClick(action, row);
-								}}
-							>
-								{action.label === "View" && <IconEye size={16} />}
-								{action.label === "Edit" && <IconEdit size={16} />}
-								{action.label === "Delete" && <IconTrash size={16} />}
-							</ActionIcon>
-						))}
+						{actions.map(
+							(action) =>
+								action.type !== "insert" && (
+									<ActionIcon
+										key={action.label}
+										onClick={() => {
+											handleActionClick(action, row);
+										}}
+									>
+										{action.type === "view" && <IconEye size={16} />}
+										{action.type === "edit" && <IconEdit size={16} />}
+										{action.type === "delete" && <IconTrash size={16} />}
+									</ActionIcon>
+								)
+						)}
 					</Group>
 				</Table.Td>
 			)}
@@ -175,13 +197,16 @@ export function TableSort({ data, columns, actions }: TableSortProps) {
 			</Modal>
 			<ScrollArea>
 				<div className={classes.searchBar}>
-					<TextInput
-						leftSection={<IconSearch size={16} stroke={1.5} />}
-						mb="md"
-						placeholder="Search by any field"
-						value={search}
-						onChange={handleSearchChange}
-					/>
+					<div className={classes.textInput}>
+						<TextInput
+							leftSection={<IconSearch size={16} stroke={1.5} />}
+							mb="md"
+							placeholder="Search by any field"
+							value={search}
+							onChange={handleSearchChange}
+						/>
+					</div>
+					<Button onClick={handleInsertClick}>Insert</Button>
 				</div>
 				<Table
 					horizontalSpacing="md"
