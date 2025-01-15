@@ -1,70 +1,98 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+	createAircraftModel,
+	deleteAircraftModel,
+	getAllAircraftModels,
+	updateAircraftModel,
+} from "../../api/services/aircraftModelService";
 import { TableSort } from "../../components/TableSort/TableSort";
-
-const data = [
-	{
-		name: "John Doe",
-		email: "john@example.com",
-		company: "Example Inc.",
-		salary: 100000,
-	},
-	{
-		name: "Jane Smith",
-		email: "jane@example.com",
-		company: "Example LLC",
-		salary: undefined,
-	},
-	{
-		name: "Alice Johnson",
-		email: "alice@example.com",
-		company: "Example Corp.",
-		salary: 95000,
-	},
-	{
-		name: "Bob Brown",
-		email: "bob@example.com",
-		company: "Example Ltd.",
-		salary: 85000,
-	},
-	{
-		name: "Charlie Davis",
-		email: "charlie@example.com",
-		company: "Example Group",
-		salary: 105000,
-	},
-	{
-		name: "Diana Evans",
-		email: "diana@example.com",
-		company: "Example Partners",
-		salary: 98000,
-	},
-];
+import { AircraftModelForm } from "./AircraftModelForm";
+import { openDeleteConfirmModal } from "../../utls/DeleteConfirnModal";
 
 const columns = [
-	{ label: "Name", accessor: "name" },
-	{ label: "Email", accessor: "email" },
-	{ label: "Company", accessor: "company" },
-	{ label: "Salary", accessor: "salary" },
-];
-
-const actions = [
-	{
-		label: "View",
-		//eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		onClick: (row) => <div>Viewing {row?.name}</div>,
-	},
-	{
-		label: "Edit",
-		//eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		onClick: (row) => <div>Editing {row?.name}</div>,
-	},
-	{
-		label: "Delete",
-		//eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		onClick: (row) => <div>Deleting {row?.name}</div>,
-	},
+	{ label: "Model Name", accessor: "model_name" },
+	{ label: "Variant", accessor: "variant" },
+	{ label: "Manufacturer Name", accessor: "manufacturer_name" },
+	{ label: "Seat Capacity", accessor: "seat_capacity" },
+	{ label: "Max Load (kg)", accessor: "max_load" },
+	{ label: "Fuel Capacity (l)", accessor: "fuel_capacity" },
+	{ label: "Average Speed (km/h)", accessor: "average_speed" },
 ];
 
 export function AircraftModels() {
+	const { data, error, isLoading } = useQuery({
+		queryKey: ["aircraftModels"],
+		queryFn: getAllAircraftModels,
+	});
+
+	const queryClient = useQueryClient();
+
+	const handleInsert = async (values) => {
+		await createAircraftModel(values);
+		await queryClient.invalidateQueries({
+			queryKey: ["aircraftModels"],
+		});
+	};
+
+	const handleEdit = async (values) => {
+		await updateAircraftModel(values);
+		await queryClient.invalidateQueries({
+			queryKey: ["aircraftModels"],
+		});
+	};
+
+	const handleDelete = async (values) => {
+		await deleteAircraftModel(values.id);
+		await queryClient.invalidateQueries({
+			queryKey: ["aircraftModels"],
+		});
+	};
+
+	const actions = [
+		{
+			label: "View",
+			type: "view",
+			onClick: (row) => <AircraftModelForm action="view" initialValues={row} />,
+		},
+		{
+			label: "Edit",
+			type: "edit",
+			onClick: (row) => (
+				<AircraftModelForm
+					action="edit"
+					initialValues={row}
+					onSubmit={handleEdit}
+				/>
+			),
+		},
+		{
+			label: "Insert",
+			type: "insert",
+			onClick: () => (
+				<AircraftModelForm action="insert" onSubmit={handleInsert} />
+			),
+		},
+		{
+			label: "Delete",
+			type: "delete",
+			onClick: (row) => {
+				openDeleteConfirmModal({
+					title: "Delete Aircraft Model",
+					message: `Are you sure you want to delete the aircraft model ${row.model_name}? This action is irreversible.`,
+					onConfirm: () => handleDelete(row),
+				});
+			},
+		},
+	];
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (error) {
+		return <div>Error: {error.message}</div>;
+	}
+
 	return (
 		<div>
 			<TableSort actions={actions} columns={columns} data={data} />
