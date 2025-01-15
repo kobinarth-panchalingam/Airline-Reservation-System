@@ -1,6 +1,18 @@
 import { db } from '../configs/db.config.js'
 
 export const AirportModel = {
+    /**
+     *
+     * @param {Object} data
+     * @param {string} data.airport_code
+     * @param {string} data.airport_name
+     * @param {string} data.country
+     * @param {string} data.state
+     * @param {string} data.city
+     * @param {string} data.image_url
+     * add a new airport to the database as well as the location details (country, state, city) to the location table
+     * @returns {Promise<Object>} Returns the newly created airport
+     */
     create: async data => {
         try {
             const {
@@ -58,40 +70,76 @@ export const AirportModel = {
         }
     },
 
+    /**
+     * Fetches all airports from the database
+     * the results should contain all fields from the airport table and for the location fields, it should contain country, state, and city
+     * get a one airport, then get the location id of that airport then get the locations (city, state, country) of that location id from location table
+     * @returns {Promise<Array>} Returns an array of all airports
+     */
     getAll: async () => {
-        try {
-            const result = await db.query('SELECT * FROM airport')
-            return result.rows
-        } catch (error) {
-            console.error('Error fetching airports:', error)
-            throw error
-        }
+        const result = await db.query(`
+            SELECT a.*, 
+                   c.location_name AS country, 
+                   CASE 
+                       WHEN s.id IS NOT NULL THEN s.location_name 
+                       ELSE NULL 
+                   END AS state, 
+                   l.location_name AS city
+            FROM airport a
+            JOIN location l ON a.location_id = l.id
+            LEFT JOIN location s ON l.parent_id = s.id AND s.level = 'state'
+            LEFT JOIN location c ON (s.parent_id = c.id AND c.level = 'country') OR (l.parent_id = c.id AND c.level = 'country')
+        `)
+        return result.rows
     },
 
     getById: async id => {
-        try {
-            const result = await db.query(
-                'SELECT * FROM airport WHERE id = $1',
-                [id]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error fetching airport by id:', error)
-            throw error
-        }
+        const result = await db.query(
+            `
+            SELECT a.*, 
+                   c.location_name AS country, 
+                   CASE 
+                       WHEN s.id IS NOT NULL THEN s.location_name 
+                       ELSE NULL 
+                   END AS state, 
+                   l.location_name AS city
+            FROM airport a
+            JOIN location l ON a.location_id = l.id
+            LEFT JOIN location s ON l.parent_id = s.id AND s.level = 'state'
+            LEFT JOIN location c ON (s.parent_id = c.id AND c.level = 'country') OR (l.parent_id = c.id AND c.level = 'country')
+            WHERE a.id = $1
+        `,
+            [id]
+        )
+        return result.rows
     },
 
     getByLocationId: async locationId => {
-        try {
-            const result = await db.query(
-                'SELECT * FROM airport WHERE location_id = $1',
-                [locationId]
+        const query = `
+            WITH RECURSIVE location_tree AS (
+                SELECT id, location_name, parent_id, level
+                FROM location
+                WHERE id = $1
+                UNION ALL
+                SELECT l.id, l.location_name, l.parent_id, l.level
+                FROM location l
+                INNER JOIN location_tree lt ON lt.id = l.parent_id
             )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error fetching airport by location_id:', error)
-            throw error
-        }
+            SELECT a.*, 
+                   c.location_name AS country, 
+                   CASE 
+                       WHEN s.id IS NOT NULL THEN s.location_name 
+                       ELSE NULL 
+                   END AS state, 
+                   l.location_name AS city
+            FROM airport a
+            JOIN location l ON a.location_id = l.id
+            LEFT JOIN location s ON l.parent_id = s.id AND s.level = 'state'
+            LEFT JOIN location c ON (s.parent_id = c.id AND c.level = 'country') OR (l.parent_id = c.id AND c.level = 'country')
+            WHERE l.id IN (SELECT id FROM location_tree WHERE level = 'city')
+        `
+        const result = await db.query(query, [locationId])
+        return result.rows
     },
 
     updateById: async (id, data) => {

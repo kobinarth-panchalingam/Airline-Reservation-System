@@ -32,13 +32,6 @@ INSERT INTO location (location_name, parent_id, level) VALUES
 ('Thailand', NULL, 'country'), -- id = 4
 ('Singapore', NULL, 'country'); -- id = 5
 
-INSERT INTO location (location_name, parent_id, level) VALUES 
-('Indonesia', NULL, 'country'), -- id = 1
-('Sri Lanka', NULL, 'country'), -- id = 2
-('India', NULL, 'country'), -- id = 3
-('Thailand', NULL, 'country'), -- id = 4
-('Singapore', NULL, 'country'); -- id = 5
-
 -- States/Provinces in Indonesia
 INSERT INTO location (location_name, parent_id, level) VALUES 
 ('Banten', 1, 'state'), -- id = 6
@@ -370,3 +363,14 @@ VALUES
 (6, 25, '2025-02-03 11:30:00', '2025-02-03 13:30:00', 'scheduled');
 
 COMMIT;
+
+
+SELECT a.*, 
+        c.location_name AS country, 
+        s.location_name AS state, 
+        l.location_name AS city
+FROM airport a
+JOIN location l ON a.location_id = l.id
+LEFT JOIN location s ON l.parent_id = s.id
+LEFT JOIN location c ON s.parent_id = c.id
+WHERE l.level = 'city' AND s.level = 'state' AND c.level = 'country';
