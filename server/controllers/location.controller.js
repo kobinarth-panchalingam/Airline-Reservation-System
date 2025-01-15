@@ -13,7 +13,7 @@ export const locationController = {
     getAllLocationsByParentId: async (req, res) => {
         try {
             const locations = await LocationModel.getAllLocationsByParentId(
-                req.params.parentId
+                req.params.id
             )
             res.json(locations)
         } catch (error) {
