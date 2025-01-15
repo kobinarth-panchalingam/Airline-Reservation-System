@@ -114,7 +114,7 @@ export const AirportModel = {
         return result.rows
     },
 
-    getByLocationId: async locationId => {
+    getAllByLocationId: async locationId => {
         const query = `
             WITH RECURSIVE location_tree AS (
                 SELECT id, location_name, parent_id, level

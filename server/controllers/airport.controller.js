@@ -23,9 +23,9 @@ export const airportController = {
         }
     },
 
-    getAirportByLocationId: async (req, res) => {
+    getAirportsByLocationId: async (req, res) => {
         try {
-            const airport = await AirportModel.getByLocationId(
+            const airport = await AirportModel.getAllByLocationId(
                 req.params.locationId
             )
             if (!airport) {
