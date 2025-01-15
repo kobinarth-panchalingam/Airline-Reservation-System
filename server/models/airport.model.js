@@ -14,60 +14,95 @@ export const AirportModel = {
      * @returns {Promise<Object>} Returns the newly created airport
      */
     create: async data => {
-        try {
-            const {
-                airport_code,
-                airport_name,
+        const { airport_code, airport_name, country, state, city, image_url } =
+            data
+        return db.transaction(async client => {
+            // Check if the country exists
+            const countryQuery =
+                'SELECT id FROM location WHERE location_name = $1 AND level = $2'
+            let countryResult = await client.query(countryQuery, [
                 country,
-                state,
-                city,
-                image_url
-            } = data
-            return db.transaction(async client => {
-                const countryQuery =
+                'country'
+            ])
+            let countryId
+
+            if (countryResult.rows.length > 0) {
+                countryId = countryResult.rows[0].id
+            } else {
+                const insertCountryQuery =
                     'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING id'
-                const countryId = await client.query(countryQuery, [
+                countryResult = await client.query(insertCountryQuery, [
                     country,
                     null,
                     'country'
                 ])
+                countryId = countryResult.rows[0].id
+            }
 
-                let parentId = countryId.rows[0].id
+            let parentId = countryId
 
-                if (state) {
-                    const stateQuery =
+            // Check if the state exists
+            if (state) {
+                const stateQuery =
+                    'SELECT id FROM location WHERE location_name = $1 AND level = $2 AND parent_id = $3'
+                let stateResult = await client.query(stateQuery, [
+                    state,
+                    'state',
+                    countryId
+                ])
+                let stateId
+
+                if (stateResult.rows.length > 0) {
+                    stateId = stateResult.rows[0].id
+                } else {
+                    const insertStateQuery =
                         'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING id'
-                    const stateId = await client.query(stateQuery, [
+                    stateResult = await client.query(insertStateQuery, [
                         state,
-                        countryId.rows[0].id,
+                        countryId,
                         'state'
                     ])
-                    parentId = stateId.rows[0].id
+                    stateId = stateResult.rows[0].id
                 }
 
-                const cityQuery =
+                parentId = stateId
+            }
+
+            // Check if the city exists
+            const cityQuery =
+                'SELECT id FROM location WHERE location_name = $1 AND level = $2 AND parent_id = $3'
+            let cityResult = await client.query(cityQuery, [
+                city,
+                'city',
+                parentId
+            ])
+            let cityId
+
+            if (cityResult.rows.length > 0) {
+                cityId = cityResult.rows[0].id
+            } else {
+                const insertCityQuery =
                     'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING id'
-                const cityId = await client.query(cityQuery, [
+                cityResult = await client.query(insertCityQuery, [
                     city,
                     parentId,
                     'city'
                 ])
+                cityId = cityResult.rows[0].id
+            }
 
-                const airportQuery =
-                    'INSERT INTO airport (airport_code, location_id, airport_name, image_url) VALUES ($1, $2, $3, $4) RETURNING *'
-                const result = await client.query(airportQuery, [
-                    airport_code,
-                    cityId.rows[0].id,
-                    airport_name,
-                    image_url
-                ])
+            // Insert the airport
+            const airportQuery =
+                'INSERT INTO airport (airport_code, location_id, airport_name, image_url) VALUES ($1, $2, $3, $4) RETURNING *'
+            const result = await client.query(airportQuery, [
+                airport_code,
+                cityId,
+                airport_name,
+                image_url
+            ])
 
-                return result.rows[0]
-            })
-        } catch (error) {
-            console.error('Error creating airport:', error)
-            throw error
-        }
+            return result.rows[0]
+        })
     },
 
     /**
