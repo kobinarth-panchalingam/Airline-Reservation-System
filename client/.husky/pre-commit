@@ -1,0 +1,5 @@
+cd client
+npm run compile
+cd ..
+cd server
+npx lint-staged
