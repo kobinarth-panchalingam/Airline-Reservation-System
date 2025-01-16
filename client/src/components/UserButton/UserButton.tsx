@@ -4,7 +4,7 @@ import classes from "./UserButton.module.css";
 import { useUser } from "../../context/UserContext";
 
 export function UserButton() {
-	const { user, setUser } = useUser();
+	const { user } = useUser();
 	return (
 		<UnstyledButton className={classes.user}>
 			<Group>
