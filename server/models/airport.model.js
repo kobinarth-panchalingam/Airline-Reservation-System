@@ -1,118 +1,105 @@
-import { db } from '../configs/db.config.js'
-
 export const AirportModel = {
-    /**
-     *
-     * @param {Object} data
-     * @param {string} data.airport_code
-     * @param {string} data.airport_name
-     * @param {string} data.country
-     * @param {string} data.state
-     * @param {string} data.city
-     * @param {string} data.image_url
-     * add a new airport to the database as well as the location details (country, state, city) to the location table
-     * @returns {Promise<Object>} Returns the newly created airport
-     */
-    create: async data => {
-        const { airport_code, airport_name, country, state, city, image_url } =
-            data
-        return db.transaction(async client => {
-            // Check if the country exists
-            const countryQuery =
-                'SELECT id FROM location WHERE location_name = $1 AND level = $2'
-            let countryResult = await client.query(countryQuery, [
-                country,
-                'country'
-            ])
-            let countryId
+    create: async (client, data) => {
+        const { airport_code, airport_name, locationId, image_url } = data
+        const query = `INSERT INTO airport (airport_code, airport_name, location_id, image_url) VALUES ($1, $2, $3, $4) RETURNING *`
+        const result = await client.query(query, [
+            airport_code,
+            airport_name,
+            locationId,
+            image_url
+        ])
+        return result.rows[0]
+        // return db.transaction(async client => {
+        //     // Check if the country exists
+        //     const countryQuery =
+        //         'SELECT id FROM location WHERE location_name = $1 AND level = $2'
+        //     let countryResult = await client.query(countryQuery, [
+        //         country,
+        //         'country'
+        //     ])
+        //     let countryId
 
-            if (countryResult.rows.length > 0) {
-                countryId = countryResult.rows[0].id
-            } else {
-                const insertCountryQuery =
-                    'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING id'
-                countryResult = await client.query(insertCountryQuery, [
-                    country,
-                    null,
-                    'country'
-                ])
-                countryId = countryResult.rows[0].id
-            }
+        //     if (countryResult.rows.length > 0) {
+        //         countryId = countryResult.rows[0].id
+        //     } else {
+        //         const insertCountryQuery =
+        //             'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING id'
+        //         countryResult = await client.query(insertCountryQuery, [
+        //             country,
+        //             null,
+        //             'country'
+        //         ])
+        //         countryId = countryResult.rows[0].id
+        //     }
 
-            let parentId = countryId
+        //     let parentId = countryId
 
-            // Check if the state exists
-            if (state) {
-                const stateQuery =
-                    'SELECT id FROM location WHERE location_name = $1 AND level = $2 AND parent_id = $3'
-                let stateResult = await client.query(stateQuery, [
-                    state,
-                    'state',
-                    countryId
-                ])
-                let stateId
+        //     // Check if the state exists
+        //     if (state) {
+        //         const stateQuery =
+        //             'SELECT id FROM location WHERE location_name = $1 AND level = $2 AND parent_id = $3'
+        //         let stateResult = await client.query(stateQuery, [
+        //             state,
+        //             'state',
+        //             countryId
+        //         ])
+        //         let stateId
 
-                if (stateResult.rows.length > 0) {
-                    stateId = stateResult.rows[0].id
-                } else {
-                    const insertStateQuery =
-                        'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING id'
-                    stateResult = await client.query(insertStateQuery, [
-                        state,
-                        countryId,
-                        'state'
-                    ])
-                    stateId = stateResult.rows[0].id
-                }
+        //         if (stateResult.rows.length > 0) {
+        //             stateId = stateResult.rows[0].id
+        //         } else {
+        //             const insertStateQuery =
+        //                 'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING id'
+        //             stateResult = await client.query(insertStateQuery, [
+        //                 state,
+        //                 countryId,
+        //                 'state'
+        //             ])
+        //             stateId = stateResult.rows[0].id
+        //         }
 
-                parentId = stateId
-            }
+        //         parentId = stateId
+        //     }
 
-            // Check if the city exists
-            const cityQuery =
-                'SELECT id FROM location WHERE location_name = $1 AND level = $2 AND parent_id = $3'
-            let cityResult = await client.query(cityQuery, [
-                city,
-                'city',
-                parentId
-            ])
-            let cityId
+        //     // Check if the city exists
+        //     const cityQuery =
+        //         'SELECT id FROM location WHERE location_name = $1 AND level = $2 AND parent_id = $3'
+        //     let cityResult = await client.query(cityQuery, [
+        //         city,
+        //         'city',
+        //         parentId
+        //     ])
+        //     let cityId
 
-            if (cityResult.rows.length > 0) {
-                cityId = cityResult.rows[0].id
-            } else {
-                const insertCityQuery =
-                    'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING id'
-                cityResult = await client.query(insertCityQuery, [
-                    city,
-                    parentId,
-                    'city'
-                ])
-                cityId = cityResult.rows[0].id
-            }
+        //     if (cityResult.rows.length > 0) {
+        //         cityId = cityResult.rows[0].id
+        //     } else {
+        //         const insertCityQuery =
+        //             'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING id'
+        //         cityResult = await client.query(insertCityQuery, [
+        //             city,
+        //             parentId,
+        //             'city'
+        //         ])
+        //         cityId = cityResult.rows[0].id
+        //     }
 
-            // Insert the airport
-            const airportQuery =
-                'INSERT INTO airport (airport_code, location_id, airport_name, image_url) VALUES ($1, $2, $3, $4) RETURNING *'
-            const result = await client.query(airportQuery, [
-                airport_code,
-                cityId,
-                airport_name,
-                image_url
-            ])
+        //     // Insert the airport
+        //     const airportQuery =
+        //         'INSERT INTO airport (airport_code, location_id, airport_name, image_url) VALUES ($1, $2, $3, $4) RETURNING *'
+        //     const result = await client.query(airportQuery, [
+        //         airport_code,
+        //         cityId,
+        //         airport_name,
+        //         image_url
+        //     ])
 
-            return result.rows[0]
-        })
+        //     return result.rows[0]
+        // })
     },
 
-    /**
-     * Fetches all airports from the database
-     * the results should contain all fields from the airport table and for the location fields, it should contain country, state, and city
-     * get a one airport, then get the location id of that airport then get the locations (city, state, country) of that location id from location table
-     * @returns {Promise<Array>} Returns an array of all airports
-     */
-    getAll: async () => {
-        const result = await db.query(`
+    getAll: async client => {
+        const result = await client.query(`
             SELECT a.*, 
                    c.location_name AS country, 
                    CASE 
@@ -128,8 +115,8 @@ export const AirportModel = {
         return result.rows
     },
 
-    getById: async id => {
-        const result = await db.query(
+    getById: async (client, id) => {
+        const result = await client.query(
             `
             SELECT a.*, 
                    c.location_name AS country, 
@@ -149,7 +136,7 @@ export const AirportModel = {
         return result.rows
     },
 
-    getAllByLocationId: async locationId => {
+    getAllByLocationId: async (client, locationId) => {
         const query = `
             WITH RECURSIVE location_tree AS (
                 SELECT id, location_name, parent_id, level
@@ -173,132 +160,135 @@ export const AirportModel = {
             LEFT JOIN location c ON (s.parent_id = c.id AND c.level = 'country') OR (l.parent_id = c.id AND c.level = 'country')
             WHERE l.id IN (SELECT id FROM location_tree WHERE level = 'city')
         `
-        const result = await db.query(query, [locationId])
+        const result = await client.query(query, [locationId])
         return result.rows
     },
 
-    updateById: async (id, data) => {
-        try {
-            return db.transaction(async client => {
-                const {
-                    airport_code,
-                    airport_name,
-                    country,
-                    state,
-                    city,
-                    image_url
-                } = data
+    updateById: async (client, id, data) => {
+        const { airport_code, airport_name, locationId, image_url } = data
+        const query = `UPDATE airport SET airport_code = $1, airport_name = $2, location_id = $3, image_url = $4 WHERE id = $5 RETURNING *`
+        const result = await client.query(query, [
+            airport_code,
+            airport_name,
+            locationId,
+            image_url,
+            id
+        ])
+        return result.rows[0]
+        // return db.transaction(async client => {
+        //     const {
+        //         airport_code,
+        //         airport_name,
+        //         country,
+        //         state,
+        //         city,
+        //         image_url
+        //     } = data
 
-                const locationQuery =
-                    'SELECT location_id FROM airport WHERE id = $1'
-                const locationId = await client.query(locationQuery, [id])
+        //     const locationQuery =
+        //         'SELECT location_id FROM airport WHERE id = $1'
+        //     const locationId = await client.query(locationQuery, [id])
 
-                if (city) {
-                    const cityQuery =
-                        'UPDATE location SET location_name = $1 WHERE id = $2 RETURNING parent_id'
-                    const cityId = await client.query(cityQuery, [
-                        city,
-                        locationId.rows[0].location_id
-                    ])
-                    if (state) {
-                        const stateQuery =
-                            'UPDATE location SET location_name = $1 WHERE id = $2 RETURNING parent_id'
-                        const stateId = await client.query(stateQuery, [
-                            state,
-                            cityId.rows[0].parent_id
-                        ])
-                        if (country) {
-                            const countryQuery =
-                                'UPDATE location SET location_name = $1 WHERE id = $2'
-                            await client.query(countryQuery, [
-                                country,
-                                stateId.rows[0].parent_id
-                            ])
-                        }
-                    } else if (country) {
-                        const stateQuery =
-                            'SELECT parent_id FROM location WHERE id = $1'
-                        const stateId = await client.query(stateQuery, [
-                            cityId.rows[0].parent_id
-                        ])
-                        const countryQuery =
-                            'UPDATE location SET location_name = $1 WHERE id = $2'
-                        await client.query(countryQuery, [
-                            country,
-                            stateId.rows[0].parent_id
-                        ])
-                    }
-                } else if (state) {
-                    const stateQuery =
-                        'UPDATE location SET location_name = $1 WHERE id = $2 RETURNING parent_id'
-                    const stateId = await client.query(stateQuery, [
-                        state,
-                        locationId.rows[0].location_id
-                    ])
-                    if (country) {
-                        const countryQuery =
-                            'UPDATE location SET location_name = $1 WHERE id = $2'
-                        await client.query(countryQuery, [
-                            country,
-                            stateId.rows[0].parent_id
-                        ])
-                    }
-                } else if (country) {
-                    const countryQuery =
-                        'UPDATE location SET location_name = $1 WHERE id = $2'
-                    await client.query(countryQuery, [
-                        country,
-                        locationId.rows[0].location_id
-                    ])
-                }
+        //     if (city) {
+        //         const cityQuery =
+        //             'UPDATE location SET location_name = $1 WHERE id = $2 RETURNING parent_id'
+        //         const cityId = await client.query(cityQuery, [
+        //             city,
+        //             locationId.rows[0].location_id
+        //         ])
+        //         if (state) {
+        //             const stateQuery =
+        //                 'UPDATE location SET location_name = $1 WHERE id = $2 RETURNING parent_id'
+        //             const stateId = await client.query(stateQuery, [
+        //                 state,
+        //                 cityId.rows[0].parent_id
+        //             ])
+        //             if (country) {
+        //                 const countryQuery =
+        //                     'UPDATE location SET location_name = $1 WHERE id = $2'
+        //                 await client.query(countryQuery, [
+        //                     country,
+        //                     stateId.rows[0].parent_id
+        //                 ])
+        //             }
+        //         } else if (country) {
+        //             const stateQuery =
+        //                 'SELECT parent_id FROM location WHERE id = $1'
+        //             const stateId = await client.query(stateQuery, [
+        //                 cityId.rows[0].parent_id
+        //             ])
+        //             const countryQuery =
+        //                 'UPDATE location SET location_name = $1 WHERE id = $2'
+        //             await client.query(countryQuery, [
+        //                 country,
+        //                 stateId.rows[0].parent_id
+        //             ])
+        //         }
+        //     } else if (state) {
+        //         const stateQuery =
+        //             'UPDATE location SET location_name = $1 WHERE id = $2 RETURNING parent_id'
+        //         const stateId = await client.query(stateQuery, [
+        //             state,
+        //             locationId.rows[0].location_id
+        //         ])
+        //         if (country) {
+        //             const countryQuery =
+        //                 'UPDATE location SET location_name = $1 WHERE id = $2'
+        //             await client.query(countryQuery, [
+        //                 country,
+        //                 stateId.rows[0].parent_id
+        //             ])
+        //         }
+        //     } else if (country) {
+        //         const countryQuery =
+        //             'UPDATE location SET location_name = $1 WHERE id = $2'
+        //         await client.query(countryQuery, [
+        //             country,
+        //             locationId.rows[0].location_id
+        //         ])
+        //     }
 
-                const fields = []
-                const values = []
-                let query = 'UPDATE airport SET '
+        //     const fields = []
+        //     const values = []
+        //     let query = 'UPDATE airport SET '
 
-                if (airport_code) {
-                    fields.push('airport_code')
-                    values.push(airport_code)
-                }
-                if (airport_name) {
-                    fields.push('airport_name')
-                    values.push(airport_name)
-                }
-                if (image_url) {
-                    fields.push('image_url')
-                    values.push(image_url)
-                }
+        //     if (airport_code) {
+        //         fields.push('airport_code')
+        //         values.push(airport_code)
+        //     }
+        //     if (airport_name) {
+        //         fields.push('airport_name')
+        //         values.push(airport_name)
+        //     }
+        //     if (image_url) {
+        //         fields.push('image_url')
+        //         values.push(image_url)
+        //     }
 
-                fields.forEach((field, index) => {
-                    query += `${field} = $${index + 1}`
-                    if (index < fields.length - 1) {
-                        query += ', '
-                    }
-                })
+        //     fields.forEach((field, index) => {
+        //         query += `${field} = $${index + 1}`
+        //         if (index < fields.length - 1) {
+        //             query += ', '
+        //         }
+        //     })
 
-                query += ` WHERE id = $${fields.length + 1} RETURNING *`
-                values.push(id)
+        //     query += ` WHERE id = $${fields.length + 1} RETURNING *`
+        //     values.push(id)
 
-                const result = await client.query(query, values)
+        //     const result = await client.query(query, values)
 
-                return result.rows[0]
-            })
-        } catch (error) {
-            console.error('Error updating airport:', error)
-            throw error
-        }
+        //     return result.rows[0]
+        // })
     },
 
-    deleteById: async id => {
-        try {
-            return db.transaction(async client => {
-                const query = 'DELETE FROM airport WHERE id = $1 RETURNING *'
-                const { rows } = await client.query(query, [id])
-                return rows[0]
-            })
-        } catch (error) {
-            console.error('Error deleting airport:', error)
-            throw error
-        }
+    deleteById: async (client, id) => {
+        const query = 'DELETE FROM airport WHERE id = $1 RETURNING *'
+        const result = await client.query(query, [id])
+        return result.rows[0]
+        // return db.transaction(async client => {
+        //     const query = 'DELETE FROM airport WHERE id = $1 RETURNING *'
+        //     const { rows } = await client.query(query, [id])
+        //     return rows[0]
+        // })
     }
 }
