@@ -44,7 +44,6 @@ export function AircraftModels() {
 	};
 
 	const handleDelete = async (values: AircraftModel) => {
-		console.log(values);
 		await deleteAircraftModel(values.id);
 		await queryClient.invalidateQueries({
 			queryKey: ["aircraftModels"],
