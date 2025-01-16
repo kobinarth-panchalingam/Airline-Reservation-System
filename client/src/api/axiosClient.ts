@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosError } from "axios";
 import { notifications } from "@mantine/notifications";
 
 export const axiosClient = axios.create({
@@ -25,7 +25,7 @@ export const axiosClient = axios.create({
 axiosClient.interceptors.response.use(
 	(response) => {
 		const method = response.config.method?.toUpperCase();
-		if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
+		if (method && ["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
 			notifications.show({
 				message: "Operation completed successfully",
 				color: "green",
@@ -34,9 +34,9 @@ axiosClient.interceptors.response.use(
 		}
 		return response;
 	},
-	(error) => {
+	(error: AxiosError) => {
 		const method = error.config?.method?.toUpperCase();
-		if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
+		if (method && ["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
 			notifications.show({
 				message: error.message,
 				color: "red",

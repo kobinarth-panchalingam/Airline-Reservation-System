@@ -4,7 +4,7 @@ import { modals } from "@mantine/modals";
 interface OpenDeleteConfirmModalProps {
 	title: string;
 	message: string;
-	onConfirm: () => void;
+	onConfirm: () => any;
 	onCancel?: () => void;
 }
 

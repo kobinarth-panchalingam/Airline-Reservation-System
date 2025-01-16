@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import classes from "./NavbarLinksGroup.module.css";
 
 interface LinksGroupProps {
-	icon: React.ReactNode;
+	icon: React.FC<any>;
 	label: string;
 	initiallyOpened?: boolean;
 	links?: Array<{ label: string; link: string }>;

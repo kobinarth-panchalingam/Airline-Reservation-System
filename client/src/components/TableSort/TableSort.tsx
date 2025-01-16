@@ -3,7 +3,6 @@ import {
 	Button,
 	Center,
 	Group,
-	keys,
 	Modal,
 	ScrollArea,
 	Table,
@@ -23,27 +22,25 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import classes from "./TableSort.module.css";
+import { TableAction } from "../../utls/enums";
 
-interface RowData {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	[key: string]: any;
-}
+export type RowData = Record<string, string | number | null>;
 
-interface Column {
+interface Column<T> {
 	label: string;
-	accessor: keyof RowData;
+	accessor: keyof T;
 }
 
-interface ActionConfig {
-	type: "view" | "edit" | "delete" | "insert";
+interface ActionConfig<T> {
+	tableAction: TableAction;
 	label: string;
-	onClick: (row: RowData) => React.ReactNode;
+	onClick: (row: T) => React.ReactNode | void;
 }
 
-interface TableSortProps {
-	data: Array<RowData>;
-	columns: Array<Column>;
-	actions?: Array<ActionConfig>;
+interface TableSortProps<T> {
+	data: Array<T>;
+	columns: Array<Column<T>>;
+	actions: Array<ActionConfig<T>>;
 }
 
 interface ThProps {
@@ -75,16 +72,20 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
 	);
 }
 
-function filterData(data: Array<RowData>, search: string) {
+function filterData<T>(data: Array<T>, search: string) {
 	const query = search.toLowerCase().trim();
 	return data.filter((item) =>
-		keys(data[0]).some((key) => String(item[key]).toLowerCase().includes(query))
+		Object.keys(item as object).some((key) =>
+			String(item[key as keyof T])
+				.toLowerCase()
+				.includes(query)
+		)
 	);
 }
 
-function sortData(
-	data: Array<RowData>,
-	payload: { sortBy: keyof RowData | null; reversed: boolean; search: string }
+function sortData<T>(
+	data: Array<T>,
+	payload: { sortBy: keyof T | null; reversed: boolean; search: string }
 ) {
 	const { sortBy } = payload;
 
@@ -114,20 +115,24 @@ function sortData(
 	);
 }
 
-export function TableSort({ data, columns, actions }: TableSortProps) {
+export function TableSort<T extends RowData>({
+	data,
+	columns,
+	actions,
+}: TableSortProps<T>) {
 	const [search, setSearch] = useState("");
-	const [sortedData, setSortedData] = useState(data);
-	const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
+	const [sortedData, setSortedData] = useState(data || []);
+	const [sortBy, setSortBy] = useState<keyof T | null>(null);
 	const [reverseSortDirection, setReverseSortDirection] = useState(false);
 	const [opened, { open, close }] = useDisclosure(false);
 	const [modalContent, setModalContent] = useState<React.ReactNode>(null);
 	const [actionTitle, setActionTitle] = useState<string>("");
 
 	useEffect(() => {
-		setSortedData(data);
+		setSortedData(data || []);
 	}, [data]);
 
-	const handleOnSort = (field: keyof RowData) => {
+	const handleOnSort = (field: keyof T) => {
 		const reversed = field === sortBy ? !reverseSortDirection : false;
 		setReverseSortDirection(reversed);
 		setSortBy(field);
@@ -142,21 +147,21 @@ export function TableSort({ data, columns, actions }: TableSortProps) {
 		);
 	};
 
-	const handleActionClick = (action: ActionConfig, row: RowData) => {
-		if (action.type === "delete") {
+	const handleActionClick = (action: ActionConfig<T>, row: T) => {
+		if (action.tableAction === TableAction.delete) {
 			action.onClick(row);
 			return;
 		}
 		setActionTitle(action.label);
-		setModalContent(action.onClick(row));
+		setModalContent(action.onClick(row) || null);
 		open();
 	};
 
 	const handleInsertClick = () => {
-		const action = actions?.find((a) => a.type === "insert");
+		const action = actions?.find((a) => a.tableAction === TableAction.insert);
 		if (action) {
 			setActionTitle(action.label);
-			setModalContent(action.onClick({}));
+			setModalContent(action.onClick({} as T) || null);
 			open();
 		}
 	};
@@ -164,23 +169,31 @@ export function TableSort({ data, columns, actions }: TableSortProps) {
 	const rows = sortedData.map((row, index) => (
 		<Table.Tr key={index}>
 			{columns.map((column) => (
-				<Table.Td key={column.accessor}>{row[column.accessor]}</Table.Td>
+				<Table.Td key={column.accessor as string}>
+					{row[column.accessor]}
+				</Table.Td>
 			))}
 			{actions && (
 				<Table.Td>
 					<Group>
 						{actions.map(
 							(action) =>
-								action.type !== "insert" && (
+								action.tableAction !== TableAction.insert && (
 									<ActionIcon
 										key={action.label}
 										onClick={() => {
 											handleActionClick(action, row);
 										}}
 									>
-										{action.type === "view" && <IconEye size={16} />}
-										{action.type === "edit" && <IconEdit size={16} />}
-										{action.type === "delete" && <IconTrash size={16} />}
+										{action.tableAction === TableAction.view && (
+											<IconEye size={16} />
+										)}
+										{action.tableAction === TableAction.edit && (
+											<IconEdit size={16} />
+										)}
+										{action.tableAction === TableAction.delete && (
+											<IconTrash size={16} />
+										)}
 									</ActionIcon>
 								)
 						)}
@@ -218,7 +231,7 @@ export function TableSort({ data, columns, actions }: TableSortProps) {
 						<Table.Tr>
 							{columns.map((column) => (
 								<Th
-									key={column.accessor}
+									key={column.accessor as string}
 									reversed={reverseSortDirection}
 									sorted={sortBy === column.accessor}
 									onSort={() => {

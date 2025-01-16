@@ -4,10 +4,12 @@ import {
 	deleteAircraftModel,
 	getAllAircraftModels,
 	updateAircraftModel,
+	type AircraftModel,
 } from "../../api/services/aircraftModelService";
-import { TableSort } from "../../components/TableSort/TableSort";
 import { AircraftModelForm } from "./AircraftModelForm";
-import { openDeleteConfirmModal } from "../../utls/DeleteConfirnModal";
+import { openDeleteConfirmModal } from "../../components/DeleteConfirmModal/DeleteConfirnModal";
+import { TableAction } from "../../utls/enums";
+import { TableSort } from "../../components/TableSort/TableSort";
 
 const columns = [
 	{ label: "Model Name", accessor: "model_name" },
@@ -27,21 +29,22 @@ export function AircraftModels() {
 
 	const queryClient = useQueryClient();
 
-	const handleInsert = async (values) => {
+	const handleInsert = async (values: AircraftModel) => {
 		await createAircraftModel(values);
 		await queryClient.invalidateQueries({
 			queryKey: ["aircraftModels"],
 		});
 	};
 
-	const handleEdit = async (values) => {
+	const handleEdit = async (values: AircraftModel) => {
 		await updateAircraftModel(values);
 		await queryClient.invalidateQueries({
 			queryKey: ["aircraftModels"],
 		});
 	};
 
-	const handleDelete = async (values) => {
+	const handleDelete = async (values: AircraftModel) => {
+		console.log(values);
 		await deleteAircraftModel(values.id);
 		await queryClient.invalidateQueries({
 			queryKey: ["aircraftModels"],
@@ -51,12 +54,12 @@ export function AircraftModels() {
 	const actions = [
 		{
 			label: "View",
-			type: "view",
+			tableAction: TableAction.view,
 			onClick: (row) => <AircraftModelForm action="view" initialValues={row} />,
 		},
 		{
 			label: "Edit",
-			type: "edit",
+			tableAction: TableAction.edit,
 			onClick: (row) => (
 				<AircraftModelForm
 					action="edit"
@@ -67,18 +70,18 @@ export function AircraftModels() {
 		},
 		{
 			label: "Insert",
-			type: "insert",
+			tableAction: TableAction.insert,
 			onClick: () => (
 				<AircraftModelForm action="insert" onSubmit={handleInsert} />
 			),
 		},
 		{
 			label: "Delete",
-			type: "delete",
+			tableAction: TableAction.delete,
 			onClick: (row) => {
 				openDeleteConfirmModal({
 					title: "Delete Aircraft Model",
-					message: `Are you sure you want to delete the aircraft model ${row.model_name}? This action is irreversible.`,
+					message: `Are you sure you want to delete the aircraft model ${row?.model_name}?`,
 					onConfirm: () => handleDelete(row),
 				});
 			},
@@ -95,7 +98,7 @@ export function AircraftModels() {
 
 	return (
 		<div>
-			<TableSort actions={actions} columns={columns} data={data} />
+			<TableSort actions={actions} columns={columns} data={data || []} />
 		</div>
 	);
 }

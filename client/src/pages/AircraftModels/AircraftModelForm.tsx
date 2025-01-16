@@ -33,7 +33,7 @@ export function AircraftModelForm({
 		fuel_capacity: 0,
 		average_speed: 0,
 	},
-	onSubmit,
+	onSubmit = () => {},
 	...props
 }: AircraftModelFormProps) {
 	const form = useForm({
