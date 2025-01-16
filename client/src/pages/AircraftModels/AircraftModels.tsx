@@ -8,7 +8,7 @@ import {
 } from "../../api/services/aircraftModelService";
 import { AircraftModelForm } from "./AircraftModelForm";
 import { openDeleteConfirmModal } from "../../components/DeleteConfirmModal/DeleteConfirnModal";
-import { TableAction } from "../../utls/enums";
+import { TableAction } from "../../types/enums";
 import { TableSort } from "../../components/TableSort/TableSort";
 
 const columns = [

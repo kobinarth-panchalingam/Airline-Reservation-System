@@ -22,7 +22,7 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import classes from "./TableSort.module.css";
-import { TableAction } from "../../utls/enums";
+import { TableAction } from "../../types/enums";
 
 export type RowData = Record<string, string | number | null>;
 
