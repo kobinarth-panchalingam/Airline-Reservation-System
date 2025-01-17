@@ -9,7 +9,14 @@ export const LocationModel = {
             'SELECT * FROM location WHERE id = $1',
             [id]
         )
-        return result.rows[0]
+        return result.rows
+    },
+
+    getByNameAndLevel: async (client, locationName, level) => {
+        const query =
+            'SELECT * FROM location WHERE location_name = $1 AND level = $2'
+        const result = client.query(query, [locationName, level])
+        return result.rows
     },
 
     getAllLocationsByParentId: async (client, parentId) => {
@@ -33,12 +40,12 @@ export const LocationModel = {
         // })
     },
 
-    create: async (client, location) => {
+    create: async (client, location_name, parent_id, level) => {
         const result = await client.query(
             'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING *',
-            [location.location_name, location.parent_id, location.level]
+            [location_name, parent_id, level]
         )
-        return result.rows[0]
+        return result.rows
         // return db.transaction(async client => {
         //     const query =
         //         'INSERT INTO location (location_name, parent_id, level) VALUES ($1, $2, $3) RETURNING *'
@@ -47,7 +54,7 @@ export const LocationModel = {
         //         location.parent_id,
         //         location.level
         //     ])
-        //     return rows[0]
+        //     return rows
         // })
     },
 
@@ -56,7 +63,7 @@ export const LocationModel = {
             'UPDATE location SET location_name = $1, parent_id = $2, level = $3 WHERE id = $4 RETURNING *',
             [location.location_name, location.parent_id, location.level, id]
         )
-        return result.rows[0]
+        return result.rows
         // return db.transaction(async client => {
         //     const query =
         //         'UPDATE location SET location_name = $1, parent_id = $2, level = $3 WHERE id = $4 RETURNING *'
@@ -66,7 +73,7 @@ export const LocationModel = {
         //         location.level,
         //         id
         //     ])
-        //     return rows[0]
+        //     return rows
         // })
     },
 
@@ -75,11 +82,11 @@ export const LocationModel = {
             'DELETE FROM location WHERE id = $1 RETURNING *',
             [id]
         )
-        return result.rows[0]
+        return result.rows
         // return db.transaction(async client => {
         //     const query = 'DELETE FROM location WHERE id = $1 RETURNING *'
         //     const { rows } = await client.query(query, [id])
-        //     return rows[0]
+        //     return rows
         // })
     }
 }
