@@ -19,10 +19,19 @@ const pool = new Pool({
 export const db = {
     query: async (text, params) => {
         const start = Date.now()
-        const res = await pool.query(text, params)
-        const duration = Date.now() - start
-        console.log('executed query', { text, duration, rows: res.rowCount })
-        return res
+        try {
+            const res = await pool.query(text, params)
+            const duration = Date.now() - start
+            console.log('executed query', {
+                text,
+                duration,
+                rows: res.rowCount
+            })
+            return res
+        } catch (error) {
+            console.error('Error executing query', { text, error })
+            throw error
+        }
     },
     getClient: async () => {
         const client = await pool.connect()
@@ -51,5 +60,20 @@ export const db = {
             return release.apply(client)
         }
         return client
+    },
+
+    transaction: async callback => {
+        const client = await db.getClient()
+        try {
+            await client.query('BEGIN')
+            const result = await callback(client)
+            await client.query('COMMIT')
+            return result
+        } catch (error) {
+            await client.query('ROLLBACK')
+            throw error
+        } finally {
+            client.release()
+        }
     }
 }

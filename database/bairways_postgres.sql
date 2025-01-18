@@ -54,10 +54,11 @@ CREATE TABLE airplane (
 CREATE TABLE location (
     id SERIAL PRIMARY KEY,
     location_name VARCHAR(50) NOT NULL,
-    parent_id INTEGER,
+    parent_id INTEGER NOT NULL,
     level VARCHAR(10) NOT NULL CHECK (level IN ('country', 'state', 'city')),
     UNIQUE(location_name, parent_id, level),
-    FOREIGN KEY (parent_id) REFERENCES location(id)
+    FOREIGN KEY (parent_id) REFERENCES location(id),
+    CHECK ((level = 'country' AND parent_id = -1) OR (level IN ('state', 'city') AND parent_id != -1))
 );
 
 -- 1, Sri Lanka, NULL, country

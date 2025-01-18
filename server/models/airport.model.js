@@ -1,102 +1,118 @@
-import { db } from '../configs/db.config.js'
-
 export const AirportModel = {
-    create: async data => {
-        try {
-            const result = await db.query(
-                'INSERT INTO airport (airport_code, location_id, airport_name, image_url) VALUES ($1, $2, $3, $4) RETURNING *',
-                [
-                    data.airport_code,
-                    data.location_id,
-                    data.airport_name,
-                    data.image_url
-                ]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error creating airport:', error)
-            throw error
-        }
+    create: async (client, data) => {
+        const { airport_code, airport_name, locationId, image_url } = data
+        const query = `INSERT INTO airport (airport_code, airport_name, location_id, image_url) VALUES ($1, $2, $3, $4) RETURNING *`
+        const result = await client.query(query, [
+            airport_code,
+            airport_name,
+            locationId,
+            image_url
+        ])
+        return result.rows[0]
     },
 
-    getAll: async () => {
-        try {
-            const result = await db.query('SELECT * FROM airport')
-            return result.rows
-        } catch (error) {
-            console.error('Error fetching airports:', error)
-            throw error
-        }
+    getAll: async client => {
+        const result = await client.query(`
+            SELECT a.*, 
+                   c.location_name AS country, 
+                   CASE 
+                       WHEN s.id IS NOT NULL THEN s.location_name 
+                       ELSE NULL 
+                   END AS state, 
+                   l.location_name AS city
+            FROM airport a
+            JOIN location l ON a.location_id = l.id
+            LEFT JOIN location s ON l.parent_id = s.id AND s.level = 'state'
+            LEFT JOIN location c ON (s.parent_id = c.id AND c.level = 'country') OR (l.parent_id = c.id AND c.level = 'country')
+        `)
+        return result.rows
     },
 
-    getById: async id => {
-        try {
-            const result = await db.query(
-                'SELECT * FROM airport WHERE id = $1',
-                [id]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error fetching airport by id:', error)
-            throw error
-        }
+    getById: async (client, id) => {
+        const result = await client.query(
+            `
+            SELECT a.*, 
+                   c.location_name AS country, 
+                   CASE 
+                       WHEN s.id IS NOT NULL THEN s.location_name 
+                       ELSE NULL 
+                   END AS state, 
+                   l.location_name AS city
+            FROM airport a
+            JOIN location l ON a.location_id = l.id
+            LEFT JOIN location s ON l.parent_id = s.id AND s.level = 'state'
+            LEFT JOIN location c ON (s.parent_id = c.id AND c.level = 'country') OR (l.parent_id = c.id AND c.level = 'country')
+            WHERE a.id = $1
+        `,
+            [id]
+        )
+        return result.rows
     },
 
-    getByAirportCode: async code => {
-        try {
-            const result = await db.query(
-                'SELECT * FROM airport WHERE airport_code = $1',
-                [code]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error fetching airport by airport_code:', error)
-            throw error
-        }
+    getByCode: async (client, code) => {
+        const result = await client.query(
+            'SELECT * FROM airport WHERE airport_code = $1',
+            [code]
+        )
+        return result.rows[0]
     },
 
-    getByLocationId: async locationId => {
-        try {
-            const result = await db.query(
-                'SELECT * FROM airport WHERE location_id = $1',
-                [locationId]
+    getAllByLocationId: async (client, locationId) => {
+        const query = `
+            WITH RECURSIVE location_tree AS (
+                SELECT id, location_name, parent_id, level
+                FROM location
+                WHERE id = $1
+                UNION ALL
+                SELECT l.id, l.location_name, l.parent_id, l.level
+                FROM location l
+                INNER JOIN location_tree lt ON lt.id = l.parent_id
             )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error fetching airport by location_id:', error)
-            throw error
-        }
+            SELECT a.*, 
+                   c.location_name AS country, 
+                   CASE 
+                       WHEN s.id IS NOT NULL THEN s.location_name 
+                       ELSE NULL 
+                   END AS state, 
+                   l.location_name AS city
+            FROM airport a
+            JOIN location l ON a.location_id = l.id
+            LEFT JOIN location s ON l.parent_id = s.id AND s.level = 'state'
+            LEFT JOIN location c ON (s.parent_id = c.id AND c.level = 'country') OR (l.parent_id = c.id AND c.level = 'country')
+            WHERE l.id IN (SELECT id FROM location_tree WHERE level = 'city')
+        `
+        const result = await client.query(query, [locationId])
+        return result.rows
     },
 
-    updateById: async (id, data) => {
-        try {
-            const result = await db.query(
-                'UPDATE airport SET airport_code = $1, location_id = $2, airport_name = $3, image_url = $4 WHERE id = $5 RETURNING *',
-                [
-                    data.airport_code,
-                    data.location_id,
-                    data.airport_name,
-                    data.image_url,
-                    id
-                ]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error updating airport:', error)
-            throw error
-        }
+    updateById: async (client, id, data) => {
+        const { airport_code, airport_name, locationId, image_url } = data
+        const query = `UPDATE airport SET airport_code = $1, airport_name = $2, location_id = $3, image_url = $4 WHERE id = $5 RETURNING *`
+        const result = await client.query(query, [
+            airport_code,
+            airport_name,
+            locationId,
+            image_url,
+            id
+        ])
+        return result.rows[0]
     },
 
-    deleteById: async id => {
-        try {
-            const result = await db.query(
-                'DELETE FROM airport WHERE id = $1 RETURNING *',
-                [id]
-            )
-            return result.rows[0]
-        } catch (error) {
-            console.error('Error deleting airport:', error)
-            throw error
-        }
+    updateByCode: async (client, data) => {
+        const { airport_code, airport_name, locationId, image_url } = data
+        const query = `UPDATE airport SET airport_name = $1, location_id = $2, image_url = $3 WHERE airport_code = $4 RETURNING *`
+        const result = await client.query(query, [
+            airport_name,
+            locationId,
+            image_url,
+            airport_code
+        ])
+        return result.rows[0]
+    },
+
+    deleteById: async (client, id) => {
+        const query = 'DELETE FROM airport WHERE id = $1 RETURNING *'
+        const result = await client.query(query, [id])
+        return result.rows[0]
     }
 }
