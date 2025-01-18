@@ -7,7 +7,7 @@ import {
 	type AircraftModel,
 } from "../../api/services/aircraftModelService";
 import { AircraftModelForm } from "./AircraftModelForm";
-import { openDeleteConfirmModal } from "../../components/DeleteConfirmModal/DeleteConfirnModal";
+import { openDeleteConfirmModal } from "../../components/DeleteConfirmModal/DeleteConfirmModal";
 import { TableAction } from "../../types/enums";
 import { TableSort } from "../../components/TableSort/TableSort";
 
