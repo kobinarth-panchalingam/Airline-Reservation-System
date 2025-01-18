@@ -12,6 +12,7 @@ import { NavbarNested } from "./components/NavbarNested/NavbarNested";
 import { AircraftModels } from "./pages/AircraftModels/AircraftModels";
 import { theme } from "./theme";
 import { UserProvider } from "./context/UserContext";
+import { Airports } from "./pages/Airports/Airports";
 
 export default function App() {
 	return (
@@ -28,6 +29,7 @@ export default function App() {
 											element={<AircraftModels />}
 											path="aircraft-models"
 										/>
+										<Route element={<Airports />} path="airports" />
 									</Route>
 								</Routes>
 							</BrowserRouter>

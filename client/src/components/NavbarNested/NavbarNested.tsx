@@ -26,13 +26,9 @@ const mockdata = [
 		],
 	},
 	{
-		label: "Releases",
+		label: "Airport Management",
 		icon: IconCalendarStats,
-		links: [
-			{ label: "Upcoming releases", link: "" },
-			{ label: "Previous releases", link: "" },
-			{ label: "Releases schedule", link: "" },
-		],
+		links: [{ label: "Airport Management", link: "airports" }],
 	},
 	{ label: "Analytics", icon: IconPresentationAnalytics },
 	{ label: "Contracts", icon: IconFileAnalytics },

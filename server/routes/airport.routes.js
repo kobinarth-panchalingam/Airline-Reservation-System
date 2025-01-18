@@ -7,7 +7,7 @@ router.get('/', airportController.getAllAirports)
 router.get('/:id', airportController.getAirportById)
 router.get('/location/:location_id', airportController.getAirportsByLocationId)
 router.post('/', airportController.createAirport)
-router.put('/:id', airportController.updateAirportByCode)
+router.put('/:code', airportController.updateAirportByCode)
 router.delete('/:id', airportController.deleteAirport)
 
 export { router as airportRoutes }
