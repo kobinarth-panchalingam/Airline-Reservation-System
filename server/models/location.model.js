@@ -58,10 +58,10 @@ export const LocationModel = {
         // })
     },
 
-    update: async (client, id, location) => {
+    update: async (client, location_name, parent_id, level, id) => {
         const result = await client.query(
             'UPDATE location SET location_name = $1, parent_id = $2, level = $3 WHERE id = $4 RETURNING *',
-            [location.location_name, location.parent_id, location.level, id]
+            [location_name, parent_id, level, id]
         )
         return result.rows
         // return db.transaction(async client => {
