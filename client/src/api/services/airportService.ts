@@ -2,12 +2,13 @@ import { API_ENDPOINTS } from "../apiEndpoints";
 import { axiosClient } from "../axiosClient";
 
 export interface Airport {
-	id: number;
 	airport_name: string;
 	airport_code: string;
 	city: string;
 	state: string;
 	country: string;
+	image_url: string;
+	[key: string]: string;
 }
 
 export const getAllAirports = async () => {

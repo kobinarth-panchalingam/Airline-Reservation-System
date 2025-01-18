@@ -26,11 +26,11 @@ INSERT INTO airplane (aircraft_model_id) VALUES (3); -- Airbus A380
 -----------------------------------------------------------------
 
 INSERT INTO location (location_name, parent_id, level) VALUES 
-('Indonesia', -1, 'country'), -- id = 1
-('Sri Lanka', -1, 'country'), -- id = 2
-('India', -1, 'country'), -- id = 3
-('Thailand', -1, 'country'), -- id = 4
-('Singapore', -1, 'country'); -- id = 5
+('Indonesia', null, 'country'), -- id = 1
+('Sri Lanka', null, 'country'), -- id = 2
+('India', null, 'country'), -- id = 3
+('Thailand', null, 'country'), -- id = 4
+('Singapore', null, 'country'); -- id = 5
 
 -- States/Provinces in Indonesia
 INSERT INTO location (location_name, parent_id, level) VALUES 
