@@ -11,7 +11,7 @@ services:
       - "${PGPORT}"
     environment:
       POSTGRES_PASSWORD: test123
-      PGPORT: ${PGPORT}
+      POSTGRES_PORT: ${PGPORT}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
