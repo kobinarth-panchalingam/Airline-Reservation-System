@@ -57,8 +57,7 @@ CREATE TABLE location (
     parent_id INTEGER NOT NULL,
     level VARCHAR(10) NOT NULL CHECK (level IN ('country', 'state', 'city')),
     UNIQUE(location_name, parent_id, level),
-    FOREIGN KEY (parent_id) REFERENCES location(id),
-    CHECK ((level = 'country' AND parent_id = -1) OR (level IN ('state', 'city') AND parent_id != -1))
+    FOREIGN KEY (parent_id) REFERENCES location(id)
 );
 
 -- 1, Sri Lanka, NULL, country
