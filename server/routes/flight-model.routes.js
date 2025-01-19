@@ -1,12 +1,14 @@
 import express from 'express'
-import { flightModelController } from '../controllers/flight-model.controller.js'
+import { createFlight, deleteFlightById, getAllFlights, getFlightById, updateFlightById } from '../controllers/flight-model.controller.js'
+import { validate } from '../middlewares/validate.js'
+import { flightSchema } from '../validators/flight.validation.js'
 
 const router = express.Router()
 
-router.get('/', flightModelController.getAllFlights)
-router.get('/:id', flightModelController.getFlightById)
-router.post('/', flightModelController.createFlight)
-router.put('/:id', flightModelController.updateFlightById)
-router.delete('/:id', flightModelController.deleteFlightById)
+router.get('/', getAllFlights)
+router.post('/', validate({ body: flightSchema }), createFlight)
+router.get('/:id', validate({ params: { id: flightSchema.id } }), getFlightById)
+router.put('/:id', validate({ body: flightSchema }), updateFlightById)
+router.delete('/:id', deleteFlightById)
 
 export { router as flightModelRoutes }
