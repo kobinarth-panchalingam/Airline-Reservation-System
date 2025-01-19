@@ -25,7 +25,12 @@
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "pg": "^8.13.1"
+    "express-async-errors": "^3.1.1",
+    "helmet": "^8.0.0",
+    "joi": "^17.13.3",
+    "lodash": "^4.17.21",
+    "pg": "^8.13.1",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",

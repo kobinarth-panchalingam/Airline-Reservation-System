@@ -37,8 +37,19 @@ axiosClient.interceptors.response.use(
 	(error: AxiosError) => {
 		const method = error.config?.method?.toUpperCase();
 		if (method && ["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
+			let message = "An error occurred";
+			if (error.response?.data) {
+				if (
+					error.response?.data &&
+					typeof error.response.data === "object" &&
+					"message" in error.response.data
+				) {
+					message = (error.response.data as { message: string }).message;
+				}
+			}
+
 			notifications.show({
-				message: error.message,
+				message,
 				color: "red",
 				position: "top-right",
 			});

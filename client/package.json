@@ -11,7 +11,7 @@
 		"format": "prettier \"src/**/*.{ts,tsx}\" --write",
 		"preview": "vite preview",
 		"prepare": "cd .. && husky client/.husky",
-		"compile": "tsc"
+		"compile": "tsc -b"
 	},
 	"dependencies": {
 		"@mantine/core": "^7.16.0",
