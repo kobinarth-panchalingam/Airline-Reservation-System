@@ -1,10 +1,10 @@
 import { app } from './app.js'
-import { db } from './configs/db.config.js'
+import { pool } from './configs/db.config.js'
 import { logger } from './utils/logger.js'
 
 const PORT = process.env.PORT || 4000
 
-db.connect()
+pool.connect()
     .then(client => {
         logger.info('Successfully connected to database')
         client.release()

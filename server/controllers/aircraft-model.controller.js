@@ -1,15 +1,15 @@
 import _ from 'lodash'
-import { db } from '../configs/db.config.js'
+import { pool, transaction } from '../configs/db.config.js'
 import { AircraftModel } from '../models/aircraft-model.model.js'
 
 const getAllAircraftModels = async (req, res) => {
-    const aircraftModels = await AircraftModel.getAll(db)
+    const aircraftModels = await AircraftModel.getAll(pool)
     res.json(aircraftModels)
 }
 
 const createAircraftModel = async (req, res) => {
     const aircraftModel = await AircraftModel.create(
-        db,
+        pool,
         ...Object.values(
             _.pick(req.body, ['model_name', 'variant', 'manufacturer_name', 'seat_capacity', 'max_load', 'fuel_capacity', 'average_speed'])
         )
@@ -19,7 +19,7 @@ const createAircraftModel = async (req, res) => {
 
 const updateAircraftModel = async (req, res) => {
     const aircraftModel = await AircraftModel.updateById(
-        db,
+        pool,
         req.params.id,
         ...Object.values(
             _.pick(req.body, ['model_name', 'variant', 'manufacturer_name', 'seat_capacity', 'max_load', 'fuel_capacity', 'average_speed'])
@@ -29,8 +29,30 @@ const updateAircraftModel = async (req, res) => {
 }
 
 const deleteAircraftModel = async (req, res) => {
-    const aircraftModel = await AircraftModel.deleteById(db, req.params.id)
+    const aircraftModel = await AircraftModel.deleteById(pool, req.params.id)
     res.json(aircraftModel)
 }
 
-export { getAllAircraftModels, createAircraftModel, updateAircraftModel, deleteAircraftModel }
+const updateAircraftModelWithTransaction = async (req, res) => {
+    const result = await transaction(async client => {
+        return await AircraftModel.updateById(
+            client,
+            req.params.id,
+            ...Object.values(
+                _.pick(req.body, [
+                    'model_name',
+                    'variant',
+                    'manufacturer_name',
+                    'seat_capacity',
+                    'max_load',
+                    'fuel_capacity',
+                    'average_speed'
+                ])
+            )
+        )
+    })
+
+    res.json(result)
+}
+
+export { getAllAircraftModels, createAircraftModel, updateAircraftModel, deleteAircraftModel, updateAircraftModelWithTransaction }
