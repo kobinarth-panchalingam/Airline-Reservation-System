@@ -22,6 +22,7 @@ const mockdata = [
 		initiallyOpened: true,
 		links: [
 			{ label: "Aircraft Models", link: "aircraft-models" },
+			{ label: "Flights", link: "flights" },
 			{ label: "Airplanes", link: "" },
 		],
 	},

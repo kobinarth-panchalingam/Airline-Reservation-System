@@ -10,6 +10,7 @@ import classes from "./App.module.css";
 import { AuthenticationImage } from "./components/AuthenticationImage/AuthenticationImage";
 import { NavbarNested } from "./components/NavbarNested/NavbarNested";
 import { AircraftModels } from "./pages/AircraftModels/AircraftModels";
+import { Flights } from "./pages/Flights/Flights";
 import { theme } from "./theme";
 import { UserProvider } from "./context/UserContext";
 
@@ -28,6 +29,7 @@ export default function App() {
 											element={<AircraftModels />}
 											path="aircraft-models"
 										/>
+										<Route element={<Flights />} path="flights" />
 									</Route>
 								</Routes>
 							</BrowserRouter>
