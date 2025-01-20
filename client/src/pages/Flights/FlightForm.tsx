@@ -4,23 +4,19 @@ import {
 	NumberInput,
 	Paper,
 	Stack,
-	TextInput,
+	Select,
 } from "@mantine/core";
+import "@mantine/dates/styles.css";
+import { DateTimePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-// import { DateInput } from "@mantine/dates";
-// import dayjs from "dayjs";
-// import customParseFormat from "dayjs/plugin/customParseFormat";
-// It is required to extend dayjs with customParseFormat plugin
-// in order to parse dates with custom format
-// dayjs.extend(customParseFormat);
-
+import dayjs from "dayjs";
 interface FlightFormProps {
 	action: "insert" | "edit" | "view";
 	initialValues?: {
 		airplane_id: number;
 		route_id: number;
-		departure_time: string;
-		arrival_time: string;
+		departure_time: Date;
+		arrival_time: Date;
 		flight_status: string;
 	};
 	onSubmit?: (values: any) => void;
@@ -31,9 +27,9 @@ export function FlightForm({
 	initialValues = {
 		airplane_id: 0,
 		route_id: 0,
-		departure_time: "2025-02-21T03:30:00.000Z",
-		arrival_time: "2025-02-01T03:30:00.000Z",
-		flight_status: "scheduled",
+		departure_time: new Date(),
+		arrival_time: new Date(),
+		flight_status: "Flight Status",
 	},
 	onSubmit = () => {},
 	...props
@@ -84,50 +80,53 @@ export function FlightForm({
 							}}
 						/>
 					</Group>
+
 					<Group grow>
-						<TextInput
-							error={form.errors.departure_time}
-							label="Date input"
-							placeholder="Date input"
-							radius="md"
+						<DateTimePicker
+							label="Departure Time"
+							placeholder="Select departure time"
 							readOnly={viewOnly}
-							value={form.values.departure_time}
-							onChange={(event) => {
-								if (event) {
-									form.setFieldValue(
-										"departure_time",
-										event.currentTarget.value
-									);
-								}
-							}}
-						/>
-					</Group>
-					<Group grow>
-						<TextInput
-							error={form.errors.arrival_time}
-							label="Arrival Time"
-							placeholder="Enter arrival time"
-							radius="md"
-							readOnly={viewOnly}
-							value={form.values.arrival_time}
-							onChange={(event) => {
-								if (event) {
-									form.setFieldValue("arrival_time", event.currentTarget.value);
+							value={dayjs(form.values.departure_time).toDate()}
+							onChange={(value) => {
+								if (value && value instanceof Date) {
+									form.setFieldValue("departure_time", value);
 								}
 							}}
 						/>
 					</Group>
 
 					<Group grow>
-						<TextInput
+						<DateTimePicker
+							label="Arrival Time"
+							placeholder="Select arrival time"
+							readOnly={viewOnly}
+							value={dayjs(form.values.arrival_time).toDate()}
+							onChange={(value) => {
+								if (value && value instanceof Date) {
+									form.setFieldValue("arrival_time", value);
+								}
+							}}
+						/>
+					</Group>
+
+					<Group grow>
+						<Select
+							data={[
+								{ value: "scheduled", label: "Scheduled" },
+								{ value: "cancelled", label: "Cancelled" },
+								{ value: "delayed", label: "Delayed" },
+								{ value: "completed", label: "Completed" },
+							]}
 							error={form.errors.flight_status}
 							label="Flight Status"
 							placeholder="Select flight status"
 							radius="md"
 							readOnly={viewOnly}
 							value={form.values.flight_status}
-							onChange={(event) => {
-								form.setFieldValue("flight_status", event.currentTarget.value);
+							onChange={(value) => {
+								if (value) {
+									form.setFieldValue("flight_status", value);
+								}
 							}}
 						/>
 					</Group>

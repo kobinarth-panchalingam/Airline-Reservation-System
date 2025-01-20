@@ -1,51 +1,37 @@
+import _ from 'lodash'
+import { pool } from '../configs/db.config.js'
 import { FlightModel } from '../models/flight-model.model.js'
 
-export const flightModelController = {
-    getAllFlights: async (req, res) => {
-        try {
-            const flights = await FlightModel.getAll()
-            res.json(flights)
-        } catch (error) {
-            res.status(500).json({ message: error.message })
-        }
-    },
-
-    getFlightById: async (req, res) => {
-        try {
-            const flight = await FlightModel.getById(req.params.id)
-            res.json(flight)
-        } catch (error) {
-            res.status(500).json({ message: error.message })
-        }
-    },
-
-    createFlight: async (req, res) => {
-        try {
-            const flight = await FlightModel.create(req.body)
-            res.json(flight)
-        } catch (error) {
-            res.status(500).json({ message: error.message })
-        }
-    },
-
-    updateFlightById: async (req, res) => {
-        try {
-            const updateFlight = await FlightModel.updateById(
-                req.params.id,
-                req.body
-            )
-            res.json(updateFlight)
-        } catch (error) {
-            res.status(500).json({ message: error.message })
-        }
-    },
-
-    deleteFlightById: async (req, res) => {
-        try {
-            await FlightModel.deleteById(req.params.id)
-            res.json({ message: `Flight with id ${req.params.id} deleted` })
-        } catch (error) {
-            res.status(500).json({ message: error.message })
-        }
-    }
+const getAllFlights = async (req, res) => {
+    const flights = await FlightModel.getAll(pool)
+    res.json(flights)
 }
+
+const getFlightById = async (req, res) => {
+    const flight = await FlightModel.getById(pool, req.params.id)
+    res.json(flight)
+}
+
+const createFlight = async (req, res) => {
+    const flight = await FlightModel.create(
+        pool,
+        ...Object.values(_.pick(req.body, ['airplane_id', 'route_id', 'departure_time', 'arrival_time', 'flight_status']))
+    )
+    res.json(flight)
+}
+
+const updateFlightById = async (req, res) => {
+    const flight = await FlightModel.updateById(
+        pool,
+        req.params.id,
+        ...Object.values(_.pick(req.body, ['airplane_id', 'route_id', 'departure_time', 'arrival_time', 'flight_status']))
+    )
+    res.json(flight)
+}
+
+const deleteFlightById = async (req, res) => {
+    const flight = await FlightModel.deleteById(pool, req.params.id)
+    res.json(flight)
+}
+
+export { getAllFlights, getFlightById, createFlight, updateFlightById, deleteFlightById }
